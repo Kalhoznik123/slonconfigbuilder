@@ -6,11 +6,11 @@ list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}")
 find_package(nlohmann_json 3.2.0 REQUIRED)
 
 add_executable(config_costructor src/main.cpp 
-						src/json_builder.cpp
-						src/abonent.cpp
-						src/arp.cpp
-						src/config_builder.cpp
-						src/lan_config.cpp)
+														src/json_builder.cpp
+														src/abonent.cpp
+														src/arp.cpp
+														src/config_builder.cpp
+														src/lan_config.cpp)
 
 
 
