@@ -30,3 +30,10 @@
 *.exe
 *.out
 *.app
+<<<<<<< HEAD
+=======
+
+#folders
+.vscode/
+build/
+>>>>>>> 38e53a1 (init commit)
