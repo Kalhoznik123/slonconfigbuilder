@@ -2,9 +2,8 @@
 #include <string>
 
 
-struct Lan
+struct InterfaceSettings
 {
 std::uint8_t speed{0};
 std::string mode;
-
 };
