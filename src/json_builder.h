@@ -1,21 +1,19 @@
 
 #pragma once
+#include "config_builder.h"
 #include <iostream>
 
-class JsonBuilder
-{
+class JsonBuilder {
 public:
+  JsonBuilder(ConfigBuilder& config)
+      : config_(config){
 
-JsonBuilder();
+        };
+
+void Parse(std::istream& in);
 
 
 
 private:
-std::ostream& out_;
+  ConfigBuilder& config_;
 };
-
-
-
-
-
-

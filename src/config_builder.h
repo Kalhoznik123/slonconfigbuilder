@@ -1,20 +1,18 @@
 #pragma once
 #include "abonent.h"
 #include "arp.h"
-#include <vector>
+#include "domain.h"
 #include <optional>
+#include <vector>
 
-class ConfigBuilder{
-  public:
+class ConfigBuilder {
+public:
+  ConfigBuilder();
+  ConfigBuilder(const settings::Settings& settings)
+      : settings_(settings){
 
+        };
 
-
-  private:
-
-std::vector<Abonent> abonents_;
-std::vector<ArpAdress> arp_abonents_;
-std::optional<std::uint8_t> time;
-std::optional<std::uint8_t> protocol;
-Abonent internal_abonent_;
-
+private:
+  settings::Settings settings_;
 };

@@ -4,6 +4,8 @@
 #include <optional>
 #include <vector>
 
+namespace settings {
+
 struct Settings {
 
   std::vector<Abonent> abonents_;
@@ -12,3 +14,4 @@ struct Settings {
   std::optional<std::uint8_t> protocol;
   Abonent internal_abonent_;
 };
+} // namespace settings
