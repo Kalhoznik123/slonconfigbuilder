@@ -13,8 +13,8 @@ class ConfigBuilder{
 
 std::vector<Abonent> abonents_;
 std::vector<ArpAdress> arp_abonents_;
-std::optional<std::uint8_t> time{0};
-std::optional<std::uint8_t> protocol{0};
+std::optional<std::uint8_t> time;
+std::optional<std::uint8_t> protocol;
 Abonent internal_abonent_;
 
 };
