@@ -5,6 +5,8 @@
 class Abonent {
 
 public:
+  Abonent() = default;
+  
   Abonent(const std::string& address, const std::string& mask,
           const std::optional<int>& number = std::nullopt)
       : address_(address), mask_(mask), number_(number) {}

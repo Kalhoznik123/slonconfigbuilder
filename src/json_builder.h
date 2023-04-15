@@ -2,18 +2,25 @@
 #pragma once
 #include "config_builder.h"
 #include <iostream>
+#include <nlohmann/json.hpp>
+#include "domain.h"
 
 class JsonBuilder {
 public:
-  JsonBuilder(ConfigBuilder& config)
-      : config_(config){
+ using json = nlohmann::json; 
+  
+  JsonBuilder(std::istream& in=std::cin):in_(in){
 
-        };
+  };
 
-void Parse(std::istream& in);
-
+settings::Settings MakeSettings();
 
 
 private:
-  ConfigBuilder& config_;
+
+
+  void Parse();
+
+json document_;
+std::istream& in_;
 };

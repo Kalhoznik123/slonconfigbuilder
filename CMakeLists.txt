@@ -10,7 +10,7 @@ add_executable(config_costructor src/main.cpp
 														src/abonent.cpp
 														src/arp.cpp
 														src/config_builder.cpp
-														src/lan_config.cpp
+														src/interface_settings.cpp
 														src/domain.cpp
 														)
 

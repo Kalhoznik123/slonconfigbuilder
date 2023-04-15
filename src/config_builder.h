@@ -12,7 +12,6 @@ public:
       : settings_(settings){
 
         };
-
 private:
   settings::Settings settings_;
 };

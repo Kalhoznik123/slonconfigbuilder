@@ -1,9 +1,19 @@
 #include <iostream>
 #include <string>
+#include "config_builder.h"
+#include "json_builder.h"
+#include <fstream>
 
 int main(int, char**) {
-  std::string a;
 
-  while (std::cin >> a)
-    std::cout << a << '\n';
+
+std::ifstream in("settings.json",std::ios::in);
+
+
+JsonBuilder buider(in);
+
+buider.MakeSettings();
+
+
+
 }
