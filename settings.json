@@ -1,8 +1,7 @@
 {
   "internal.address": {
     "address": "192.168.132.128",
-    "mask": 25,
-    "number": null
+    "mask": 25
   },
   "abonents":[{
     "number": 1,
@@ -12,7 +11,7 @@
   "arp":[
   {
     "number": 1,
-    "address": "000000000000"
+    "ArpAddress": "000000000000"
   }    
 
   ],
