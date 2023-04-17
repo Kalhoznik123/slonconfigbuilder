@@ -6,13 +6,16 @@ class Abonent {
 
 public:
   Abonent() = default;
-  
-  Abonent(const std::string& address, const std::string& mask,
+
+  Abonent(const std::string& address, int mask,
           const std::optional<int>& number = std::nullopt)
       : address_(address), mask_(mask), number_(number) {}
 
+std::string GetAddress();
+
+
 private:
   std::string address_;
-  std::string mask_;
+  int mask_;
   std::optional<int> number_;
 };
