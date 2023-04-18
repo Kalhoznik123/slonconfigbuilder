@@ -14,7 +14,7 @@ settings::Settings JsonBuilder::MakeSettings() {
 
   if (const auto it = document_.find("internal.address");
       it != document_.end()) {
-
+//TODO: сделать тут функцию как  в нижних примерах
     Abonent abonent(it->at("address").get<std::string>(),
                     it->at("mask").get<int>());
 
@@ -29,8 +29,27 @@ settings::Settings JsonBuilder::MakeSettings() {
 
     settings.arp_abonents_ = GetArpAddresses(*it);
   }
+  if (const auto it = document_.find("lan"); it != document_.end()) {
+    settings.lan_settings = GetInterafaceSettings(*it);
+  }
 
-  return settings::Settings();
+  if (const auto it = document_.find("inet"); it != document_.end()) {
+    settings.lan_settings = GetInterafaceSettings(*it);
+  }
+
+  if (const auto it = document_.find("time"); it != document_.end()) {
+    settings.time = it->get<std::uint8_t>();
+  }
+
+  if (const auto it = document_.find("protocol"); it != document_.end()) {
+    settings.protocol = it->get<std::uint8_t>();
+  }
+
+  if (const auto it = document_.find("internal.number");
+      it != document_.end()) {
+    settings.devicenumber = it->get<std::uint8_t>();
+  }
+  return settings;
 }
 
 std::vector<Abonent> JsonBuilder::GetAbonents(const json& obj) {
@@ -64,4 +83,9 @@ std::vector<ArpAddress> JsonBuilder::GetArpAddresses(const json& obj) {
     arp_addresses.push_back(std::move(arp_address));
   }
   return arp_addresses;
+}
+
+InterfaceSettings JsonBuilder::GetInterafaceSettings(const json& obj) {
+
+  return {obj["speed"].get<std::uint8_t>(), obj["mode"].get<std::string>()};
 }
