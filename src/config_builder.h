@@ -12,6 +12,13 @@ public:
       : settings_(settings){
 
         };
+
+std::string Dump();
+
+
 private:
+  
+  
+  
   settings::Settings settings_;
 };
