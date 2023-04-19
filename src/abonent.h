@@ -11,8 +11,12 @@ public:
           const std::optional<int>& number = std::nullopt)
       : address_(address), mask_(mask), number_(number) {}
 
-std::string GetAddress();
+  std::string Address() const;
 
+  int Mask() const;
+
+  std::optional<int> Devicenumber() const;
+  std::string ToString() const;
 
 private:
   std::string address_;
