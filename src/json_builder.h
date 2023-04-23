@@ -21,7 +21,7 @@ private:
   void Parse();
   std::vector<Abonent> GetAbonents(const json& obj);
   std::vector<ArpAddress> GetArpAddresses(const json& obj);
-  InterfaceSettings GetInterafaceSettings(const json& obj);
+  InterfaceSettings GetInterfaceSettings(const json& obj);
 
   json document_;
   std::istream& in_;

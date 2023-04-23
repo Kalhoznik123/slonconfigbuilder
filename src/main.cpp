@@ -6,14 +6,21 @@
 
 int main(int, char**) {
 
+//TODO: сделать маску как калсс
+//TODO: сделать адереса как класс с проверками и все такое
 
 
-std::ifstream in("settings.json",std::ios::in);
+JsonBuilder builder(std::cin);
 
+const auto settings  = builder.MakeSettings();
 
-JsonBuilder buider(in);
+ConfigBuilder config_builder(settings);
 
-buider.MakeSettings();
+//std::cout << config_builder.Dump() << std::endl;
+std::ofstream file("config.txt", std::ios::out);
+
+file << config_builder.Dump() << std::endl;
+
 
 
 

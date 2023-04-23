@@ -1,11 +1,15 @@
 #include "arp.h"
+#include <sstream>
 
- std::string ArpAddress::Address() const { return arp_address_; }
+std::string ArpAddress::Address() const { return arp_address_; }
 
-
-std::uint8_t ArpAddress::Number() const { return number_; }
+int ArpAddress::Number() const { return number_; }
 
 std::string ArpAddress::ToString() const {
-  //TODO: добавить реализацию
-  
-   return std::string(); }
+
+  std::stringstream str_stream;
+
+  str_stream << number_ << " " << arp_address_;
+
+  return str_stream.str();
+}

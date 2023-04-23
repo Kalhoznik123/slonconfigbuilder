@@ -11,11 +11,11 @@ public:
 
   std::string Address() const;
 
-  std::uint8_t Number() const;
+  int Number() const;
 
   std::string ToString() const;
 
 private:
-  std::uint8_t number_;
+  int number_;
   std::string arp_address_;
 };

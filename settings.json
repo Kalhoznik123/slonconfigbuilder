@@ -3,28 +3,45 @@
     "address": "192.168.132.128",
     "mask": 25
   },
-  "abonents":[{
-    "number": 1,
-    "address" :"192.168.133.128",
-    "mask": 25
-  }],
-  "arp":[
-  {
-    "number": 1,
-    "ArpAddress": "000000000000"
-  }    
+  "abonents": [
+    {
+      "number": 1,
+      "address": "192.168.133.128",
+      "mask": 25
+    },
+
+    {
+      "number": 2,
+      "address": "192.168.133.245",
+      "mask": 24
+    }
 
   ],
-  "lan":{
-      "speed": 100,
-      "mode": "FD"
+  "arp": [
+    {
+      "number": 1,
+      "ArpAddress": "000000000000"
+    },
+    {
+      "number": 2,
+      "ArpAddress": "000000000000"
+    },
+    {
+      "number": 3,
+      "ArpAddress": "333333333333"
+    }
+  ],
+  "lan": {
+    "speed": 100,
+    "mode": "FD",
+    "type": "LAN"
   },
-  "inet":{
-      "speed": 100,
-      "mode": "FD"
+  "inet": {
+    "speed": 100,
+    "mode": "FD",
+    "type": "INET"
   },
-  "time": 80,
   "protocol": 53,
+  "time": 88,
   "internal.number": 1
-
 }

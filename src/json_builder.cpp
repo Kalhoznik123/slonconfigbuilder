@@ -14,9 +14,10 @@ settings::Settings JsonBuilder::MakeSettings() {
 
   if (const auto it = document_.find("internal.address");
       it != document_.end()) {
-//TODO: сделать тут функцию как  в нижних примерах
+    // TODO: сделать тут функцию как  в нижних примерах
+
     Abonent abonent(it->at("address").get<std::string>(),
-                    it->at("mask").get<int>());
+                    it->at("mask").get<int>(), AbonentType::INTERNAL);
 
     settings.internal_abonent_ = std::move(abonent);
   }
@@ -30,11 +31,11 @@ settings::Settings JsonBuilder::MakeSettings() {
     settings.arp_abonents_ = GetArpAddresses(*it);
   }
   if (const auto it = document_.find("lan"); it != document_.end()) {
-    settings.lan_settings = GetInterafaceSettings(*it);
+    settings.lan_settings = GetInterfaceSettings(*it);
   }
 
   if (const auto it = document_.find("inet"); it != document_.end()) {
-    settings.lan_settings = GetInterafaceSettings(*it);
+    settings.inet_settings = GetInterfaceSettings(*it);
   }
 
   if (const auto it = document_.find("time"); it != document_.end()) {
@@ -47,7 +48,7 @@ settings::Settings JsonBuilder::MakeSettings() {
 
   if (const auto it = document_.find("internal.number");
       it != document_.end()) {
-    settings.devicenumber = it->get<std::uint8_t>();
+    settings.devicenumber = it->get<int>();
   }
   return settings;
 }
@@ -59,10 +60,9 @@ std::vector<Abonent> JsonBuilder::GetAbonents(const json& obj) {
 
   for (const auto& [key, value] : obj.items()) {
 
-    std::cout << value << std::endl;
-
     Abonent abonent(value["address"].get<std::string>(),
-                    value["mask"].get<int>(), value["number"].get<int>());
+                    value["mask"].get<int>(), AbonentType::REMOTE,
+                    value["number"].get<int>());
 
     abonents.push_back(std::move(abonent));
   }
@@ -85,7 +85,12 @@ std::vector<ArpAddress> JsonBuilder::GetArpAddresses(const json& obj) {
   return arp_addresses;
 }
 
-InterfaceSettings JsonBuilder::GetInterafaceSettings(const json& obj) {
+InterfaceSettings JsonBuilder::GetInterfaceSettings(const json& obj) {
 
-  return {obj["speed"].get<std::uint8_t>(), obj["mode"].get<std::string>()};
+  InterfaceType type = obj["type"].get<std::string>() == "LAN"
+                           ? InterfaceType::LAN
+                           : InterfaceType::INET;
+
+  return {obj["speed"].get<int>(), obj["mode"].get<std::string>(),
+          type};
 }

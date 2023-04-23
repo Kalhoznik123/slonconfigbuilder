@@ -15,7 +15,7 @@ struct Settings {
   std::vector<Abonent> abonents_;
   std::vector<ArpAddress> arp_abonents_;
   std::optional<std::uint8_t> time;
-  std::optional<std::uint8_t> devicenumber;
+  std::optional<int> devicenumber;
   std::optional<std::uint8_t> protocol;
 };
 } // namespace settings
