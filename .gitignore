@@ -36,4 +36,5 @@
 #folders
 .vscode/
 build/
+config.txt
 >>>>>>> 38e53a1 (init commit)

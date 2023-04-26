@@ -14,7 +14,9 @@ add_executable(config_costructor src/main.cpp
 														src/domain.cpp
 														)
 
-
+add_subdirectory(arp)
 
 target_compile_options(${PROJECT_NAME} PRIVATE -std=c++17)
 target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/arp)
+target_link_libraries(${PROJECT_NAME} PRIVATE arp)

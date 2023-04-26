@@ -20,7 +20,7 @@
   "arp": [
     {
       "number": 1,
-      "ArpAddress": "000000000000"
+      "ArpAddress": "aa:bb:cc:22:33:55"
     },
     {
       "number": 2,

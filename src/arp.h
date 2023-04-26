@@ -1,13 +1,14 @@
 #pragma once
 #include <string>
+#include "ARP.h"
 
 class ArpAddress {
 
 public:
-  ArpAddress() = default;
+ // ArpAddress() = default;
 
   ArpAddress(std::uint8_t number, const std::string& arp_address)
-      : number_(number), arp_address_(arp_address) {}
+      : number_(number), arp_address_(network::ARP(arp_address)) {}
 
   std::string Address() const;
 
@@ -17,5 +18,5 @@ public:
 
 private:
   int number_;
-  std::string arp_address_;
+  network::ARP arp_address_;
 };
