@@ -10,9 +10,9 @@ public:
   ArpAddress(std::uint8_t number, const std::string& arp_address)
       : number_(number), arp_address_(network::ARP(arp_address)) {}
 
-  std::string Address() const;
+  std::string Address() const noexcept;
 
-  int Number() const;
+  int Number() const noexcept;
 
   std::string ToString() const;
 

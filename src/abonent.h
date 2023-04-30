@@ -17,13 +17,13 @@ public:
       : address_(address), mask_(mask), abonent_type_(abonent_type),
         number_(number) {}
 
-  std::string Address() const;
+  std::string Address() const noexcept ;
 
-  int Mask() const;
+  int Mask() const noexcept;
 
-  std::optional<int> Devicenumber() const;
-  std::string ToString() const;
-  AbonentType AbonType() const;
+  std::optional<int> Devicenumber() const noexcept;
+  std::string ToString() const ;
+  AbonentType AbonType() const noexcept;
 
 private:
   std::string address_;
