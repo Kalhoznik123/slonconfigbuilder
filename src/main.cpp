@@ -11,7 +11,7 @@ JsonBuilder builder(std::cin);
 
 const auto settings  = builder.MakeSettings();
 
-configurator::ConfigBuilder config_builder(settings);
+const configurator::ConfigBuilder config_builder(settings);
 
 //std::cout << config_builder.Dump() << std::endl;
 std::ofstream file("config.txt", std::ios::out);

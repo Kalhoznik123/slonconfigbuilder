@@ -15,18 +15,18 @@ public:
 
         };
 
-  std::string Dump();
+  std::string Dump() const ;
 
 private:
-  std::string MakeDevicenumber();
+  std::string MakeDevicenumber()const;
   static std::string MakeAbonentString(const Abonent& abonent);
   static std::string MakeAprString(const ArpAddress& arp_address);
   static std::string MakeInterfaceString(const InterfaceSettings& settings);
-  std::string MakeTimetoliveString();
-  std::string MakeProtocolString();
+  std::string MakeTimetoliveString()const;
+  std::string MakeProtocolString()const;
 
-  std::string MakeAbonentsString();
-  std::string MakeArpAddressesString();
+  std::string MakeAbonentsString()const;
+  std::string MakeArpAddressesString()const;
 
   settings::Settings settings_;
 };

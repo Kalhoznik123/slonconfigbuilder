@@ -4,7 +4,7 @@
 
 namespace configurator {
 
-std::string ConfigBuilder::Dump() {
+std::string ConfigBuilder::Dump() const {
 
   std::stringstream stream;
 
@@ -23,7 +23,7 @@ std::string ConfigBuilder::Dump() {
   return stream.str();
 }
 
-std::string ConfigBuilder::MakeDevicenumber() {
+std::string ConfigBuilder::MakeDevicenumber() const {
 
   std::stringstream stream;
 
@@ -44,7 +44,7 @@ std::string ConfigBuilder::MakeAbonentString(const Abonent& abonent) {
   return stream.str();
 }
 
-std::string ConfigBuilder::MakeAprString(const ArpAddress& arp_address) {
+std::string ConfigBuilder::MakeAprString(const ArpAddress& arp_address){
 
   std::stringstream stream;
 
@@ -54,7 +54,7 @@ std::string ConfigBuilder::MakeAprString(const ArpAddress& arp_address) {
 }
 
 std::string
-ConfigBuilder::MakeInterfaceString(const InterfaceSettings& settings) {
+ConfigBuilder::MakeInterfaceString(const InterfaceSettings& settings){
   std::stringstream stream;
   stream << "IFCONFIG ";
 
@@ -65,7 +65,7 @@ ConfigBuilder::MakeInterfaceString(const InterfaceSettings& settings) {
   return stream.str();
 }
 
-std::string ConfigBuilder::MakeTimetoliveString() {
+std::string ConfigBuilder::MakeTimetoliveString() const{
 
   const std::string time =
       settings_.time ? std::to_string(*settings_.time) : "80";
@@ -74,7 +74,7 @@ std::string ConfigBuilder::MakeTimetoliveString() {
   return result;
 }
 
-std::string ConfigBuilder::MakeProtocolString() {
+std::string ConfigBuilder::MakeProtocolString() const{
 
   const std::string protocol =
       settings_.protocol ? std::to_string(*settings_.protocol) : "53";
@@ -83,7 +83,7 @@ std::string ConfigBuilder::MakeProtocolString() {
   return result;
 }
 
-std::string ConfigBuilder::MakeAbonentsString() {
+std::string ConfigBuilder::MakeAbonentsString() const{
 
   std::stringstream stream;
 
@@ -103,7 +103,7 @@ std::string ConfigBuilder::MakeAbonentsString() {
   return stream.str();
 }
 
-std::string ConfigBuilder::MakeArpAddressesString() {
+std::string ConfigBuilder::MakeArpAddressesString() const{
 
   std::stringstream stream;
 
