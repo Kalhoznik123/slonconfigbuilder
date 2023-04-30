@@ -2,6 +2,8 @@
 #include <sstream>
 #include <string>
 
+namespace configurator {
+
 std::string ConfigBuilder::Dump() {
 
   std::stringstream stream;
@@ -120,3 +122,4 @@ std::string ConfigBuilder::MakeArpAddressesString() {
 
   return stream.str();
 }
+} // namespace configurator

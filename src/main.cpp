@@ -6,13 +6,12 @@
 int main(int, char**) {
 
 //TODO: сделать адереса как класс с проверками и все такое
-//TODO: сделать аппер кейс у арп адерсов
 
 JsonBuilder builder(std::cin);
 
 const auto settings  = builder.MakeSettings();
 
-ConfigBuilder config_builder(settings);
+configurator::ConfigBuilder config_builder(settings);
 
 //std::cout << config_builder.Dump() << std::endl;
 std::ofstream file("config.txt", std::ios::out);

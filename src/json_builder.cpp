@@ -14,12 +14,9 @@ settings::Settings JsonBuilder::MakeSettings() {
 
   if (const auto it = document_.find("internal.address");
       it != document_.end()) {
-    // TODO: сделать тут функцию как  в нижних примерах
 
-    Abonent abonent(it->at("address").get<std::string>(),
-                    it->at("mask").get<int>(), AbonentType::INTERNAL);
 
-    settings.internal_abonent_ = std::move(abonent);
+    settings.internal_abonent_ = GetInternalAbonent(*it);
   }
   if (const auto it = document_.find("abonents"); it != document_.end()) {
 
@@ -91,6 +88,13 @@ InterfaceSettings JsonBuilder::GetInterfaceSettings(const json& obj) {
                            ? InterfaceType::LAN
                            : InterfaceType::INET;
 
-  return {obj["speed"].get<int>(), obj["mode"].get<std::string>(),
-          type};
+  return {obj["speed"].get<int>(), obj["mode"].get<std::string>(), type};
+}
+
+Abonent JsonBuilder::GetInternalAbonent(const json& obj) {
+
+  Abonent abonent(obj["address"].get<std::string>(), obj["mask"].get<int>(),
+                  AbonentType::INTERNAL);
+
+  return Abonent();
 }

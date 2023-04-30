@@ -2,9 +2,15 @@
 #include <exception>
 #include <regex>
 
-
 namespace network {
 
+// "01-23-45-67-89-AB";
+// "01:23:45:67:89:AB";
+// "0123.4567.89AB";
+/*
+сверху обявлены форматы записи мак адресов
+
+*/
 ARP::ARP(const std::string& mask) {
 
   if (IsValid(mask)) {
