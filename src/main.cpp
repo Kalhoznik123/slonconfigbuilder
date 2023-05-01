@@ -6,6 +6,9 @@
 int main(int, char**) {
 
 
+//TODO: попробовать совместить с передачей по компорту
+
+
 JsonBuilder builder(std::cin);
 
 const auto settings  = builder.MakeSettings();
