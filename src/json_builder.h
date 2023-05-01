@@ -19,10 +19,10 @@ public:
 
 private:
   void Parse();
-  std::vector<Abonent> GetAbonents(const json& obj);
-  std::vector<ArpAddress> GetArpAddresses(const json& obj);
-  InterfaceSettings GetInterfaceSettings(const json& obj);
-  Abonent GetInternalAbonent(const json& obj);
+  static std::vector<Abonent> GetAbonents(const json& obj);
+  static std::vector<ArpAddress> GetArpAddresses(const json& obj);
+  static InterfaceSettings GetInterfaceSettings(const json& obj);
+  static Abonent GetInternalAbonent(const json& obj);
   json document_;
   std::istream& in_;
 };

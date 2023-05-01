@@ -2,6 +2,7 @@
 #include "domain.h"
 #include <iostream>
 #include <nlohmann/json.hpp>
+
 void JsonBuilder::Parse() { document_ = json::parse(in_); }
 
 settings::Settings JsonBuilder::MakeSettings() {
@@ -14,17 +15,13 @@ settings::Settings JsonBuilder::MakeSettings() {
 
   if (const auto it = document_.find("internal.address");
       it != document_.end()) {
-
-
     settings.internal_abonent_ = GetInternalAbonent(*it);
   }
   if (const auto it = document_.find("abonents"); it != document_.end()) {
-
     settings.abonents_ = GetAbonents(*it);
   }
 
   if (const auto it = document_.find("arp"); it != document_.end()) {
-
     settings.arp_abonents_ = GetArpAddresses(*it);
   }
   if (const auto it = document_.find("lan"); it != document_.end()) {
