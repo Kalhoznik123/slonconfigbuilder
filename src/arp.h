@@ -11,9 +11,7 @@ public:
       : number_(number), arp_address_(network::ARP(arp_address)) {}
 
   std::string Address() const noexcept;
-
   int Number() const noexcept;
-
   std::string ToString() const;
 
 private:

@@ -24,7 +24,6 @@ private:
   static std::string MakeInterfaceString(const InterfaceSettings& settings);
   std::string MakeTimetoliveString()const;
   std::string MakeProtocolString()const;
-
   std::string MakeAbonentsString()const;
   std::string MakeArpAddressesString()const;
 

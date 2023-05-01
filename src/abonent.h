@@ -1,7 +1,7 @@
 #pragma once
 #include <optional>
 #include <string>
-
+// 
 enum class AbonentType {
   INTERNAL,
   REMOTE
@@ -18,9 +18,7 @@ public:
         number_(number) {}
 
   std::string Address() const noexcept ;
-
   int Mask() const noexcept;
-
   std::optional<int> Devicenumber() const noexcept;
   std::string ToString() const ;
   AbonentType AbonType() const noexcept;
