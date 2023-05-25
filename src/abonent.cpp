@@ -1,11 +1,11 @@
 #include "abonent.h"
 #include <sstream>
 
-std::string Abonent::Address() const  noexcept{ return address_; }
+const std::string& Abonent::Address() const  noexcept{ return address_; }
 
 int Abonent::Mask() const noexcept{ return mask_; }
 
-std::optional<int> Abonent::Devicenumber() const noexcept{ return number_; }
+const std::optional<int>& Abonent::Devicenumber() const noexcept{ return number_; }
 
 std::string Abonent::ToString() const {
 
@@ -19,4 +19,4 @@ std::string Abonent::ToString() const {
   return str_stream.str();
 }
 
-AbonentType Abonent::AbonType() const noexcept{ return abonent_type_; }
+const AbonentType& Abonent::AbonType() const noexcept{ return abonent_type_; }

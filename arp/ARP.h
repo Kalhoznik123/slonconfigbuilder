@@ -10,7 +10,7 @@ class ARP {
 public:
   explicit ARP(const std::string& mask);
 
-  std::string ToString() const;
+ const std::string& ToString() const;
 
 private:
   std::string address_;
