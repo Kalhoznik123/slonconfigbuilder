@@ -1,13 +1,13 @@
 
 #pragma once
+#include "IBuilder.h"
 #include "config_builder.h"
 #include "domain.h"
-#include "IBuilder.h"
+#include <functional>
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include <vector>
-
-class JsonBuilder: public IBuilder {
+class JsonBuilder : public IBuilder {
 
 public:
   using json = nlohmann::json;
@@ -27,4 +27,6 @@ private:
   static Abonent GetInternalAbonent(const json& obj);
   json document_;
   std::istream& in_;
+
+  //  std::istream& in_;
 };

@@ -20,6 +20,7 @@ set(SOURCE_FILES  src/main.cpp
 									src/config_builder.cpp
 									src/interface_settings.cpp
 									src/domain.cpp
+									src/cin_builder.cpp
 )
 
 
@@ -30,6 +31,7 @@ set (HEADER_FILES src/json_builder.h
 									src/interface_settings.h
 									src/domain.h
 									src/IBuilder.h
+									src/cin_builder.h
 									)
 
 add_executable(config_costructor ${SOURCE_FILES}  ${HEADER_FILES}  )
