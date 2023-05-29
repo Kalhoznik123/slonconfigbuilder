@@ -2,11 +2,13 @@
 #pragma once
 #include "config_builder.h"
 #include "domain.h"
+#include "IBuilder.h"
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include <vector>
 
-class JsonBuilder {
+class JsonBuilder: public IBuilder {
+
 public:
   using json = nlohmann::json;
 
@@ -15,7 +17,7 @@ public:
 
         };
 
-  settings::Settings MakeSettings();
+  settings::Settings MakeSettings() override;
 
 private:
   void Parse();

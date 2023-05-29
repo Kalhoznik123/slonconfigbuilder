@@ -9,7 +9,6 @@
       "address": "192.168.133.128",
       "mask": 25
     },
-
     {
       "number": 2,
       "address": "192.168.133.245",
@@ -21,14 +20,6 @@
     {
       "number": 1,
       "ArpAddress": "aa:bb:cc:22:33:55"
-    },
-    {
-      "number": 2,
-      "ArpAddress": "000000000000"
-    },
-    {
-      "number": 3,
-      "ArpAddress": "333333333333"
     }
   ],
   "lan": {
