@@ -4,7 +4,7 @@
 std::string InterfaceSettings::ToString() const {
   std::stringstream stream;
 
-  stream << speed << mode;
+  stream << speed << ToUpper(mode);
 
   return stream.str();
 }
