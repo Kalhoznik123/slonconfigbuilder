@@ -1,4 +1,5 @@
 #include "IBuilder.h"
+#include "cin_builder.h"
 #include "config_builder.h"
 #include "json_builder.h"
 #include <boost/program_options.hpp>
@@ -38,7 +39,9 @@ int main(int argc, char** argv) {
 
     settings = builder->MakeSettings();
   } else if (const auto it = vm.find("interactive"); it != vm.end()) {
-    std::cout << "interactive mode" << std::endl;
+    std::unique_ptr<IBuilder> builder = std::make_unique<Cin_builder>(std::cin);
+
+    settings = builder->MakeSettings();
   }
 
   const configurator::ConfigBuilder config_builder(settings);

@@ -22,7 +22,7 @@ settings::Settings JsonBuilder::MakeSettings() {
   }
 
   if (const auto it = document_.find("arp"); it != document_.end()) {
-    settings.arp_abonents_ = GetArpAddresses(*it);
+    settings.arp_addresses_ = GetArpAddresses(*it);
   }
   if (const auto it = document_.find("lan"); it != document_.end()) {
     settings.lan_settings = GetInterfaceSettings(*it);
@@ -93,5 +93,5 @@ Abonent JsonBuilder::GetInternalAbonent(const json& obj) {
   Abonent abonent(obj["address"].get<std::string>(), obj["mask"].get<int>(),
                   AbonentType::INTERNAL);
 
-  return Abonent();
+  return abonent;
 }

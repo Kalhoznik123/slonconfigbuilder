@@ -28,5 +28,4 @@ private:
   json document_;
   std::istream& in_;
 
-  //  std::istream& in_;
 };
