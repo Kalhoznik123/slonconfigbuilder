@@ -1,6 +1,6 @@
-#include "config_builder.h"
 #include <sstream>
 #include <string>
+#include "config_builder.h"
 
 namespace configurator {
 
@@ -9,6 +9,9 @@ std::string ConfigBuilder::Dump() const {
   std::stringstream stream;
 
   const std::string update_command = "UPDATE";
+
+
+
 
   stream << MakeDevicenumber() << "\n";
   stream << MakeAbonentString(settings_.internal_abonent_) << "\n";
@@ -109,7 +112,7 @@ std::string ConfigBuilder::MakeArpAddressesString() const{
 
   bool is_first = true;
 
-  for (const ArpAddress& address : settings_.arp_abonents_) {
+  for (const ArpAddress& address : settings_.arp_addresses_) {
 
     if (is_first) {
       stream << MakeAprString(address);
