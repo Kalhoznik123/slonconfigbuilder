@@ -5,9 +5,7 @@
 settings::Settings Cin_builder::MakeSettings() {
 
   using namespace std::string_literals;
-  // TODO: сделать конструктор у internalAbonent как универсальные сссылки
   // TODO: сделать mode как отдельный класс с проверкой на правильность
- // TODO: сдулать поле mask как variant<int,std::string>
   settings::Settings settings;
 
   std::cout << "Enter internal abonent(ip address/mask): ";
@@ -19,7 +17,7 @@ settings::Settings Cin_builder::MakeSettings() {
   std::cout << "Enter abonents (cout/Abonent(devicenumber/ip_address/mask)): ";
   settings.abonents_ = MakeAbonents();
   std::cout
-      << "Enter arp addresses (cout/Arp abonent(number/ip_address/mask)): ";
+      << "Enter arp addresses (cout/Arp abonent(number/arp_address/mask)): ";
   settings.arp_addresses_ = MakeArpAddresses();
   std::cout << "Enter time: ";
   settings.time = MakeTime();
@@ -88,7 +86,7 @@ std::vector<ArpAddress> Cin_builder::MakeArpAddresses() {
 }
 
 std::uint8_t Cin_builder::MakeTime() {
- int time{0};
+  int time{0};
   in_ >> time;
   return static_cast<std::uint8_t>(time);
 }

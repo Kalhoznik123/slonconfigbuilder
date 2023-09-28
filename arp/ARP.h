@@ -22,11 +22,9 @@ private:
   std::string Join(Iterator first, Iterator last) const {
 
     std::string result;
-
     for (; first != last; ++first) {
       result += *first;
     }
-
     return result;
   }
 

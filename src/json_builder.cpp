@@ -2,7 +2,8 @@
 #include "domain.h"
 #include <iostream>
 #include <nlohmann/json.hpp>
-
+#include <type_traits>
+#include <variant>
 void JsonBuilder::Parse() { document_ = json::parse(in_); }
 
 settings::Settings JsonBuilder::MakeSettings() {
@@ -53,12 +54,15 @@ std::vector<Abonent> JsonBuilder::GetAbonents(const json& obj) {
   abonents.reserve(obj.size());
 
   for (const auto& [key, value] : obj.items()) {
-
-    Abonent abonent(value["address"].get<std::string>(),
-                    value["mask"].get<int>(), AbonentType::REMOTE,
-                    value["number"].get<int>());
-
-    abonents.push_back(std::move(abonent));
+    if (value["mask"].is_string()) {
+      abonents.emplace_back(value["address"].get<std::string>(),
+                            value["mask"].get<std::string>(),
+                            AbonentType::REMOTE, value["number"].get<int>());
+    } else {
+      abonents.emplace_back(value["address"].get<std::string>(),
+                            value["mask"].get<int>(), AbonentType::REMOTE,
+                            value["number"].get<int>());
+    }
   }
 
   return abonents;
@@ -89,6 +93,12 @@ InterfaceSettings JsonBuilder::GetInterfaceSettings(const json& obj) {
 }
 
 Abonent JsonBuilder::GetInternalAbonent(const json& obj) {
+  if (obj["mask"].is_string()) {
+
+    Abonent abonent(obj["address"].get<std::string>(),
+                    obj["mask"].get<std::string>(), AbonentType::INTERNAL);
+    return abonent;
+  }
 
   Abonent abonent(obj["address"].get<std::string>(), obj["mask"].get<int>(),
                   AbonentType::INTERNAL);

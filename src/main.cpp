@@ -40,7 +40,6 @@ int main(int argc, char** argv) {
     settings = builder->MakeSettings();
   } else if (const auto it = vm.find("interactive"); it != vm.end()) {
     std::unique_ptr<IBuilder> builder = std::make_unique<Cin_builder>(std::cin);
-
     settings = builder->MakeSettings();
   }
 
