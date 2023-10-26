@@ -1,7 +1,6 @@
 #include "json_builder.h"
 #include "domain.h"
 #include <iostream>
-#include <nlohmann/json.hpp>
 #include <type_traits>
 #include <variant>
 void JsonBuilder::Parse() { document_ = json::parse(in_); }
