@@ -2,6 +2,8 @@
 #include "arp.h"
 #include <cstdint>
 #include <string>
+#include <cstdint>
+
 settings::Settings Cin_builder::MakeSettings() {
 
   using namespace std::string_literals;
@@ -33,7 +35,8 @@ Abonent Cin_builder::MakeInternalAbonent() {
   std::string ip_addres;
   int mask;
   in_ >> ip_addres >> mask;
-  Abonent abonent(ip_addres, mask, AbonentType::INTERNAL);
+  IP_Mask ip_mask(static_cast<std::uint8_t>(mask));
+  Abonent abonent(ip_addres, ip_mask, AbonentType::INTERNAL);
   return abonent;
 }
 
@@ -62,7 +65,8 @@ std::vector<Abonent> Cin_builder::MakeAbonents() {
     int mask{0};
     std::string ip_address;
     in_ >> number >> ip_address >> mask;
-    abonents.emplace_back(ip_address, mask, AbonentType::REMOTE, number);
+    IP_Mask ip_mask(static_cast<std::uint8_t>(mask));
+    abonents.emplace_back(ip_address, ip_mask, AbonentType::REMOTE, number);
   }
 
   return abonents;

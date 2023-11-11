@@ -11,6 +11,10 @@
 
 // using namespace boost::program_options;
 
+
+//todo: сделать отдельный класс для mask с проверкой валидности как числа так и строки
+
+
 std::string ConfigFileName(const boost::program_options::variables_map& map){
 
     std::string name = "config.txt";

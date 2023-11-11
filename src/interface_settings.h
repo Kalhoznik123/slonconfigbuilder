@@ -1,7 +1,11 @@
 #pragma once
 #include <string>
 #include<algorithm>
-enum class InterfaceType { INET, LAN };
+
+enum class InterfaceType {
+    INET,
+    LAN
+};
 
 
 struct InterfaceSettings {

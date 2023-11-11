@@ -24,7 +24,7 @@ set(SOURCE_FILES  src/main.cpp
     src/interface_settings.cpp
     src/domain.cpp
     src/cin_builder.cpp
-    )
+    src/ip_mask.cpp)
 
 
 set (HEADER_FILES src/json_builder.h
@@ -35,7 +35,7 @@ set (HEADER_FILES src/json_builder.h
     src/domain.h
     src/IBuilder.h
     src/cin_builder.h
-    )
+    src/ip_mask.h )
 
 add_executable(config_costructor ${SOURCE_FILES}  ${HEADER_FILES}  )
 add_executable(test_gtest test/test.cpp
@@ -46,7 +46,7 @@ add_executable(test_gtest test/test.cpp
     src/interface_settings.cpp
     src/domain.cpp
     src/cin_builder.cpp
-
+    src/ip_mask.cpp
     src/json_builder.h
     src/abonent.h
     src/arp.h
@@ -55,7 +55,7 @@ add_executable(test_gtest test/test.cpp
     src/domain.h
     src/IBuilder.h
     src/cin_builder.h
-
+    src/ip_mask.h
     )
 add_subdirectory(arp)
 
