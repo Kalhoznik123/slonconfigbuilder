@@ -4,16 +4,11 @@
 #include "json_builder.h"
 #include <gtest/gtest.h>
 #include <boost/program_options.hpp>
-#include <boost/program_options/parsers.hpp>
 #include <fstream>
 #include <iostream>
 #include <memory>
 #include <string>
-
-// using namespace boost::program_options;
-
-
-//todo: сделать отдельный класс для mask с проверкой валидности как числа так и строки
+#include<type_traits>
 
 
 std::string ConfigFileName(const boost::program_options::variables_map& map){
@@ -40,7 +35,6 @@ boost::program_options::options_description MakeOptionDescription(){
 
 boost::program_options::variables_map MakeAndFillVMap(const boost::program_options::options_description& desc, int argc,  char** argv){
 
-    //boost::program_options::options_description opt_description = MakeOptionDescription();
     boost::program_options::variables_map vm;
     boost::program_options::store(parse_command_line(argc, argv, desc), vm);
     boost::program_options::notify(vm);
@@ -48,29 +42,23 @@ boost::program_options::variables_map MakeAndFillVMap(const boost::program_optio
 }
 
 
+template<typename Builder, typename = std::enable_if<std::is_base_of_v<IBuilder,Builder >>>
+settings::Settings MakeSettings(std::istream& in){
+
+    std::unique_ptr<IBuilder> builder = std::make_unique<Builder>(in);
+    settings::Settings  settings = builder->MakeSettings();
+
+    return settings;
+}
+
+
 int main(int argc, char** argv) {
 
 
-
-    //boost::program_options::options_description desc = MakeOptionDescription();
-
-//    boost::program_options::options_description desc{"Options"};
-
-//    desc.add_options()("help,h", "Help decsription")
-//            ("input-file,I", boost::program_options::value<std::string>(),"Path to settings file")
-//            ("interactive,i", "Interactive mode")
-//            ("output-file,o",boost::program_options::value<std::string>(),"Path to outpute file file");
-
-
-
-
-//    boost::program_options::variables_map vm;
-//    boost::program_options::store(parse_command_line(argc, argv, desc), vm);
-//    boost::program_options::notify(vm);
-
     // TODO: добавить verbose режим
-boost::program_options::options_description opt_desc = MakeOptionDescription();
 
+
+boost::program_options::options_description opt_desc = MakeOptionDescription();
 
 
 const auto vm = MakeAndFillVMap(opt_desc ,argc,argv);
@@ -85,12 +73,10 @@ const auto vm = MakeAndFillVMap(opt_desc ,argc,argv);
     }
     if (const auto it = vm.find("input-file"); it != vm.end()) {
         std::ifstream in_file(it->second.as<std::string>(), std::ios::in);
-        std::unique_ptr<IBuilder> builder = std::make_unique<JsonBuilder>(in_file);
-
-        settings = builder->MakeSettings();
+        settings = MakeSettings<JsonBuilder>(in_file);
     } else if (const auto it = vm.find("interactive"); it != vm.end()) {
-        std::unique_ptr<IBuilder> builder = std::make_unique<Cin_builder>(std::cin);
-        settings = builder->MakeSettings();
+
+        settings = MakeSettings<Cin_builder>(std::cin);;
     }else{
         exit(0);
     }
