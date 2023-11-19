@@ -12,7 +12,7 @@ class JsonBuilder : public IBuilder {
 public:
   using json = nlohmann::json;
 
-  JsonBuilder(std::istream& in = std::cin)
+  JsonBuilder(std::istream& in)
       : in_(in){
 
         };
