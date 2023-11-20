@@ -57,9 +57,7 @@ int main(int argc, char** argv) {
 
     // TODO: добавить verbose режим
 
-
 boost::program_options::options_description opt_desc = MakeOptionDescription();
-
 
 const auto vm = MakeAndFillVMap(opt_desc ,argc,argv);
     // JsonBuilder builder(std::cin);
@@ -75,12 +73,10 @@ const auto vm = MakeAndFillVMap(opt_desc ,argc,argv);
         std::ifstream in_file(it->second.as<std::string>(), std::ios::in);
         settings = MakeSettings<JsonBuilder>(in_file);
     } else if (const auto it = vm.find("interactive"); it != vm.end()) {
-
         settings = MakeSettings<Cin_builder>(std::cin);;
     }else{
         exit(0);
     }
-
     const configurator::ConfigBuilder config_builder(settings);
 
     std::ofstream file(ConfigFileName(vm), std::ios::out);

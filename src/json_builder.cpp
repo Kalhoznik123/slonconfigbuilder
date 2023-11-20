@@ -58,14 +58,10 @@ std::vector<Abonent> JsonBuilder::GetAbonents(const json& obj) {
 
         if (value["mask"].is_string()) {
             mask.Mask(value["mask"].get<std::string>());
-            //          abonents.emplace_back(value["address"].get<std::string>(),
-            //                  value["mask"].get<std::string>(),
-            //                  AbonentType::REMOTE, value["number"].get<int>());
+
         } else {
             mask.Mask(static_cast<std::uint8_t>(value["mask"].get<int>()));
-            //          abonents.emplace_back(value["address"].get<std::string>(),
-            //                  value["mask"].get<int>(), AbonentType::REMOTE,
-            //                  value["number"].get<int>());
+
         }
         abonents.emplace_back(value["address"].get<std::string>(),
                 mask, AbonentType::REMOTE,
@@ -107,11 +103,6 @@ Abonent JsonBuilder::GetInternalAbonent(const json& obj) {
 
         mask.Mask(obj["mask"].get<std::string>());
 
-        //IP_Mask mask(obj["mask"].get<std::string>());
-
-        //Abonent abonent(obj["address"].get<std::string>(),
-        //                mask, AbonentType::INTERNAL);
-        //return abonent;
     }else{
         mask.Mask(static_cast<std::uint8_t>(obj["mask"].get<int>()));
     }
