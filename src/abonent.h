@@ -26,7 +26,6 @@ public:
 private:
   std::string address_;
   IP_Mask mask_;
-  //std::variant<int, std::string> mask_;
   AbonentType abonent_type_;
   std::optional<int> number_;
 };

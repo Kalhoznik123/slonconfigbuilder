@@ -66,10 +66,7 @@ std::vector<Abonent> JsonBuilder::GetAbonents(const json& obj) {
         abonents.emplace_back(value["address"].get<std::string>(),
                 mask, AbonentType::REMOTE,
                 value["number"].get<int>());
-
     }
-
-
   return abonents;
 }
 

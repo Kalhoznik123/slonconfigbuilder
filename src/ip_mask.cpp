@@ -81,14 +81,14 @@ void IP_Mask::Mask(const std::string &value){
     string_form_ = value;
 }
 
-std::size_t IP_Mask::ShortRecord() const {
+std::size_t IP_Mask::ShortRecord() const noexcept{
 
     return bits.count();
 }
 
 
 
-std::string IP_Mask::FullRecord() const {
+std::string IP_Mask::FullRecord() const noexcept{
 
     if(!string_form_.has_value())
         string_form_ = StringFromBits();

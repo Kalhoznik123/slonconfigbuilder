@@ -10,8 +10,9 @@
 #include <string>
 #include<type_traits>
 
+namespace prog_opt = boost::program_options;
 
-std::string ConfigFileName(const boost::program_options::variables_map& map){
+std::string ConfigFileName(const prog_opt::variables_map& map){
 
     std::string name = "config.txt";
 
@@ -21,23 +22,23 @@ std::string ConfigFileName(const boost::program_options::variables_map& map){
     return name;
 }
 
-boost::program_options::options_description MakeOptionDescription(){
-    boost::program_options::options_description desc{"Options"};
+prog_opt::options_description MakeOptionDescription(){
+    prog_opt::options_description desc{"Options"};
 
     desc.add_options()("help,h", "Help decsription")
-            ("input-file,I", boost::program_options::value<std::string>(),"Path to settings file")
+            ("input-file,I", prog_opt::value<std::string>(),"Path to settings file")
             ("interactive,i", "Interactive mode")
-            ("output-file,o",boost::program_options::value<std::string>(),"Path to outpute file");
+            ("output-file,o",prog_opt::value<std::string>(),"Path to outpute file");
 
     return desc;
 }
 
 
-boost::program_options::variables_map MakeAndFillVMap(const boost::program_options::options_description& desc, int argc,  char** argv){
+prog_opt::variables_map MakeAndFillVMap(const prog_opt::options_description& desc, int argc,  char** argv){
 
-    boost::program_options::variables_map vm;
-    boost::program_options::store(parse_command_line(argc, argv, desc), vm);
-    boost::program_options::notify(vm);
+    prog_opt::variables_map vm;
+    prog_opt::store(parse_command_line(argc, argv, desc), vm);
+    prog_opt::notify(vm);
     return vm;
 }
 
@@ -57,10 +58,9 @@ int main(int argc, char** argv) {
 
     // TODO: добавить verbose режим
 
-boost::program_options::options_description opt_desc = MakeOptionDescription();
+    boost::program_options::options_description opt_desc = MakeOptionDescription();
 
-const auto vm = MakeAndFillVMap(opt_desc ,argc,argv);
-    // JsonBuilder builder(std::cin);
+    const auto vm = MakeAndFillVMap(opt_desc ,argc,argv);
     std::unique_ptr<IBuilder> builder;
 
     settings::Settings settings;
