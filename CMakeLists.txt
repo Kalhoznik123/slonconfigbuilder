@@ -6,6 +6,7 @@ project(config_costructor VERSION 0.1.0)
 
 set(BOOST_LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../../lib_source/boost_lib/lib" CACHE STRING "Path to libs")
 set(BOOST_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../../lib_source/boost_lib/include/" CACHE STRING "Path to include")
+
 set(ENABLE_TESTS ON)
 
 message(STATUS ${BOOST_INCLUDE_DIR})
@@ -13,10 +14,8 @@ message(STATUS ${BOOST_LIB_DIR})
 
 
 list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}")
-find_package(GTest)
+
 find_package(nlohmann_json 3.2.0 REQUIRED)
-
-
 
 
 if(ENABLE_TESTS)
@@ -46,7 +45,7 @@ if(ENABLE_TESTS)
     target_compile_options(test_gtest PRIVATE -std=c++17)
 
     target_include_directories(test_gtest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/arp)
-    target_include_directories(test_gtest PRIVATE ${GTEST_INCLUDE_DIRS})
+    #target_include_directories(test_gtest PRIVATE ${GTEST_INCLUDE_DIRS})
 
 
     target_link_libraries(test_gtest PRIVATE arp gtest gtest_main)
