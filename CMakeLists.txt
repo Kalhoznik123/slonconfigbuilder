@@ -3,7 +3,6 @@ project(config_costructor VERSION 0.1.0)
 
 
 #todo добавить условие для возможности создвать тесты
-
 set(BOOST_LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../../lib_source/boost_lib/lib" CACHE STRING "Path to libs")
 set(BOOST_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../../lib_source/boost_lib/include/" CACHE STRING "Path to include")
 
@@ -39,14 +38,12 @@ if(ENABLE_TESTS)
         src/IBuilder.h
         src/cin_builder.h
         src/ip_mask.h
-        )
+       )
 
 
     target_compile_options(test_gtest PRIVATE -std=c++17)
 
     target_include_directories(test_gtest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/arp)
-    #target_include_directories(test_gtest PRIVATE ${GTEST_INCLUDE_DIRS})
-
 
     target_link_libraries(test_gtest PRIVATE arp gtest gtest_main)
     target_link_libraries(test_gtest PRIVATE nlohmann_json::nlohmann_json)
@@ -55,7 +52,7 @@ if(ENABLE_TESTS)
 endif()
 
 
-set(SOURCE_FILES  src/main.cpp 
+set(SOURCE_FILES  src/main.cpp
     src/json_builder.cpp
     src/abonent.cpp
     src/arp.cpp
@@ -63,7 +60,8 @@ set(SOURCE_FILES  src/main.cpp
     src/interface_settings.cpp
     src/domain.cpp
     src/cin_builder.cpp
-    src/ip_mask.cpp)
+    src/ip_mask.cpp
+    )
 
 
 set (HEADER_FILES src/json_builder.h
@@ -74,7 +72,7 @@ set (HEADER_FILES src/json_builder.h
     src/domain.h
     src/IBuilder.h
     src/cin_builder.h
-    src/ip_mask.h )
+    src/ip_mask.h   )
 
 add_executable(config_costructor ${SOURCE_FILES}  ${HEADER_FILES}  )
 

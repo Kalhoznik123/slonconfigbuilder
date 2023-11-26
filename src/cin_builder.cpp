@@ -4,7 +4,7 @@
 #include <string>
 #include <cstdint>
 
-settings::Settings Cin_builder::MakeSettings() {
+settings::Settings FromCinBuilder::MakeSettings() {
 
   using namespace std::string_literals;
   // TODO: сделать mode как отдельный класс с проверкой на правильность
@@ -31,7 +31,7 @@ settings::Settings Cin_builder::MakeSettings() {
   return settings;
 }
 
-Abonent Cin_builder::MakeInternalAbonent() {
+Abonent FromCinBuilder::MakeInternalAbonent() {
   std::string ip_addres;
   int mask;
   in_ >> ip_addres >> mask;
@@ -40,21 +40,21 @@ Abonent Cin_builder::MakeInternalAbonent() {
   return abonent;
 }
 
-InterfaceSettings Cin_builder::MakeLanSettings() {
+InterfaceSettings FromCinBuilder::MakeLanSettings() {
   int speed{0};
   std::string mode;
   in_ >> speed >> mode;
   return {speed, mode, InterfaceType::LAN};
 }
 
-InterfaceSettings Cin_builder::MakeInetSettings() {
+InterfaceSettings FromCinBuilder::MakeInetSettings() {
   int speed{0};
   std::string mode;
   in_ >> speed >> mode;
   return {speed, mode, InterfaceType::INET};
 }
 
-std::vector<Abonent> Cin_builder::MakeAbonents() {
+std::vector<Abonent> FromCinBuilder::MakeAbonents() {
   size_t count{0};
   in_ >> count;
   std::vector<Abonent> abonents;
@@ -72,7 +72,7 @@ std::vector<Abonent> Cin_builder::MakeAbonents() {
   return abonents;
 }
 
-std::vector<ArpAddress> Cin_builder::MakeArpAddresses() {
+std::vector<ArpAddress> FromCinBuilder::MakeArpAddresses() {
 
   size_t count{0};
   in_ >> count;
@@ -89,19 +89,19 @@ std::vector<ArpAddress> Cin_builder::MakeArpAddresses() {
   return arp_addresses;
 }
 
-std::uint8_t Cin_builder::MakeTime() {
+std::uint8_t FromCinBuilder::MakeTime() {
   int time{0};
   in_ >> time;
   return static_cast<std::uint8_t>(time);
 }
 
-int Cin_builder::MakeDevicenumber() {
+int FromCinBuilder::MakeDevicenumber() {
   int device_number{0};
   in_ >> device_number;
   return device_number;
 }
 
-std::uint8_t Cin_builder::MakeProtocol() {
+std::uint8_t FromCinBuilder::MakeProtocol() {
   int protocol{0};
   in_ >> protocol;
   return static_cast<std::uint8_t>(protocol);

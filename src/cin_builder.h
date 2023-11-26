@@ -7,7 +7,7 @@
 #include <iostream>
 #include <vector>
 
-class Cin_builder : public IBuilder {
+class FromCinBuilder : public IBuilder {
 
 private:
   std::istream& in_;
@@ -23,5 +23,5 @@ private:
 
 public:
   settings::Settings MakeSettings() override;
-  Cin_builder(std::istream& in) : in_(in){};
+  FromCinBuilder(std::istream& in) : in_(in){};
 };

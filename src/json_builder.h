@@ -6,12 +6,12 @@
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include <vector>
-class JsonBuilder : public IBuilder {
+class FromJsonBuilder : public IBuilder {
 
 public:
     using json = nlohmann::json;
 
-    JsonBuilder(std::istream& in)
+    FromJsonBuilder(std::istream& in)
         : in_(in){};
 
     settings::Settings MakeSettings() override;
