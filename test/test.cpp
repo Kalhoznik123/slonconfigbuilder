@@ -1,6 +1,7 @@
 #include <iostream>
 #include <exception>
 #include <fstream>
+#include <sstream>
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include "ARP.h"
@@ -25,7 +26,7 @@ protected:
     Abonent *abonent;
 };
 
-class FromJsonBuilderTest : public ::testing::Test
+class FromJsonBuilderTestFixture : public ::testing::Test
 {
 protected:
     void SetUp() override{
@@ -44,7 +45,7 @@ protected:
     FromJsonBuilder *builder;
 };
 
-TEST_F(FromJsonBuilderTest,ParseNoThrow){
+TEST_F(FromJsonBuilderTestFixture,ParseNoThrow){
     //arrange
     //act
 
@@ -52,9 +53,239 @@ TEST_F(FromJsonBuilderTest,ParseNoThrow){
     ASSERT_NO_THROW(builder->MakeSettings());
 }
 
+TEST(FromJsonBuilderTest,ParseThrowInternal ){
+    //arrange
+    std::istringstream str(R"( { "abonents": [
+                       {
+                         "number": 1,
+                         "address": "192.168.133.128",
+                         "mask": 25
+                       },
+                       {
+                         "number": 2,
+                         "address": "192.168.133.245",
+                         "mask": 25
+                       }
+                     ],
+                     "arp": [
+                       {
+                         "number": 1,
+                         "ArpAddress": "aa:bb:cc:22:33:55"
+                       }
+                     ],
+                     "lan": {
+                       "speed": 100,
+                       "mode": "FD",
+                       "type": "LAN"
+                     },
+                     "inet": {
+                       "speed": 100,
+                       "mode": "FD",
+                       "type": "INET"
+                     },
+                     "protocol": 53,
+                     "time": 80,
+                     "devicenumber": 1
+                   })");
+    FromJsonBuilder bdr(str);
+    //act
 
-
+    //assert
+    ASSERT_THROW(bdr.MakeSettings(),std::exception);
+}
 //FromJsonBuilder//
+TEST(FromJsonBuilderTest,ParseThrowAbonents ){
+    //arrange
+    std::istringstream str(R"( {
+  "internal": {
+    "address": "192.168.132.128",
+    "mask": "255.255.255.0"
+  },
+  "arp": [
+    {
+      "number": 1,
+      "ArpAddress": "aa:bb:cc:22:33:55"
+    }
+  ],
+  "lan": {
+    "speed": 100,
+    "mode": "FD",
+    "type": "LAN"
+  },
+  "inet": {
+    "speed": 100,
+    "mode": "FD",
+    "type": "INET"
+  },
+  "protocol": 53,
+  "time": 80,
+  "devicenumber": 1
+})");
+    FromJsonBuilder bdr(str);
+    //act
+
+    //assert
+    ASSERT_THROW(bdr.MakeSettings(),std::exception);
+}
+TEST(FromJsonBuilderTest,ParseThrowLan ){
+    //arrange
+    std::istringstream str(R"( {
+  "internal": {
+    "address": "192.168.132.128",
+    "mask": "255.255.255.0"
+  },
+  "abonents": [
+    {
+      "number": 1,
+      "address": "192.168.133.128",
+      "mask": 25
+    },
+    {
+      "number": 2,
+      "address": "192.168.133.245",
+      "mask": 25
+    }
+  ],
+  "arp": [
+    {
+      "number": 1,
+      "ArpAddress": "aa:bb:cc:22:33:55"
+    }
+  ],
+  "inet": {
+    "speed": 100,
+    "mode": "FD",
+    "type": "INET"
+  },
+  "protocol": 53,
+  "time": 80,
+  "devicenumber": 1
+})");
+
+    FromJsonBuilder bdr(str);
+    //act
+
+    //assert
+    ASSERT_THROW(bdr.MakeSettings(),std::exception);
+}
+
+TEST(FromJsonBuilderTest,ParseThrowArp ){
+    //arrange
+    std::istringstream str(R"( {
+  "internal": {
+    "address": "192.168.132.128",
+    "mask": "255.255.255.0"
+  },
+  "abonents": [
+    {
+      "number": 1,
+      "address": "192.168.133.128",
+      "mask": 25
+    },
+    {
+      "number": 2,
+      "address": "192.168.133.245",
+      "mask": 25
+    }
+  ],
+  "lan": {
+    "speed": 100,
+    "mode": "FD",
+    "type": "LAN"
+  },
+  "protocol": 53,
+  "time": 80,
+  "devicenumber": 1
+})");
+    FromJsonBuilder bdr(str);
+    //act
+    //assert
+    ASSERT_THROW(bdr.MakeSettings(),std::exception);
+}
+
+TEST(FromJsonBuilderTest,ParseThrowInet ){
+    //arrange
+    std::istringstream str(R"( {
+  "internal": {
+    "address": "192.168.132.128",
+    "mask": "255.255.255.0"
+  },
+  "abonents": [
+    {
+      "number": 1,
+      "address": "192.168.133.128",
+      "mask": 25
+    },
+    {
+      "number": 2,
+      "address": "192.168.133.245",
+      "mask": 25
+    }
+  ],
+  "arp": [
+    {
+      "number": 1,
+      "ArpAddress": "aa:bb:cc:22:33:55"
+    }
+  ],
+  "lan": {
+    "speed": 100,
+    "mode": "FD",
+    "type": "LAN"
+  },
+  "protocol": 53,
+  "time": 80,
+  "devicenumber": 1
+})");
+    FromJsonBuilder bdr(str);
+    //act
+    //assert
+    ASSERT_THROW(bdr.MakeSettings(),std::exception);
+}
+TEST(FromJsonBuilderTest,ParseNoThrowTime ){
+    //arrange
+    std::istringstream str(R"( {
+  "internal": {
+    "address": "192.168.132.128",
+    "mask": "255.255.255.0"
+  },
+  "abonents": [
+    {
+      "number": 1,
+      "address": "192.168.133.128",
+      "mask": 25
+    },
+    {
+      "number": 2,
+      "address": "192.168.133.245",
+      "mask": 25
+    }
+  ],
+  "arp": [
+    {
+      "number": 1,
+      "ArpAddress": "aa:bb:cc:22:33:55"
+    }
+  ],
+  "lan": {
+    "speed": 100,
+    "mode": "FD",
+    "type": "LAN"
+  },
+  "inet": {
+    "speed": 100,
+    "mode": "FD",
+    "type": "INET"
+  },
+  "protocol": 53,
+  "devicenumber": 1
+})");
+    FromJsonBuilder bdr(str);
+    //act
+    //assert
+    ASSERT_NO_THROW(bdr.MakeSettings());
+}
+
 
 TEST_F(AbonentTest,arp_address){
     //arrange

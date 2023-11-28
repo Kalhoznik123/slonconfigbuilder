@@ -24,14 +24,12 @@ settings::Settings FromJsonBuilder::MakeSettings() {
         Parse();
     }
 
-    if (const auto it = document_.find("devicenumber");
-            it != document_.end()) {
+    if (const auto it = document_.find("devicenumber");it != document_.end()) {
         settings.devicenumber = it->get<int>();
     }else{
         throw std::logic_error("missing devicenumber");
     }
-    if (const auto it = document_.find("internal");
-            it != document_.end()) {
+    if (const auto it = document_.find("internal"); it != document_.end()) {
         settings.internal_abonent_ = GetInternalAbonent(*it);
     }else{
         throw std::logic_error("missing internal");
