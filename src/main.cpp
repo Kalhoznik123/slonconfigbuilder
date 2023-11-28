@@ -2,7 +2,6 @@
 #include "cin_builder.h"
 #include "config_builder.h"
 #include "json_builder.h"
-#include <gtest/gtest.h>
 #include <boost/program_options.hpp>
 #include <fstream>
 #include <iostream>
@@ -57,6 +56,9 @@ int main(int argc, char** argv) {
 
 
     // TODO: добавить verbose режим
+    // TODO: посмотреть какие методы классов можно сделать noexept
+    // TODO: добавить проверку на наличие основных параметров в json файле
+    // TODO: MakeAbonentsString и MakeArpAddressesString сделать шаблонной чтобы уменьшить количество кода
 
     boost::program_options::options_description opt_desc = MakeOptionDescription();
 

@@ -13,7 +13,7 @@ class TestAbonent : public ::testing::Test
 protected:
     void SetUp() override
     {
-        abonent = new Abonent("192.168.3.2",IP_Mask(25),AbonentType::REMOTE);
+        abonent = new Abonent("192.168.3.2",IP_Mask(25));
 
     }
     void TearDown() override
@@ -54,7 +54,7 @@ TEST(Abonent,Mask_string){
     //arrange
     const std::string value = "255.255.255.0";
     IP_Mask mask(value);
-    const Abonent abonent("192.168.3.2",mask,AbonentType::REMOTE);
+    const Abonent abonent("192.168.3.2",mask);
     //act
 
     //assert

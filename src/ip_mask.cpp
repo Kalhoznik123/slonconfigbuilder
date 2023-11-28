@@ -156,7 +156,6 @@ void IP_Mask::NumValidation(std::uint8_t var) {
 }
 
 void IP_Mask::StringValidation(const std::string& var) {
-    //std::string mask = std::get<std::string>(var_);
     bit32 bit_res = BitsFromMask(var);
 
     const size_t one_count = bit_res.count();

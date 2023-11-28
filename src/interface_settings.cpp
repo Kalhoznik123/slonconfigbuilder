@@ -3,15 +3,6 @@
 #include <sstream>
 #include <boost/algorithm/string.hpp>
 
-//todo: подключить boost для пребразования строк
-std::string ToUpper(std::string s) {
-  std::transform(s.begin(), s.end(), s.begin(),
-                 [](unsigned char c) { return std::toupper(c); }
-  );
-  return s;
-}
-
-
 std::string InterfaceSettings::ToString() const {
   std::stringstream stream;
 
