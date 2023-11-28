@@ -12,8 +12,8 @@ void FromJsonBuilder::Parse() {
     }  catch (std::exception& e) {
         using namespace std::string_literals;
 
-        std::cout <<e.what() << '-' << boost::to_upper_copy("bad json parse\n"s);   }
-
+        std::cout <<e.what() << '-' << boost::to_upper_copy("bad json parse\n"s);
+    }
 }
 
 settings::Settings FromJsonBuilder::MakeSettings() {

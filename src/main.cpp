@@ -57,8 +57,7 @@ int main(int argc, char** argv) {
 
     // TODO: добавить verbose режим
     // TODO: посмотреть какие методы классов можно сделать noexept
-    // TODO: добавить проверку на наличие основных параметров в json файле
-    // TODO: MakeAbonentsString и MakeArpAddressesString сделать шаблонной чтобы уменьшить количество кода
+    // TODO: добавить проверку на наличие основных параметров в json файле    
 
     boost::program_options::options_description opt_desc = MakeOptionDescription();
 

@@ -33,7 +33,7 @@ bool ARP::IsValid(const std::string& mask) const {
   return std::regex_match(mask, pattern);
 }
 
-const std::string& ARP::ToString() const { return address_; }
+const std::string& ARP::Address() const { return address_; }
 
 std::string ARP::Parse(const std::string& mask) const {
 

@@ -18,35 +18,34 @@ public:
   std::string Dump() const;
 
 private:
-// MakeStringer функциональный объект который принимает Container::value_type value
-  template<typename Container, typename MakeString>
-  static std::string CommonObjContainerStringMaker(const Container& container, MakeString FuncObj) {
+// FuncObj функциональный объект который принимает Container::value_type value
+  template<typename Container, typename FuncObj>
+  static std::string CommonObjContainerStringMaker(const Container& container, FuncObj MakeString) {
       bool is_first = true;
       std::string res;
 
       for (const auto& abonent : container) {
 
           if (is_first) {
-              res.append(FuncObj(abonent));
+              res.append(MakeString(abonent));
               is_first = false;
               continue;
           }
-          res.append("\n").append(FuncObj(abonent));
+          res.append("\n").append(MakeString(abonent));
       }
       return  res;
   }
 
 
-  std::string MakeDevicenumber() const;
   static std::string MakeAbonentString(const Abonent& abonent);
   static std::string MakeAprString(const ArpAddress& arp_address);
   static std::string MakeInterfaceString(const InterfaceSettings& settings);
   static std::string MakeAbonentRemoteString(const AbonentRemote& abonent);
   static std::string MakeAbonentsString(const std::vector<AbonentRemote>& abonents) ;
+  std::string MakeDevicenumber() const;
   std::string MakeTimetoliveString() const;
   std::string MakeProtocolString() const;
   std::string MakeArpAddressesString(const std::vector<ArpAddress>& arp_adresses) const;
-
 
 private:
   settings::Settings settings_;

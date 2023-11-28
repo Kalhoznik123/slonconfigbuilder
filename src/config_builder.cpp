@@ -42,9 +42,9 @@ std::string ConfigBuilder::MakeAprString(const ArpAddress& arp_address){
     return res;
 }
 
-std::string ConfigBuilder::MakeInterfaceString(const InterfaceSettings& settings){
-    std::string interface_type = settings.interface_type == InterfaceType::LAN ? "LAN" : "INET";
-    const auto res = detail::join(std::string(" "),std::string("IFCONFIG"),interface_type,std::move(settings.ToString()));
+std::string ConfigBuilder::MakeInterfaceString(const InterfaceSettings& iterface_settings){
+    std::string interface_type = iterface_settings.interface_type == InterfaceType::LAN ? "LAN" : "INET";
+    const auto res = detail::join(std::string(" "),std::string("IFCONFIG"),std::move(interface_type),std::to_string(iterface_settings.speed) + iterface_settings.mode);
     return  res;
 }
 

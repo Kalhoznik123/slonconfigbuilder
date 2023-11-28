@@ -1,7 +1,7 @@
 #include <sstream>
 #include "arp.h"
 
-std::string ArpAddress::Address() const noexcept{ return arp_address_.ToString(); }
+std::string ArpAddress::Address() const noexcept{ return arp_address_.Address(); }
 
 int ArpAddress::Number() const noexcept{ return number_; }
 
