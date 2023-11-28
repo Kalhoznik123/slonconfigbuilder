@@ -24,23 +24,39 @@ settings::Settings FromJsonBuilder::MakeSettings() {
         Parse();
     }
 
-    if (const auto it = document_.find("internal.address");
+    if (const auto it = document_.find("devicenumber");
+            it != document_.end()) {
+        settings.devicenumber = it->get<int>();
+    }else{
+        throw std::logic_error("missing devicenumber");
+    }
+    if (const auto it = document_.find("internal");
             it != document_.end()) {
         settings.internal_abonent_ = GetInternalAbonent(*it);
+    }else{
+        throw std::logic_error("missing internal");
     }
     if (const auto it = document_.find("abonents"); it != document_.end()) {
         settings.abonents_ = GetAbonents(*it);
+    }else{
+        throw std::logic_error("missing abonents");
     }
 
     if (const auto it = document_.find("arp"); it != document_.end()) {
         settings.arp_addresses_ = GetArpAddresses(*it);
+    }else{
+        throw std::logic_error("missing arp");
     }
     if (const auto it = document_.find("lan"); it != document_.end()) {
         settings.lan_settings = GetInterfaceSettings(*it);
+    }else{
+        throw std::logic_error("missing lan");
     }
 
     if (const auto it = document_.find("inet"); it != document_.end()) {
         settings.inet_settings = GetInterfaceSettings(*it);
+    }else{
+        throw std::logic_error("missing inet");
     }
 
     if (const auto it = document_.find("time"); it != document_.end()) {
@@ -51,10 +67,7 @@ settings::Settings FromJsonBuilder::MakeSettings() {
         settings.protocol = it->get<std::uint8_t>();
     }
 
-    if (const auto it = document_.find("internal.number");
-            it != document_.end()) {
-        settings.devicenumber = it->get<int>();
-    }
+
     return settings;
 }
 
