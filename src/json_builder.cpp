@@ -58,9 +58,9 @@ settings::Settings FromJsonBuilder::MakeSettings() {
     return settings;
 }
 
-std::vector<Abonent> FromJsonBuilder::GetAbonents(const json& obj) {
+std::vector<AbonentRemote> FromJsonBuilder::GetAbonents(const json& obj) {
 
-    std::vector<Abonent> abonents;
+    std::vector<AbonentRemote> abonents;
     abonents.reserve(obj.size());
 
     for (const auto& [key, value] : obj.items()) {
@@ -68,15 +68,14 @@ std::vector<Abonent> FromJsonBuilder::GetAbonents(const json& obj) {
 
         if (value["mask"].is_string()) {
             mask.Mask(value["mask"].get<std::string>());
-
         } else {
             mask.Mask(static_cast<std::uint8_t>(value["mask"].get<int>()));
-
         }
+
         abonents.emplace_back(value["address"].get<std::string>(),
-                mask, AbonentType::REMOTE,
-                value["number"].get<int>());
+                mask, value["number"].get<int>());
     }
+
     return abonents;
 }
 
@@ -114,8 +113,7 @@ Abonent FromJsonBuilder::GetInternalAbonent(const json& obj) {
         mask.Mask(static_cast<std::uint8_t>(obj["mask"].get<int>()));
     }
 
-    Abonent abonent(obj["address"].get<std::string>(), mask,
-            AbonentType::INTERNAL);
+    Abonent abonent(obj["address"].get<std::string>(), mask);
 
     return abonent;
 }

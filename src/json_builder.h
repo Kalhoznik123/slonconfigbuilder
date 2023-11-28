@@ -2,10 +2,12 @@
 #include "IBuilder.h"
 #include "config_builder.h"
 #include "domain.h"
+#include "abonent_remote.h"
 #include <functional>
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include <vector>
+
 class FromJsonBuilder : public IBuilder {
 
 public:
@@ -18,7 +20,7 @@ public:
 
 private:
     void Parse();
-    static std::vector<Abonent> GetAbonents(const json& obj);
+    static std::vector<AbonentRemote> GetAbonents(const json& obj);
     static std::vector<ArpAddress> GetArpAddresses(const json& obj);
     static InterfaceSettings GetInterfaceSettings(const json& obj);
     static Abonent GetInternalAbonent(const json& obj);
