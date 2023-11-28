@@ -15,7 +15,7 @@ private:
   Abonent MakeInternalAbonent();
   InterfaceSettings MakeLanSettings();
   InterfaceSettings MakeInetSettings();
-  std::vector<Abonent> MakeAbonents();
+  std::vector<AbonentRemote> MakeAbonents();
   std::vector<ArpAddress> MakeArpAddresses();
   std::uint8_t MakeTime();
   int MakeDevicenumber();

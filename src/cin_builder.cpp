@@ -1,5 +1,6 @@
 #include "cin_builder.h"
 #include "arp.h"
+#include "abonent_remote.h"
 #include <cstdint>
 #include <string>
 #include <cstdint>
@@ -18,8 +19,7 @@ settings::Settings FromCinBuilder::MakeSettings() {
   settings.inet_settings = MakeInetSettings();
   std::cout << "Enter abonents (cout/Abonent(devicenumber/ip_address/mask)): ";
   settings.abonents_ = MakeAbonents();
-  std::cout
-      << "Enter arp addresses (cout/Arp abonent(number/arp_address/mask)): ";
+  std::cout << "Enter arp addresses (cout/Arp abonent(number/arp_address)): ";
   settings.arp_addresses_ = MakeArpAddresses();
   std::cout << "Enter time: ";
   settings.time = MakeTime();
@@ -33,10 +33,10 @@ settings::Settings FromCinBuilder::MakeSettings() {
 
 Abonent FromCinBuilder::MakeInternalAbonent() {
   std::string ip_addres;
-  int mask;
+  int mask{0};
   in_ >> ip_addres >> mask;
   IP_Mask ip_mask(static_cast<std::uint8_t>(mask));
-  Abonent abonent(ip_addres, ip_mask, AbonentType::INTERNAL);
+  Abonent abonent(ip_addres, ip_mask);
   return abonent;
 }
 
@@ -54,10 +54,10 @@ InterfaceSettings FromCinBuilder::MakeInetSettings() {
   return {speed, mode, InterfaceType::INET};
 }
 
-std::vector<Abonent> FromCinBuilder::MakeAbonents() {
+std::vector<AbonentRemote> FromCinBuilder::MakeAbonents() {
   size_t count{0};
   in_ >> count;
-  std::vector<Abonent> abonents;
+  std::vector<AbonentRemote> abonents;
   abonents.reserve(count);
 
   for (size_t i = 0; i < count; ++i) {
@@ -66,9 +66,8 @@ std::vector<Abonent> FromCinBuilder::MakeAbonents() {
     std::string ip_address;
     in_ >> number >> ip_address >> mask;
     IP_Mask ip_mask(static_cast<std::uint8_t>(mask));
-    abonents.emplace_back(ip_address, ip_mask, AbonentType::REMOTE, number);
+    abonents.emplace_back(ip_address, ip_mask, number);
   }
-
   return abonents;
 }
 
