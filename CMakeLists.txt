@@ -38,6 +38,8 @@ if(ENABLE_TESTS)
         src/IBuilder.h
         src/cin_builder.h
         src/ip_mask.h
+        src/abonent_remote.cpp
+        src/abonent_remote.h
        )
 
 
@@ -61,6 +63,7 @@ set(SOURCE_FILES  src/main.cpp
     src/domain.cpp
     src/cin_builder.cpp
     src/ip_mask.cpp
+    src/abonent_remote.cpp
     )
 
 
@@ -72,7 +75,8 @@ set (HEADER_FILES src/json_builder.h
     src/domain.h
     src/IBuilder.h
     src/cin_builder.h
-    src/ip_mask.h   )
+    src/ip_mask.h
+    src/abonent_remote.h)
 
 add_executable(config_costructor ${SOURCE_FILES}  ${HEADER_FILES}  )
 
