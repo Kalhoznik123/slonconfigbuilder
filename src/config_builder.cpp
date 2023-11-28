@@ -1,128 +1,94 @@
+#include <boost/algorithm/string.hpp>
 #include <sstream>
 #include <string>
 #include "config_builder.h"
-
+#include "abonent_remote.h"
+#include "domain.h"
 namespace configurator {
 
 std::string ConfigBuilder::Dump() const {
+    const std::string update_command = "UPDATE";
 
-  std::stringstream stream;
+    auto res = detail::join(std::string("\n"),
+                            MakeDevicenumber(),
+                            MakeAbonentString(settings_.internal_abonent_),
+                            MakeAbonentsString(settings_.abonents_),
+                            MakeArpAddressesString(settings_.arp_addresses_),
+                            MakeInterfaceString(settings_.lan_settings),
+                            MakeInterfaceString(settings_.inet_settings),
+                            MakeTimetoliveString(),
+                            MakeProtocolString(),
+                            update_command
+                            );
 
-  const std::string update_command = "UPDATE";
-
-
-
-
-  stream << MakeDevicenumber() << "\n";
-  stream << MakeAbonentString(settings_.internal_abonent_) << "\n";
-  stream << MakeAbonentsString() << "\n";
-  stream << MakeArpAddressesString() << "\n";
-  stream << MakeInterfaceString(settings_.lan_settings) << std::endl;
-  stream << MakeInterfaceString(settings_.inet_settings) << "\n";
-  stream << MakeTimetoliveString() << "\n";
-  stream << MakeProtocolString() << "\n";
-  stream << update_command;
-
-  return stream.str();
+    return res;
 }
 
 std::string ConfigBuilder::MakeDevicenumber() const {
-
-  std::stringstream stream;
-
-  stream << "DEVICENUMBER" << ' ' << *settings_.devicenumber;
-
-  return stream.str();
+    const std::string res = detail::join(std::string(" "),std::string("DEVICENUMBER"),std::to_string(*settings_.devicenumber));
+    return  res;
 }
 std::string ConfigBuilder::MakeAbonentString(const Abonent& abonent) {
 
-  std::stringstream stream;
-
-  stream << "ABONENT ADD ";
-
-  stream << (abonent.AbonType() == AbonentType::INTERNAL ? "INTERNAL " : "");
-
-  stream << abonent.ToString();
-
-  return stream.str();
+    const std::string res = detail::JoinWithSeparatorWiteSpace(std::string("ABONENT ADD INTERNAL"),
+                                                               abonent.Address(),
+                                                               std::to_string(abonent.Mask().ShortRecord())
+                                                               );
+    return  res;
 }
 
 std::string ConfigBuilder::MakeAprString(const ArpAddress& arp_address){
-
-  std::stringstream stream;
-
-  stream << "ARP ADD " << arp_address.ToString();
-
-  return stream.str();
+    const std::string res = detail::JoinWithSeparatorWiteSpace(std::string("ARP ADD"), boost::to_upper_copy(arp_address.ToString()));
+    return res;
 }
 
-std::string
-ConfigBuilder::MakeInterfaceString(const InterfaceSettings& settings){
-  std::stringstream stream;
-  stream << "IFCONFIG ";
+std::string ConfigBuilder::MakeInterfaceString(const InterfaceSettings& settings){
+    std::string interface_type = settings.interface_type == InterfaceType::LAN ? "LAN" : "INET";
+    const auto res = detail::join(std::string(" "),std::string("IFCONFIG"),interface_type,std::move(settings.ToString()));
+    return  res;
+}
 
-  stream << (settings.interface_type == InterfaceType::LAN ? "LAN " : "INET ");
-
-  stream << settings.ToString();
-
-  return stream.str();
+std::string ConfigBuilder::MakeAbonentRemoteString(const AbonentRemote& abonent){
+    return detail::JoinWithSeparatorWiteSpace(std::string("ABONENT ADD"),
+                                              std::to_string(abonent.Number()),
+                                              abonent.Address(),
+                                              std::to_string(abonent.Mask().ShortRecord()));
 }
 
 std::string ConfigBuilder::MakeTimetoliveString() const{
-
-  const std::string time =
-      settings_.time ? std::to_string(*settings_.time) : "80";
-
-  const std::string result = "TIMETOLIVE " + time;
-  return result;
+    std::string time = settings_.time ? std::to_string(*settings_.time) : "80";
+    const auto res = detail::join(std::string(" "),std::string("TIMETOLIVE"), std::move(time) );
+    return  res;
 }
 
 std::string ConfigBuilder::MakeProtocolString() const{
-
-  const std::string protocol =
-      settings_.protocol ? std::to_string(*settings_.protocol) : "53";
-  const std::string result = "PROTOCOL " + protocol;
-
-  return result;
+    std::string protocol =settings_.protocol ? std::to_string(*settings_.protocol) : "53";
+    return  detail::JoinWithSeparatorWiteSpace(std::string("PROTOCOL"),std::move(protocol));
 }
 
-std::string ConfigBuilder::MakeAbonentsString() const{
+std::string ConfigBuilder::MakeAbonentsString(const std::vector<AbonentRemote>& abonents){
 
-  std::stringstream stream;
+    const auto res = CommonObjContainerStringMaker(abonents,&MakeAbonentRemoteString);
+    return res;
 
-  bool is_first = true;
-
-  for (const Abonent& abonent : settings_.abonents_) {
-
-    if (is_first) {
-      stream << MakeAbonentString(abonent);
-      is_first = false;
-      continue;
-    }
-
-    stream << '\n' << MakeAbonentString(abonent);
-  }
-
-  return stream.str();
 }
 
-std::string ConfigBuilder::MakeArpAddressesString() const{
+std::string ConfigBuilder::MakeArpAddressesString(const std::vector<ArpAddress>& arp_adresses) const{
+    const auto res = CommonObjContainerStringMaker(arp_adresses,&MakeAprString);
+    return res;
 
-  std::stringstream stream;
+    //    bool is_first = true;
+//    std::string res;
+//    for (const ArpAddress& address : settings_.arp_addresses_) {
+//        if (is_first) {
+//            res.append(MakeAprString(address));
+//            is_first = false;
+//            continue;
+//        }
 
-  bool is_first = true;
+//        res.append("\n").append(MakeAprString(address));
+//    }
+//    return  res;
 
-  for (const ArpAddress& address : settings_.arp_addresses_) {
-
-    if (is_first) {
-      stream << MakeAprString(address);
-      is_first = false;
-      continue;
-    }
-
-    stream << '\n' << MakeAprString(address);
-  }
-
-  return stream.str();
 }
 } // namespace configurator
