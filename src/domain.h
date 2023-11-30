@@ -30,12 +30,12 @@ auto join(const std::string& separator, T first)->decltype (first){
 
 
 template<typename T,typename... Tail>
-auto join(const std::string& separator,T first, Tail... tail)->decltype (first + separator ){
+auto join(const std::string& separator,const T& first, const Tail&... tail)->decltype (first + separator ){
     return first + separator +join(separator, tail...) ;
 }
 
 template<typename... Args>
-auto JoinWithSeparatorWiteSpace(Args... args)->decltype (join(std::string(" "),args...)){
+auto JoinWithSeparatorWiteSpace(const Args&... args)->decltype (join(std::string(" "),args...)){
     return join(std::string(" "),args...);
 }
 }
