@@ -56,8 +56,8 @@ settings::Settings MakeSettings(std::istream& in){
 int main(int argc, char** argv) {
 
 
-    // TODO: добавить verbose режим
     // TODO: посмотреть какие методы классов можно сделать noexept
+    // TODO: добавить работу с разными стандартами
 
     boost::program_options::options_description opt_desc = MakeOptionDescription();
 
@@ -76,7 +76,7 @@ int main(int argc, char** argv) {
     } else if (const auto it = vm.find("interactive"); it != vm.end()) {
         settings = MakeSettings<FromCinBuilder>(std::cin);;
     }else{
-        exit(0);
+        settings = MakeSettings<FromJsonBuilder>(std::cin);
     }
 
     const configurator::ConfigBuilder config_builder(settings);

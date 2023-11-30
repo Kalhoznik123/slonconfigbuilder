@@ -7,7 +7,7 @@
 namespace configurator {
 
 std::string ConfigBuilder::Dump() const {
-    const std::string update_command = "UPDATE";
+    const std::string update_command = "UPDATE\n";
 
     auto res = detail::join(std::string("\n"),
                             MakeDevicenumber(),
@@ -41,7 +41,8 @@ std::string ConfigBuilder::MakeAbonentString(const Abonent& abonent) {
 
 std::string ConfigBuilder::MakeAprString(const ArpAddress& arp_address){
     const std::string res = detail::JoinWithSeparatorWiteSpace(std::string("ARP ADD"),
-                                                               boost::to_upper_copy(arp_address.ToString()));
+                                                               boost::to_upper_copy(arp_address.ToString())
+                                                               );
     return res;
 }
 
@@ -49,7 +50,8 @@ std::string ConfigBuilder::MakeInterfaceString(const InterfaceSettings& iterface
     std::string interface_type = iterface_settings.interface_type == InterfaceType::LAN ? "LAN" : "INET";
     const auto res = detail::join(std::string(" "),std::string("IFCONFIG"),
                                   std::move(interface_type),
-                                  std::to_string(iterface_settings.speed) + iterface_settings.mode);
+                                  std::to_string(iterface_settings.speed) + iterface_settings.mode
+                                  );
     return  res;
 }
 
@@ -57,12 +59,13 @@ std::string ConfigBuilder::MakeAbonentRemoteString(const AbonentRemote& abonent)
     return detail::JoinWithSeparatorWiteSpace(std::string("ABONENT ADD"),
                                               std::to_string(abonent.Number()),
                                               abonent.Address(),
-                                              std::to_string(abonent.Mask().ShortRecord()));
+                                              std::to_string(abonent.Mask().ShortRecord())
+                                              );
 }
 
 std::string ConfigBuilder::MakeTimetoliveString() const{
     std::string time = settings_.time ? std::to_string(*settings_.time) : "80";
-    const auto res = detail::join(std::string(" "),std::string("TIMETOLIVE"), std::move(time) );
+    const auto res = detail::join(std::string(" "), std::string("TIMETOLIVE"), std::move(time));
     return  res;
 }
 

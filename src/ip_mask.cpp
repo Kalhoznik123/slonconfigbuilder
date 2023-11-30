@@ -44,7 +44,7 @@ IP_Mask::bit32 IP_Mask::BitsFromNums(std::vector<uint8_t> nums){
         if(shift!= 0){
             shift-=8;
         }
-        //   std::cout << res <<std::endl;    ///debug
+
     }
     return res;
 }
@@ -82,7 +82,6 @@ void IP_Mask::Mask(const std::string &value){
 }
 
 std::size_t IP_Mask::ShortRecord() const noexcept{
-
     return bits.count();
 }
 
@@ -92,9 +91,7 @@ std::string IP_Mask::FullRecord() const noexcept{
 
     if(!string_form_.has_value())
         string_form_ = StringFromBits();
-
         return *string_form_;
-
 }
 
 bool IP_Mask::operator <(const IP_Mask &other) const {
@@ -160,7 +157,7 @@ void IP_Mask::StringValidation(const std::string& var) {
 
     const size_t one_count = bit_res.count();
 
-    //std::cout << one_count << std::endl; ///debug
+
     const size_t lcount = countl_one(std::move(bit_res));
     if(one_count != lcount)
         throw std::invalid_argument("mask is invalid");
