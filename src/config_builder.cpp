@@ -25,7 +25,9 @@ std::string ConfigBuilder::Dump() const {
 }
 
 std::string ConfigBuilder::MakeDevicenumber() const {
-    const std::string res = detail::join(std::string(" "),std::string("DEVICENUMBER"),std::to_string(*settings_.devicenumber));
+    const std::string res = detail::join(std::string(" "),
+                                         std::string("DEVICENUMBER"),
+                                         std::to_string(*settings_.devicenumber));
     return  res;
 }
 std::string ConfigBuilder::MakeAbonentString(const Abonent& abonent) {
@@ -38,13 +40,16 @@ std::string ConfigBuilder::MakeAbonentString(const Abonent& abonent) {
 }
 
 std::string ConfigBuilder::MakeAprString(const ArpAddress& arp_address){
-    const std::string res = detail::JoinWithSeparatorWiteSpace(std::string("ARP ADD"), boost::to_upper_copy(arp_address.ToString()));
+    const std::string res = detail::JoinWithSeparatorWiteSpace(std::string("ARP ADD"),
+                                                               boost::to_upper_copy(arp_address.ToString()));
     return res;
 }
 
 std::string ConfigBuilder::MakeInterfaceString(const InterfaceSettings& iterface_settings){
     std::string interface_type = iterface_settings.interface_type == InterfaceType::LAN ? "LAN" : "INET";
-    const auto res = detail::join(std::string(" "),std::string("IFCONFIG"),std::move(interface_type),std::to_string(iterface_settings.speed) + iterface_settings.mode);
+    const auto res = detail::join(std::string(" "),std::string("IFCONFIG"),
+                                  std::move(interface_type),
+                                  std::to_string(iterface_settings.speed) + iterface_settings.mode);
     return  res;
 }
 
@@ -67,28 +72,12 @@ std::string ConfigBuilder::MakeProtocolString() const{
 }
 
 std::string ConfigBuilder::MakeAbonentsString(const std::vector<AbonentRemote>& abonents){
-
     const auto res = CommonObjContainerStringMaker(abonents,&MakeAbonentRemoteString);
     return res;
-
 }
 
 std::string ConfigBuilder::MakeArpAddressesString(const std::vector<ArpAddress>& arp_adresses) const{
     const auto res = CommonObjContainerStringMaker(arp_adresses,&MakeAprString);
     return res;
-
-    //    bool is_first = true;
-//    std::string res;
-//    for (const ArpAddress& address : settings_.arp_addresses_) {
-//        if (is_first) {
-//            res.append(MakeAprString(address));
-//            is_first = false;
-//            continue;
-//        }
-
-//        res.append("\n").append(MakeAprString(address));
-//    }
-//    return  res;
-
 }
 } // namespace configurator

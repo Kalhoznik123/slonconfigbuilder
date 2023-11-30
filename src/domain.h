@@ -24,7 +24,7 @@ namespace detail {
 
 
 template<typename T>
-auto join(const std::string& separator, T first)->decltype (first){
+auto join(const std::string& separator, const T& first)->decltype (first){
     return first;
 }
 
@@ -35,7 +35,7 @@ auto join(const std::string& separator,const T& first, const Tail&... tail)->dec
 }
 
 template<typename... Args>
-auto JoinWithSeparatorWiteSpace(const Args&... args)->decltype (join(std::string(" "),args...)){
+decltype (auto) JoinWithSeparatorWiteSpace(const Args&... args){
     return join(std::string(" "),args...);
 }
 }

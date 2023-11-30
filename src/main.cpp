@@ -27,7 +27,8 @@ prog_opt::options_description MakeOptionDescription(){
     desc.add_options()("help,h", "Help decsription")
             ("input-file,I", prog_opt::value<std::string>(),"Path to settings file")
             ("interactive,i", "Interactive mode")
-            ("output-file,o",prog_opt::value<std::string>(),"Path to outpute file");
+            ("output-file,o",prog_opt::value<std::string>(),"Path to outpute file")
+            ("verbose,v","Verbose mode");
 
     return desc;
 }
@@ -57,7 +58,6 @@ int main(int argc, char** argv) {
 
     // TODO: добавить verbose режим
     // TODO: посмотреть какие методы классов можно сделать noexept
-    // TODO: добавить проверку на наличие основных параметров в json файле    
 
     boost::program_options::options_description opt_desc = MakeOptionDescription();
 
@@ -78,9 +78,13 @@ int main(int argc, char** argv) {
     }else{
         exit(0);
     }
+
     const configurator::ConfigBuilder config_builder(settings);
+    const std::string configuration = config_builder.Dump();
+
+    if(const auto it = vm.find("verbose"); it != vm.end())
+        std::cout << configuration << '\n';
 
     std::ofstream file(ConfigFileName(vm), std::ios::out);
-
     file << config_builder.Dump() << std::endl;
 }
