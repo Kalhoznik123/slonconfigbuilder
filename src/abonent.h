@@ -4,7 +4,9 @@
 #include <variant>
 #include "ip_mask.h"
 
-enum class AbonentType { INTERNAL, REMOTE };
+
+
+
 
 class Abonent  {
 
@@ -22,8 +24,6 @@ public:
 private:
   std::string address_;
   IP_Mask mask_;
-
-
 };
 
 

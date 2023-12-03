@@ -57,7 +57,7 @@ int main(int argc, char** argv) {
 
 
     // TODO: посмотреть какие методы классов можно сделать noexept
-    // TODO: добавить работу с разными стандартами
+    // TODO: добавить работу с разными стандартами(компиляторов)
 
     boost::program_options::options_description opt_desc = MakeOptionDescription();
 
