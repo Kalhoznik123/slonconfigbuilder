@@ -33,7 +33,7 @@ protected:
 
         in_file = new std::ifstream("settings.json");
 
-        builder = new FromJsonBuilder(*in_file);
+        builder = new builder::FromJsonBuilder(*in_file);
 
     }
     void TearDown() override
@@ -42,7 +42,7 @@ protected:
         delete  in_file;
     }
     std::ifstream *in_file;
-    FromJsonBuilder *builder;
+   builder::FromJsonBuilder *builder;
 };
 
 TEST_F(FromJsonBuilderTestFixture,ParseNoThrow){
@@ -87,7 +87,7 @@ TEST(FromJsonBuilderTest,ParseThrowInternal ){
                      "time": 80,
                      "devicenumber": 1
                    })");
-    FromJsonBuilder bdr(str);
+    builder::FromJsonBuilder bdr(str);
     //act
 
     //assert
@@ -121,7 +121,7 @@ TEST(FromJsonBuilderTest,ParseThrowAbonents ){
   "time": 80,
   "devicenumber": 1
 })");
-    FromJsonBuilder bdr(str);
+    builder::FromJsonBuilder bdr(str);
     //act
 
     //assert
@@ -162,7 +162,7 @@ TEST(FromJsonBuilderTest,ParseThrowLan ){
   "devicenumber": 1
 })");
 
-    FromJsonBuilder bdr(str);
+    builder::FromJsonBuilder bdr(str);
     //act
 
     //assert
@@ -197,7 +197,7 @@ TEST(FromJsonBuilderTest,ParseThrowArp ){
   "time": 80,
   "devicenumber": 1
 })");
-    FromJsonBuilder bdr(str);
+    builder::FromJsonBuilder bdr(str);
     //act
     //assert
     ASSERT_THROW(bdr.MakeSettings(),std::exception);
@@ -237,7 +237,7 @@ TEST(FromJsonBuilderTest,ParseThrowInet ){
   "time": 80,
   "devicenumber": 1
 })");
-    FromJsonBuilder bdr(str);
+    builder::FromJsonBuilder bdr(str);
     //act
     //assert
     ASSERT_THROW(bdr.MakeSettings(),std::exception);
@@ -280,7 +280,7 @@ TEST(FromJsonBuilderTest,ParseNoThrowTime ){
   "protocol": 53,
   "devicenumber": 1
 })");
-    FromJsonBuilder bdr(str);
+    builder::FromJsonBuilder bdr(str);
     //act
     //assert
     ASSERT_NO_THROW(bdr.MakeSettings());

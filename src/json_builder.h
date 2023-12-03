@@ -8,6 +8,8 @@
 #include "domain.h"
 #include "abonent_remote.h"
 
+namespace builder{
+
 class FromJsonBuilder : public IBuilder {
 
 public:
@@ -28,3 +30,4 @@ private:
     std::istream& in_;
 
 };
+}

@@ -72,11 +72,11 @@ int main(int argc, char** argv) {
     }
     if (const auto it = vm.find("input-file"); it != vm.end()) {
         std::ifstream in_file(it->second.as<std::string>(), std::ios::in);
-        settings = MakeSettings<FromJsonBuilder>(in_file);
+        settings = MakeSettings<builder::FromJsonBuilder>(in_file);
     } else if (const auto it = vm.find("interactive"); it != vm.end()) {
-        settings = MakeSettings<FromCinBuilder>(std::cin);;
+        settings = MakeSettings<builder::FromCinBuilder>(std::cin);;
     }else{
-        settings = MakeSettings<FromJsonBuilder>(std::cin);
+        settings = MakeSettings<builder::FromJsonBuilder>(std::cin);
     }
 
     const configurator::ConfigBuilder config_builder(settings);

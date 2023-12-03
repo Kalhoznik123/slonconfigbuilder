@@ -6,6 +6,7 @@
 #include "domain.h"
 #include "ip_mask.h"
 
+namespace builder{
 void FromJsonBuilder::Parse() {
     try{
         document_ = json::parse(in_);
@@ -127,4 +128,5 @@ Abonent FromJsonBuilder::GetInternalAbonent(const json& obj) {
     Abonent abonent(obj["address"].get<std::string>(), mask);
 
     return abonent;
+}
 }
