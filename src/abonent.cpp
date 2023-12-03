@@ -1,10 +1,10 @@
-#include "abonent.h"
 #include <sstream>
 #include <string>
+#include "abonent.h"
 
 const std::string& Abonent::Address() const noexcept { return address_; }
 
-const IP_Mask& Abonent::Mask() const noexcept { return mask_; }
+const network::IP_Mask& Abonent::Mask() const noexcept { return mask_; }
 
 
 std::string Abonent::ToString() const {

@@ -1,12 +1,12 @@
 #pragma once
-#include "IBuilder.h"
-#include "config_builder.h"
-#include "domain.h"
-#include "abonent_remote.h"
 #include <functional>
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include <vector>
+#include "IBuilder.h"
+#include "config_builder.h"
+#include "domain.h"
+#include "abonent_remote.h"
 
 class FromJsonBuilder : public IBuilder {
 

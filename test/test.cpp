@@ -16,7 +16,7 @@ class AbonentTest : public ::testing::Test
 protected:
     void SetUp() override
     {
-        abonent = new Abonent("192.168.3.2",IP_Mask(25));
+        abonent = new Abonent("192.168.3.2",network::IP_Mask(25));
 
     }
     void TearDown() override
@@ -317,7 +317,7 @@ TEST(Abonent,FullRecord){
 
     //arrange
     const std::string value = "255.255.255.0";
-    IP_Mask mask(value);
+    network::IP_Mask mask(value);
     const Abonent abonent("192.168.3.2",mask);
     //act
 
@@ -329,7 +329,7 @@ TEST(Abonent,FullRecord){
 TEST(AbonentRemote,Number){
 
     //arrange
-    AbonentRemote abonent("192.168.3.2",IP_Mask(25),5);
+    AbonentRemote abonent("192.168.3.2",network::IP_Mask(25),5);
     const std::uint8_t value{5};
     //act
 
@@ -369,8 +369,8 @@ TEST(IPMaskTest,IpmaskContructorThrow){
 
     //assert
 
-    ASSERT_THROW(IP_Mask(54),std::exception);
-    ASSERT_THROW(IP_Mask("255.255.255.54"),std::exception);
+    ASSERT_THROW(network::IP_Mask(54),std::exception);
+    ASSERT_THROW(network::IP_Mask("255.255.255.54"),std::exception);
 }
 
 TEST(IPMaskTest,IpmaskContructorNothrow){
@@ -380,12 +380,12 @@ TEST(IPMaskTest,IpmaskContructorNothrow){
     //act
 
     //assert
-    ASSERT_NO_THROW(IP_Mask(0));
-    ASSERT_NO_THROW(IP_Mask(32));
-    ASSERT_NO_THROW(IP_Mask(25));
-    ASSERT_NO_THROW(IP_Mask("255.255.255.0"));
-    ASSERT_NO_THROW(IP_Mask("255.255.255.128"));
-    ASSERT_NO_THROW(IP_Mask("0.0.0.0"));
+    ASSERT_NO_THROW(network::IP_Mask(0));
+    ASSERT_NO_THROW(network::IP_Mask(32));
+    ASSERT_NO_THROW(network::IP_Mask(25));
+    ASSERT_NO_THROW(network::IP_Mask("255.255.255.0"));
+    ASSERT_NO_THROW(network::IP_Mask("255.255.255.128"));
+    ASSERT_NO_THROW(network::IP_Mask("0.0.0.0"));
 }
 
 
@@ -393,8 +393,8 @@ TEST(IPMaskTest,IpmaskSetMask){
     //arrange
     const std::string test_mask = "255.255.255.128";
     const std::string test_mask2 = "255.255.255.0";
-    IP_Mask mask(test_mask2);
-    IP_Mask mask2(24);
+    network::IP_Mask mask(test_mask2);
+    network::IP_Mask mask2(24);
     //act
     mask.Mask(test_mask);
     mask2.Mask(25);
@@ -407,8 +407,8 @@ TEST(IPMaskTest,IpmaskSetMask){
 
 TEST(IPMaskTest,Less){
     //arrange
-    IP_Mask mask1(24);
-    IP_Mask mask2(25);
+    network::IP_Mask mask1(24);
+    network::IP_Mask mask2(25);
     //act
 
     //assert
@@ -417,8 +417,8 @@ TEST(IPMaskTest,Less){
 }
 TEST(IPMaskTest,Greater){
     //arrange
-    IP_Mask mask1(24);
-    IP_Mask mask2(25);
+    network::IP_Mask mask1(24);
+    network::IP_Mask mask2(25);
     //act
 
     //assert
@@ -428,8 +428,8 @@ TEST(IPMaskTest,Greater){
 
 TEST(IPMaskTest,Not_equal){
     //arrange
-    IP_Mask mask1(24);
-    IP_Mask mask2(25);
+    network::IP_Mask mask1(24);
+    network::IP_Mask mask2(25);
 
     //act
 

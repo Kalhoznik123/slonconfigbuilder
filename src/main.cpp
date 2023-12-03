@@ -1,13 +1,13 @@
-#include "IBuilder.h"
-#include "cin_builder.h"
-#include "config_builder.h"
-#include "json_builder.h"
-#include <boost/program_options.hpp>
 #include <fstream>
 #include <iostream>
 #include <memory>
 #include <string>
-#include<type_traits>
+#include <type_traits>
+#include <boost/program_options.hpp>
+#include "IBuilder.h"
+#include "cin_builder.h"
+#include "config_builder.h"
+#include "json_builder.h"
 
 namespace prog_opt = boost::program_options;
 

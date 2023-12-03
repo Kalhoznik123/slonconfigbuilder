@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include<algorithm>
+#include <algorithm>
 
 enum class InterfaceType {
     INET,

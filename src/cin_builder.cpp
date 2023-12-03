@@ -35,7 +35,7 @@ Abonent FromCinBuilder::MakeInternalAbonent() {
   std::string ip_addres;
   int mask{0};
   in_ >> ip_addres >> mask;
-  IP_Mask ip_mask(static_cast<std::uint8_t>(mask));
+  network::IP_Mask ip_mask(static_cast<std::uint8_t>(mask));
   Abonent abonent(ip_addres, ip_mask);
   return abonent;
 }
@@ -65,7 +65,7 @@ std::vector<AbonentRemote> FromCinBuilder::MakeAbonents() {
     int mask{0};
     std::string ip_address;
     in_ >> number >> ip_address >> mask;
-    IP_Mask ip_mask(static_cast<std::uint8_t>(mask));
+    network::IP_Mask ip_mask(static_cast<std::uint8_t>(mask));
     abonents.emplace_back(ip_address, ip_mask, number);
   }
   return abonents;

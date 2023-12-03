@@ -1,10 +1,10 @@
-#include "json_builder.h"
-#include "domain.h"
-#include "ip_mask.h"
 #include <iostream>
 #include <type_traits>
 #include <variant>
 #include <boost/algorithm/string.hpp>
+#include "json_builder.h"
+#include "domain.h"
+#include "ip_mask.h"
 
 void FromJsonBuilder::Parse() {
     try{
@@ -75,7 +75,7 @@ std::vector<AbonentRemote> FromJsonBuilder::GetAbonents(const json& obj) {
     abonents.reserve(obj.size());
 
     for (const auto& [key, value] : obj.items()) {
-        IP_Mask mask;
+        network::IP_Mask mask;
 
         if (value["mask"].is_string()) {
             mask.Mask(value["mask"].get<std::string>());
@@ -115,7 +115,7 @@ InterfaceSettings FromJsonBuilder::GetInterfaceSettings(const json& obj) {
 }
 
 Abonent FromJsonBuilder::GetInternalAbonent(const json& obj) {
-    IP_Mask mask;
+    network::IP_Mask mask;
     if (obj["mask"].is_string()) {
 
         mask.Mask(obj["mask"].get<std::string>());

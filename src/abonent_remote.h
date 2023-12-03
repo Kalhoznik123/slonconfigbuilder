@@ -9,7 +9,7 @@ class AbonentRemote : public Abonent
 {
 public:
     AbonentRemote(const std::string& address,
-                  const IP_Mask& mask, std::uint8_t number):
+                  const network::IP_Mask& mask, std::uint8_t number):
         Abonent(address,mask),number_(number) {};
 
  std::uint8_t Number()const noexcept;

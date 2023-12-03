@@ -4,6 +4,7 @@
 #include "config_builder.h"
 #include "abonent_remote.h"
 #include "domain.h"
+
 namespace configurator {
 
 std::string ConfigBuilder::Dump() const {

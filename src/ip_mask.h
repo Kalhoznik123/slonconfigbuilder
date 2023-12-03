@@ -9,6 +9,8 @@
 #include <sstream>
 
 
+namespace network {
+
 const std::uint8_t MAX_MASK_VALUE = 32;
 
 class IP_Mask
@@ -71,5 +73,6 @@ private:
     mutable  std::optional<std::string> string_form_;
 };
 
+}//namespace network
 
 

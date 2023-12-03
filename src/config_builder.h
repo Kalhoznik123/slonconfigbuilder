@@ -1,9 +1,9 @@
 #pragma once
+#include <optional>
+#include <vector>
 #include "abonent.h"
 #include "arp.h"
 #include "domain.h"
-#include <optional>
-#include <vector>
 
 namespace configurator {
 

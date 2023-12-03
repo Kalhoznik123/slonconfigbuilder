@@ -1,10 +1,12 @@
 #pragma once
+#include <optional>
+#include <vector>
 #include "abonent.h"
 #include "arp.h"
 #include "interface_settings.h"
 #include "abonent_remote.h"
-#include <optional>
-#include <vector>
+
+
 namespace settings {
 
 struct Settings {

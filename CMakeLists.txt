@@ -2,14 +2,9 @@ cmake_minimum_required(VERSION 3.16.0)
 project(config_costructor VERSION 0.1.0)
 
 
-#todo добавить условие для возможности создвать тесты
-#set(BOOST_LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../../lib_source/boost_lib/lib" CACHE STRING "Path to libs")
-#set(BOOST_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../../lib_source/boost_lib/include/" CACHE STRING "Path to include")
+
 
 set(ENABLE_TESTS ON)
-
-#message(STATUS ${BOOST_INCLUDE_DIR})
-#message(STATUS ${BOOST_LIB_DIR})
 
 
 list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}")

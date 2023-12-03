@@ -1,9 +1,12 @@
-#include "ip_mask.h"
 #include <string_view>
 #include <algorithm>
 #include <iostream>
 #include <exception>
+#include "ip_mask.h"
 
+
+
+namespace network {
 
 std::vector<std::string> Split(std::string_view str,std::string_view delimiter){
     size_t pos_start = 0, pos_end = 0, delim_len = delimiter.length();
@@ -91,7 +94,7 @@ std::string IP_Mask::FullRecord() const noexcept{
 
     if(!string_form_.has_value())
         string_form_ = StringFromBits();
-        return *string_form_;
+    return *string_form_;
 }
 
 bool IP_Mask::operator <(const IP_Mask &other) const {
@@ -162,4 +165,5 @@ void IP_Mask::StringValidation(const std::string& var) {
     if(one_count != lcount)
         throw std::invalid_argument("mask is invalid");
     bits = 0xffffffffUL << (MAX_MASK_VALUE - lcount);
+}
 }
