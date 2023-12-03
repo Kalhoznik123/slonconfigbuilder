@@ -22,10 +22,10 @@ public:
 
 private:
     void Parse();
-    static std::vector<AbonentRemote> GetAbonents(const json& obj);
-    static std::vector<ArpAddress> GetArpAddresses(const json& obj);
+    static std::vector<abonent::AbonentRemote> GetAbonents(const json& obj);
+    static std::vector<network::ArpAddress> GetArpAddresses(const json& obj);
     static InterfaceSettings GetInterfaceSettings(const json& obj);
-    static Abonent GetInternalAbonent(const json& obj);
+    static abonent::Abonent GetInternalAbonent(const json& obj);
     json document_;
     std::istream& in_;
 

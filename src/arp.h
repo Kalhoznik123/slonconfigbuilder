@@ -2,6 +2,8 @@
 #include <string>
 #include "ARP.h"
 
+namespace network {
+
 class ArpAddress {
 
 public:
@@ -17,3 +19,4 @@ private:
   int number_;
   network::ARP arp_address_;
 };
+}

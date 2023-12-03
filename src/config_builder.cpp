@@ -31,7 +31,7 @@ std::string ConfigBuilder::MakeDevicenumber() const {
                                          std::to_string(*settings_.devicenumber));
     return  res;
 }
-std::string ConfigBuilder::MakeAbonentString(const Abonent& abonent) {
+std::string ConfigBuilder::MakeAbonentString(const abonent::Abonent& abonent) {
 
     const std::string res = detail::JoinWithSeparatorWiteSpace(std::string("ABONENT ADD INTERNAL"),
                                                                abonent.Address(),
@@ -40,7 +40,7 @@ std::string ConfigBuilder::MakeAbonentString(const Abonent& abonent) {
     return  res;
 }
 
-std::string ConfigBuilder::MakeAprString(const ArpAddress& arp_address){
+std::string ConfigBuilder::MakeAprString(const network::ArpAddress& arp_address){
     const std::string res = detail::JoinWithSeparatorWiteSpace(std::string("ARP ADD"),
                                                                boost::to_upper_copy(arp_address.ToString())
                                                                );
@@ -56,7 +56,7 @@ std::string ConfigBuilder::MakeInterfaceString(const InterfaceSettings& iterface
     return  res;
 }
 
-std::string ConfigBuilder::MakeAbonentRemoteString(const AbonentRemote& abonent){
+std::string ConfigBuilder::MakeAbonentRemoteString(const abonent::AbonentRemote& abonent){
     return detail::JoinWithSeparatorWiteSpace(std::string("ABONENT ADD"),
                                               std::to_string(abonent.Number()),
                                               abonent.Address(),
@@ -75,12 +75,12 @@ std::string ConfigBuilder::MakeProtocolString() const{
     return  detail::JoinWithSeparatorWiteSpace(std::string("PROTOCOL"),std::move(protocol));
 }
 
-std::string ConfigBuilder::MakeAbonentsString(const std::vector<AbonentRemote>& abonents){
+std::string ConfigBuilder::MakeAbonentsString(const std::vector<abonent::AbonentRemote>& abonents){
     const auto res = CommonObjContainerStringMaker(abonents,&MakeAbonentRemoteString);
     return res;
 }
 
-std::string ConfigBuilder::MakeArpAddressesString(const std::vector<ArpAddress>& arp_adresses) const{
+std::string ConfigBuilder::MakeArpAddressesString(const std::vector<network::ArpAddress>& arp_adresses) const{
     const auto res = CommonObjContainerStringMaker(arp_adresses,&MakeAprString);
     return res;
 }

@@ -5,6 +5,8 @@
 #include "ip_mask.h"
 #include "abonent.h"
 
+namespace abonent{
+
 class AbonentRemote : public Abonent
 {
 public:
@@ -19,3 +21,4 @@ private:
 };
 
 
+}

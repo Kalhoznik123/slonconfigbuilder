@@ -11,11 +11,11 @@ namespace settings {
 
 struct Settings {
 
-  Abonent internal_abonent_;
+  abonent::Abonent internal_abonent_;
   InterfaceSettings lan_settings;
   InterfaceSettings inet_settings;
-  std::vector<AbonentRemote> abonents_;
-  std::vector<ArpAddress> arp_addresses_;
+  std::vector<abonent::AbonentRemote> abonents_;
+  std::vector<network::ArpAddress> arp_addresses_;
   std::optional<std::uint8_t> time;
   std::optional<int> devicenumber;
   std::optional<std::uint8_t> protocol;

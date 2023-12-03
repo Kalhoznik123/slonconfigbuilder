@@ -37,15 +37,15 @@ private:
   }
 
 
-  static std::string MakeAbonentString(const Abonent& abonent);
-  static std::string MakeAprString(const ArpAddress& arp_address);
+  static std::string MakeAbonentString(const abonent::Abonent& abonent);
+  static std::string MakeAprString(const network::ArpAddress& arp_address);
   static std::string MakeInterfaceString(const InterfaceSettings& settings);
-  static std::string MakeAbonentRemoteString(const AbonentRemote& abonent);
-  static std::string MakeAbonentsString(const std::vector<AbonentRemote>& abonents) ;
+  static std::string MakeAbonentRemoteString(const abonent::AbonentRemote& abonent);
+  static std::string MakeAbonentsString(const std::vector<abonent::AbonentRemote>& abonents) ;
   std::string MakeDevicenumber() const;
   std::string MakeTimetoliveString() const;
   std::string MakeProtocolString() const;
-  std::string MakeArpAddressesString(const std::vector<ArpAddress>& arp_adresses) const;
+  std::string MakeArpAddressesString(const std::vector<network::ArpAddress>& arp_adresses) const;
 
 private:
   settings::Settings settings_;

@@ -16,14 +16,14 @@ class AbonentTest : public ::testing::Test
 protected:
     void SetUp() override
     {
-        abonent = new Abonent("192.168.3.2",network::IP_Mask(25));
+        abonent = new abonent::Abonent("192.168.3.2",network::IP_Mask(25));
 
     }
     void TearDown() override
     {
         delete abonent;
     }
-    Abonent *abonent;
+    abonent::Abonent *abonent;
 };
 
 class FromJsonBuilderTestFixture : public ::testing::Test
@@ -318,7 +318,7 @@ TEST(Abonent,FullRecord){
     //arrange
     const std::string value = "255.255.255.0";
     network::IP_Mask mask(value);
-    const Abonent abonent("192.168.3.2",mask);
+    const abonent::Abonent abonent("192.168.3.2",mask);
     //act
 
     //assert
@@ -329,7 +329,7 @@ TEST(Abonent,FullRecord){
 TEST(AbonentRemote,Number){
 
     //arrange
-    AbonentRemote abonent("192.168.3.2",network::IP_Mask(25),5);
+    abonent::AbonentRemote abonent("192.168.3.2",network::IP_Mask(25),5);
     const std::uint8_t value{5};
     //act
 

@@ -14,11 +14,11 @@ class FromCinBuilder : public IBuilder {
 private:
     std::istream& in_;
 
-    Abonent MakeInternalAbonent();
+    abonent::Abonent MakeInternalAbonent();
     InterfaceSettings MakeLanSettings();
     InterfaceSettings MakeInetSettings();
-    std::vector<AbonentRemote> MakeAbonents();
-    std::vector<ArpAddress> MakeArpAddresses();
+    std::vector<abonent::AbonentRemote> MakeAbonents();
+    std::vector<network::ArpAddress> MakeArpAddresses();
     std::uint8_t MakeTime();
     int MakeDevicenumber();
     std::uint8_t MakeProtocol();

@@ -70,9 +70,9 @@ settings::Settings FromJsonBuilder::MakeSettings() {
     return settings;
 }
 
-std::vector<AbonentRemote> FromJsonBuilder::GetAbonents(const json& obj) {
+std::vector<abonent::AbonentRemote> FromJsonBuilder::GetAbonents(const json& obj) {
 
-    std::vector<AbonentRemote> abonents;
+    std::vector<abonent::AbonentRemote> abonents;
     abonents.reserve(obj.size());
 
     for (const auto& [key, value] : obj.items()) {
@@ -91,14 +91,14 @@ std::vector<AbonentRemote> FromJsonBuilder::GetAbonents(const json& obj) {
     return abonents;
 }
 
-std::vector<ArpAddress> FromJsonBuilder::GetArpAddresses(const json& obj) {
+std::vector<network::ArpAddress> FromJsonBuilder::GetArpAddresses(const json& obj) {
 
-    std::vector<ArpAddress> arp_addresses;
+    std::vector<network::ArpAddress> arp_addresses;
     arp_addresses.reserve(obj.size());
 
     for (const auto& [key, value] : obj.items()) {
 
-        ArpAddress arp_address(value["number"].get<int>(),
+        network::ArpAddress arp_address(value["number"].get<int>(),
                 value["ArpAddress"].get<std::string>());
 
         arp_addresses.push_back(std::move(arp_address));
@@ -115,7 +115,7 @@ InterfaceSettings FromJsonBuilder::GetInterfaceSettings(const json& obj) {
     return {obj["speed"].get<int>(), obj["mode"].get<std::string>(), type};
 }
 
-Abonent FromJsonBuilder::GetInternalAbonent(const json& obj) {
+abonent::Abonent FromJsonBuilder::GetInternalAbonent(const json& obj) {
     network::IP_Mask mask;
     if (obj["mask"].is_string()) {
 
@@ -125,7 +125,7 @@ Abonent FromJsonBuilder::GetInternalAbonent(const json& obj) {
         mask.Mask(static_cast<std::uint8_t>(obj["mask"].get<int>()));
     }
 
-    Abonent abonent(obj["address"].get<std::string>(), mask);
+    abonent::Abonent abonent(obj["address"].get<std::string>(), mask);
 
     return abonent;
 }

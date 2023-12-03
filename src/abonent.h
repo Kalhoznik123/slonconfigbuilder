@@ -4,6 +4,7 @@
 #include <variant>
 #include "ip_mask.h"
 
+namespace abonent{
 
 class Abonent  {
 
@@ -24,3 +25,4 @@ private:
 };
 
 
+}

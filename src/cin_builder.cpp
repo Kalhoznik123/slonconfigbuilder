@@ -33,12 +33,12 @@ settings::Settings FromCinBuilder::MakeSettings() {
     return settings;
 }
 
-Abonent FromCinBuilder::MakeInternalAbonent() {
+abonent::Abonent FromCinBuilder::MakeInternalAbonent() {
     std::string ip_addres;
     int mask{0};
     in_ >> ip_addres >> mask;
     network::IP_Mask ip_mask(static_cast<std::uint8_t>(mask));
-    Abonent abonent(ip_addres, ip_mask);
+    abonent::Abonent abonent(ip_addres, ip_mask);
     return abonent;
 }
 
@@ -56,10 +56,10 @@ InterfaceSettings FromCinBuilder::MakeInetSettings() {
     return {speed, mode, InterfaceType::INET};
 }
 
-std::vector<AbonentRemote> FromCinBuilder::MakeAbonents() {
+std::vector<abonent::AbonentRemote> FromCinBuilder::MakeAbonents() {
     size_t count{0};
     in_ >> count;
-    std::vector<AbonentRemote> abonents;
+    std::vector<abonent::AbonentRemote> abonents;
     abonents.reserve(count);
 
     for (size_t i = 0; i < count; ++i) {
@@ -73,11 +73,11 @@ std::vector<AbonentRemote> FromCinBuilder::MakeAbonents() {
     return abonents;
 }
 
-std::vector<ArpAddress> FromCinBuilder::MakeArpAddresses() {
+std::vector<network::ArpAddress> FromCinBuilder::MakeArpAddresses() {
 
     size_t count{0};
     in_ >> count;
-    std::vector<ArpAddress> arp_addresses;
+    std::vector<network::ArpAddress> arp_addresses;
     arp_addresses.reserve(count);
 
     for (size_t i = 0; i < count; ++i) {
