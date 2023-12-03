@@ -3,19 +3,19 @@ project(config_costructor VERSION 0.1.0)
 
 
 #todo добавить условие для возможности создвать тесты
-set(BOOST_LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../../lib_source/boost_lib/lib" CACHE STRING "Path to libs")
-set(BOOST_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../../lib_source/boost_lib/include/" CACHE STRING "Path to include")
+#set(BOOST_LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../../lib_source/boost_lib/lib" CACHE STRING "Path to libs")
+#set(BOOST_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../../lib_source/boost_lib/include/" CACHE STRING "Path to include")
 
 set(ENABLE_TESTS ON)
 
-message(STATUS ${BOOST_INCLUDE_DIR})
-message(STATUS ${BOOST_LIB_DIR})
+#message(STATUS ${BOOST_INCLUDE_DIR})
+#message(STATUS ${BOOST_LIB_DIR})
 
 
 list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}")
 
 find_package(nlohmann_json 3.2.0 REQUIRED)
-
+find_package(Boost 1.82 COMPONENTS program_options REQUIRED)
 
 if(ENABLE_TESTS)
     find_package(GTest)
@@ -40,7 +40,7 @@ if(ENABLE_TESTS)
         src/ip_mask.h
         src/abonent_remote.cpp
         src/abonent_remote.h
-       )
+        )
 
 
     target_compile_options(test_gtest PRIVATE -std=c++17)
@@ -84,13 +84,11 @@ add_subdirectory(arp)
 
 target_compile_options(${PROJECT_NAME} PRIVATE -std=c++17)
 
+if(Boost_FOUND)
+    target_link_libraries(${PROJECT_NAME} PRIVATE Boost::program_options)
+endif()
+
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/arp)
-target_include_directories(${PROJECT_NAME} PRIVATE ${BOOST_INCLUDE_DIR})
-
-
-target_link_directories(${PROJECT_NAME} PRIVATE  ${BOOST_LIB_DIR} )
-
-
 target_link_libraries(${PROJECT_NAME} PRIVATE arp)
+
 target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
-target_link_libraries(${PROJECT_NAME} PRIVATE boost_program_options)
