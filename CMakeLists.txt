@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 3.16.0)
 project(config_costructor VERSION 0.1.0)
 
-
-
-
 set(ENABLE_TESTS ON)
 
 

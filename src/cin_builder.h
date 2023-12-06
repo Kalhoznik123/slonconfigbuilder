@@ -1,4 +1,8 @@
 #pragma once
+/*!
+\file
+\brief Заголовочный файл с описывающий класс для чтения данных из стандартного потока.
+*/
 #include <iostream>
 #include <vector>
 #include "ARP.h"
@@ -8,7 +12,11 @@
 #include "interface_settings.h"
 
 namespace builder{
+/*!
+    @brief Класс для получения данных из стандартного потока и создания структуры с конфигуацией .
 
+    Класс читает стандартный вход и создает настроки структуру с конфигурацией.
+*/
 class FromCinBuilder : public IBuilder {
 
 private:
