@@ -20,7 +20,7 @@ settings::Settings FromCinBuilder::MakeSettings() {
     std::cout << "Enter inet settings(speed/mode(HD or FD)): ";
     settings.inet_settings = MakeInetSettings();
     std::cout << "Enter abonents (cout/Abonent(devicenumber/ip_address/mask)): ";
-    settings.abonents_ = MakeAbonents();
+    settings.abonents_ = MakeRemoteAbonents();
     std::cout << "Enter arp addresses (cout/Arp abonent(number/arp_address)): ";
     settings.arp_addresses_ = MakeArpAddresses();
     std::cout << "Enter time: ";
@@ -56,7 +56,7 @@ InterfaceSettings FromCinBuilder::MakeInetSettings() {
     return {speed, mode, InterfaceType::INET};
 }
 
-std::vector<abonent::AbonentRemote> FromCinBuilder::MakeAbonents() {
+std::vector<abonent::AbonentRemote> FromCinBuilder::MakeRemoteAbonents() {
     size_t count{0};
     in_ >> count;
     std::vector<abonent::AbonentRemote> abonents;

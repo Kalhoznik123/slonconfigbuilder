@@ -1,4 +1,8 @@
 #pragma once
+/*!
+\file
+\brief Заголовочный файл с описывающий класс ConfigBuilder для создания конфигурацции.
+*/
 #include <optional>
 #include <vector>
 #include "abonent.h"
@@ -6,7 +10,9 @@
 #include "domain.h"
 
 namespace configurator {
-
+/*!
+    @brief Класс который формирует строку конфигурации.
+*/
 class ConfigBuilder {
 public:
   ConfigBuilder() = default;
@@ -18,7 +24,14 @@ public:
   std::string Dump() const;
 
 private:
-// FuncObj функциональный объект который принимает Container::value_type value
+  /*!
+@brief Создает из контейнера обектов стоку в соответтвии с функцией(FuncObj) создателем строк.
+@param FuncObj функциональный объект который принимает Container::value_type value.
+@param Container с обектами из которых нужно создвать строки.
+@return Строка с состоящая из обектов Container::value_type приобразованных в строки при помщи FuncObj.
+*/
+
+  // FuncObj функциональный объект который принимает Container::value_type value
   template<typename Container, typename FuncObj>
   static std::string CommonObjContainerStringMaker(const Container& container, FuncObj MakeString) {
       bool is_first = true;
