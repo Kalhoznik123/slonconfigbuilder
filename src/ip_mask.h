@@ -6,7 +6,7 @@
 #include <vector>
 #include <cstdint>
 #include <stdexcept>
-#include <sstream>
+#include <string_view>
 
 
 namespace network {
@@ -21,7 +21,7 @@ public:
 
 
     explicit IP_Mask(uint8_t var);;
-    explicit IP_Mask(const std::string& var);;
+    explicit IP_Mask(std::string_view var);;
 
 
     void Mask(std::uint8_t value);
@@ -63,11 +63,11 @@ private:
 
     std::size_t GetOctet(std::size_t number_of_octet) const;
     void NumValidation(std::uint8_t var);
-    void StringValidation(const std::string& var);
+    void StringValidation(std::string_view var);
 
     static  std::vector<std::uint8_t>StringsToNums(std::vector<std::string> strings);
     static  bit32 BitsFromNums(std::vector<std::uint8_t> nums);
-    static  bit32 BitsFromMask(const std::string& mask);
+    static  bit32 BitsFromMask(std::string_view mask);
 private:
     bit32 bits;
     mutable  std::optional<std::string> string_form_;

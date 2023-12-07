@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <iostream>
 #include <exception>
+#include <sstream>
 #include "ip_mask.h"
 
 
@@ -25,7 +26,7 @@ std::vector<std::string> Split(std::string_view str,std::string_view delimiter){
 }
 
 
-IP_Mask::bit32 IP_Mask::BitsFromMask(const std::string& mask){
+IP_Mask::bit32 IP_Mask::BitsFromMask(std::string_view mask){
 
     std::vector<std::string> num_from_mask = Split(mask,".");
     std::vector<std::uint8_t> nums = StringsToNums(std::move(num_from_mask));
@@ -69,7 +70,7 @@ IP_Mask::IP_Mask(uint8_t var){
     ValidationCheck(var);
 }
 
-IP_Mask::IP_Mask(const std::string &var){
+IP_Mask::IP_Mask(std::string_view var){
     ValidationCheck(var);
     string_form_ = var;
 }
@@ -141,7 +142,7 @@ std::size_t IP_Mask::GetOctet(std::size_t number_of_octet) const {
         value = num & 0x000000ffUL;
         break;
     default:
-        throw std::out_of_range("cout out of range");
+        throw std::out_of_range("count out of range");
     }
     return value;
 }
@@ -155,7 +156,7 @@ void IP_Mask::NumValidation(std::uint8_t var) {
     bits = 0xffffffffUL << (MAX_MASK_VALUE - var);
 }
 
-void IP_Mask::StringValidation(const std::string& var) {
+void IP_Mask::StringValidation(std::string_view var) {
     bit32 bit_res = BitsFromMask(var);
 
     const size_t one_count = bit_res.count();
