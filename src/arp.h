@@ -8,9 +8,9 @@
 
 namespace network {
 /*!
-    @brief Класс, описывающий ARP адрес .
-    @todo избавиться от метода ToString
-    Класс описывает ARP адресс который вводится коммандой ARP ADD.
+@brief Класс, описывающий ARP адрес .
+@todo избавиться от метода ToString
+Класс описывает ARP адресс который вводится коммандой ARP ADD.
 */
 class ArpAddress {
 
