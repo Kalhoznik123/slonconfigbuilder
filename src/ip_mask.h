@@ -1,5 +1,8 @@
 #pragma once
-
+/*!
+\file
+\brief Заголовочный файл описывает маску подсети.
+*/
 #include <optional>
 #include <bitset>
 #include <string>
@@ -11,8 +14,10 @@
 
 namespace network {
 
-const std::uint8_t MAX_MASK_VALUE = 32;
-
+const std::uint8_t MAX_MASK_VALUE = 32; ///< Переменная для указания максимальной длинны мыски подсети.
+/*!
+    @brief Класс описывает маску подсети
+*/
 class IP_Mask
 {
 public:
@@ -23,17 +28,46 @@ public:
     explicit IP_Mask(uint8_t var);;
     explicit IP_Mask(std::string_view var);;
 
-
+    /*!
+@brief Функция устанавливает значение маски.
+@param value - значение маски в виде числа.
+*/
     void Mask(std::uint8_t value);
-
+    /*!
+@brief Функция устанавливает значение маски.
+@param value - значение маски в виде строки.
+*/
     void Mask(const std::string& value);
-
+    /*!
+@brief Функция вычисляет значение маски подсети в виде числа.
+@return Возвращает число, как значение маски.
+*/
     std::size_t ShortRecord()const noexcept;
+    /*!
+@brief Функция вычисляет значение маски подсети в виде строки.
+@return Возвращает число, как значение строки.
+*/
     std::string FullRecord() const noexcept;
-
+    /*!
+@brief Функция сравнение на меньше.
+@return Возвращает результат стравнения.
+*/
     bool operator < (const IP_Mask& other) const;
+    /*!
+@brief Функция не равно.
+@return Возвращает результат стравнения.
+*/
     bool operator != (const IP_Mask& other) const;
+    /*!
+@brief Функция сравнение на больше.
+@return Возвращает результат стравнения.
+*/
     bool operator > (const IP_Mask& other) const;
+    /*!
+@brief Функция сравнение на равно.
+@return Возвращает результат стравнения.
+*/
+    bool operator == (const IP_Mask& other) const;
 private:
 
     using bit32 = std::bitset<32>;

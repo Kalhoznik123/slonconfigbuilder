@@ -106,9 +106,12 @@ bool IP_Mask::operator !=(const IP_Mask &other) const{
     return this->ShortRecord() != other.ShortRecord();
 }
 
-bool IP_Mask::operator >(const IP_Mask &other) const
-{
+bool IP_Mask::operator >(const IP_Mask &other) const{
     return !(*this < other);
+}
+
+bool IP_Mask::operator ==(const IP_Mask &other) const{
+    return this->ShortRecord() == other.ShortRecord();
 }
 
 std::string IP_Mask::StringFromBits() const {

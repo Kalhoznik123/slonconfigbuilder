@@ -1,4 +1,8 @@
 #pragma once
+/*!
+\file
+\brief Заголовочный файл для класса считывателя json.
+*/
 #include <functional>
 #include <iostream>
 #include <nlohmann/json.hpp>
@@ -9,7 +13,9 @@
 #include "abonent_remote.h"
 
 namespace builder{
-
+/*!
+    @brief Класс для чтения json файла.
+*/
 class FromJsonBuilder : public IBuilder {
 
 public:
@@ -17,7 +23,10 @@ public:
 
     FromJsonBuilder(std::istream& in)
         : in_(in){};
-
+    /*!
+@brief Функция для построения структуры  описывающей файл конфигурацию.
+@return Возвращает значение структуры описывающей файл конфигурацию.
+*/
     settings::Settings MakeSettings() override;
 
 private:

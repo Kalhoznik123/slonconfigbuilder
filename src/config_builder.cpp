@@ -10,7 +10,7 @@ namespace configurator {
 std::string ConfigBuilder::Dump() const {
     const std::string update_command = "UPDATE\n";
 
-    auto res = detail::join(std::string("\n"),
+    auto res = detail::Join(std::string("\n"),
                             MakeDevicenumber(),
                             MakeAbonentString(settings_.internal_abonent_),
                             MakeAbonentsString(settings_.abonents_),
@@ -26,7 +26,7 @@ std::string ConfigBuilder::Dump() const {
 }
 
 std::string ConfigBuilder::MakeDevicenumber() const {
-    const std::string res = detail::join(std::string(" "),
+    const std::string res = detail::Join(std::string(" "),
                                          std::string("DEVICENUMBER"),
                                          std::to_string(*settings_.devicenumber));
     return  res;
@@ -49,7 +49,7 @@ std::string ConfigBuilder::MakeAprString(const network::ArpAddress& arp_address)
 
 std::string ConfigBuilder::MakeInterfaceString(const InterfaceSettings& iterface_settings){
     std::string interface_type = iterface_settings.interface_type == InterfaceType::LAN ? "LAN" : "INET";
-    const auto res = detail::join(std::string(" "),std::string("IFCONFIG"),
+    const auto res = detail::Join(std::string(" "),std::string("IFCONFIG"),
                                   std::move(interface_type),
                                   std::to_string(iterface_settings.speed) + iterface_settings.mode
                                   );
@@ -66,7 +66,7 @@ std::string ConfigBuilder::MakeAbonentRemoteString(const abonent::AbonentRemote&
 
 std::string ConfigBuilder::MakeTimetoliveString() const{
     std::string time = settings_.time ? std::to_string(*settings_.time) : "80";
-    const auto res = detail::join(std::string(" "), std::string("TIMETOLIVE"), std::move(time));
+    const auto res = detail::Join(std::string(" "), std::string("TIMETOLIVE"), std::move(time));
     return  res;
 }
 

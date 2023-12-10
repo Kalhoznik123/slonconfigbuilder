@@ -71,7 +71,12 @@ private:
     std::uint8_t MakeProtocol();
 
 public:
+    /*!
+@brief Функция для построения структуры  описывающей файл конфигурацию.
+@return Возвращает значение структуры описывающей файл конфигурацию.
+*/
     settings::Settings MakeSettings() override;
+
     FromCinBuilder(std::istream& in) : in_(in){};
 };
 }

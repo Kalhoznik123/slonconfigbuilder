@@ -20,7 +20,11 @@ public:
       : settings_(settings){
 
         };
-
+  /*!
+@brief Возвращает конфигурацию.
+@param Аргументов нет.
+@return Возвращает полную строку с конфигурацией.
+*/
   std::string Dump() const;
 
 private:

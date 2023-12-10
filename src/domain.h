@@ -1,4 +1,9 @@
 #pragma once
+/*!
+\file
+\brief Заголовочный файл описывает структуру конфигурационного фалайла
+и функции для склейки строк.
+*/
 #include <optional>
 #include <vector>
 #include "abonent.h"
@@ -8,7 +13,9 @@
 
 
 namespace settings {
-
+/*!
+    @brief Структура описывающая  конфигурационный файл.
+*/
 struct Settings {
 
   abonent::Abonent internal_abonent_;
@@ -26,18 +33,18 @@ namespace detail {
 
 
 template<typename T>
-auto join(const std::string& separator, const T& first)->decltype (first){
+auto Join(const std::string& separator, const T& first)->decltype (first){
     return first;
 }
 
 
 template<typename T,typename... Tail>
-auto join(const std::string& separator,const T& first, const Tail&... tail)->decltype (first + separator ){
-    return first + separator +join(separator, tail...) ;
+auto Join(const std::string& separator,const T& first, const Tail&... tail)->decltype (first + separator ){
+    return first + separator +Join(separator, tail...) ;
 }
 
 template<typename... Args>
 decltype (auto) JoinWithSeparatorWiteSpace(const Args&... args){
-    return join(std::string(" "),args...);
+    return Join(std::string(" "),args...);
 }
 }
