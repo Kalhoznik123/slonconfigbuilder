@@ -99,7 +99,7 @@ std::vector<network::ArpAddress> FromJsonBuilder::GetArpAddresses(const json& ob
     for (const auto& [key, value] : obj.items()) {
 
         network::ArpAddress arp_address(value["number"].get<int>(),
-                value["ArpAddress"].get<std::string>());
+                value["arp_address"].get<std::string>());
 
         arp_addresses.push_back(std::move(arp_address));
     }
