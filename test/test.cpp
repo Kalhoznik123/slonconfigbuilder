@@ -70,7 +70,7 @@ TEST(FromJsonBuilderTest,ParseThrowInternal ){
                      "arp": [
                        {
                          "number": 1,
-                         "ArpAddress": "aa:bb:cc:22:33:55"
+                         "arp_address": "aa:bb:cc:22:33:55"
                        }
                      ],
                      "lan": {
@@ -104,7 +104,7 @@ TEST(FromJsonBuilderTest,ParseThrowAbonents ){
   "arp": [
     {
       "number": 1,
-      "ArpAddress": "aa:bb:cc:22:33:55"
+      "arp_address": "aa:bb:cc:22:33:55"
     }
   ],
   "lan": {
@@ -149,7 +149,7 @@ TEST(FromJsonBuilderTest,ParseThrowLan ){
   "arp": [
     {
       "number": 1,
-      "ArpAddress": "aa:bb:cc:22:33:55"
+      "arp_address": "aa:bb:cc:22:33:55"
     }
   ],
   "inet": {
@@ -225,7 +225,7 @@ TEST(FromJsonBuilderTest,ParseThrowInet ){
   "arp": [
     {
       "number": 1,
-      "ArpAddress": "aa:bb:cc:22:33:55"
+      "arp_address": "aa:bb:cc:22:33:55"
     }
   ],
   "lan": {
@@ -264,7 +264,7 @@ TEST(FromJsonBuilderTest,ParseNoThrowTime ){
   "arp": [
     {
       "number": 1,
-      "ArpAddress": "aa:bb:cc:22:33:55"
+      "arp_address": "aa:bb:cc:22:33:55"
     }
   ],
   "lan": {
