@@ -72,8 +72,6 @@ set (HEADER_FILES src/json_builder.h
 add_executable(config_costructor ${SOURCE_FILES}  ${HEADER_FILES}  )
 target_compile_options(${PROJECT_NAME} PRIVATE -std=c++17)
 
-
-
 if(Boost_FOUND)
     target_link_libraries(${PROJECT_NAME} PRIVATE Boost::program_options)
 endif()
