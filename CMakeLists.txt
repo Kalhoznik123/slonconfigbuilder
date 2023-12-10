@@ -1,10 +1,9 @@
 cmake_minimum_required(VERSION 3.16.0)
-project(config_costructor VERSION 0.1.0)
+project(config_costructor VERSION 1.1.0)
 
 set(ENABLE_TESTS ON)
 
 
-list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}")
 
 find_package(nlohmann_json 3.2.0 REQUIRED)
 find_package(Boost 1.82 COMPONENTS program_options REQUIRED)
@@ -71,16 +70,19 @@ set (HEADER_FILES src/json_builder.h
     src/abonent_remote.h)
 
 add_executable(config_costructor ${SOURCE_FILES}  ${HEADER_FILES}  )
-
-add_subdirectory(arp)
-
 target_compile_options(${PROJECT_NAME} PRIVATE -std=c++17)
+
+
 
 if(Boost_FOUND)
     target_link_libraries(${PROJECT_NAME} PRIVATE Boost::program_options)
 endif()
+if(nlohmann_json_FOUND)
+    target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
+endif()
 
+add_subdirectory(arp)
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/arp)
 target_link_libraries(${PROJECT_NAME} PRIVATE arp)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
+
