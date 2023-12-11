@@ -37,7 +37,7 @@ public:
 @brief Функция устанавливает значение маски.
 @param value - значение маски в виде строки.
 */
-    void Mask(const std::string& value);
+    void Mask(std::string_view value);
     /*!
 @brief Функция вычисляет значение маски подсети в виде числа.
 @return Возвращает число, как значение маски.
@@ -70,7 +70,7 @@ public:
     bool operator == (const IP_Mask& other) const;
 private:
 
-    using bit32 = std::bitset<32>;
+    using bit32_t = std::bitset<32>;
 
     template <typename BitContainer>
     size_t countl_one(BitContainer value){
@@ -84,8 +84,8 @@ private:
         return res;
     }
 
-    template <typename T>
-    void ValidationCheck(const T& var){
+    template <typename T> //передается по значению потому что используется только для string_view и uint8_t
+    void ValidationCheck(T var){
         if constexpr(std::is_same_v<T,std::uint8_t>){
             NumValidation(var);
         }else{
@@ -100,10 +100,10 @@ private:
     void StringValidation(std::string_view var);
 
     static  std::vector<std::uint8_t>StringsToNums(std::vector<std::string> strings);
-    static  bit32 BitsFromNums(std::vector<std::uint8_t> nums);
-    static  bit32 BitsFromMask(std::string_view mask);
+    static  bit32_t BitsFromNums(std::vector<std::uint8_t> nums);
+    static  bit32_t BitsFromMask(std::string_view mask);
 private:
-    bit32 bits;
+    bit32_t bits;
     mutable  std::optional<std::string> string_form_;
 };
 

@@ -11,7 +11,6 @@
 #include "interface_settings.h"
 #include "abonent_remote.h"
 
-
 namespace settings {
 /*!
     @brief Структура описывающая  конфигурационный файл.

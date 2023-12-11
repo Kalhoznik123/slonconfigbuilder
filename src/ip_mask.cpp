@@ -26,25 +26,25 @@ std::vector<std::string> Split(std::string_view str,std::string_view delimiter){
 }
 
 
-IP_Mask::bit32 IP_Mask::BitsFromMask(std::string_view mask){
+IP_Mask::bit32_t IP_Mask::BitsFromMask(std::string_view mask){
 
     std::vector<std::string> num_from_mask = Split(mask,".");
     std::vector<std::uint8_t> nums = StringsToNums(std::move(num_from_mask));
 
-    bit32 bit_res = BitsFromNums(std::move(nums));
+    bit32_t bit_res = BitsFromNums(std::move(nums));
 
     return bit_res;
 
 }
 
-IP_Mask::bit32 IP_Mask::BitsFromNums(std::vector<uint8_t> nums){
-    bit32 res;
+IP_Mask::bit32_t IP_Mask::BitsFromNums(std::vector<uint8_t> nums){
+    bit32_t res;
 
     std::uint8_t shift = 24;
 
     for(std::uint8_t num: nums){
 
-        res |= bit32(num) << shift;
+        res |= bit32_t(num) << shift;
         if(shift!= 0){
             shift-=8;
         }
@@ -80,9 +80,9 @@ void IP_Mask::Mask(uint8_t value){
     string_form_.reset();
 }
 
-void IP_Mask::Mask(const std::string &value){
+void IP_Mask::Mask(std::string_view value){
     ValidationCheck(value);
-    string_form_ = value;
+    string_form_ = std::string(value);
 }
 
 std::size_t IP_Mask::ShortRecord() const noexcept{
@@ -160,7 +160,7 @@ void IP_Mask::NumValidation(std::uint8_t var) {
 }
 
 void IP_Mask::StringValidation(std::string_view var) {
-    bit32 bit_res = BitsFromMask(var);
+    bit32_t bit_res = BitsFromMask(var);
 
     const size_t one_count = bit_res.count();
 

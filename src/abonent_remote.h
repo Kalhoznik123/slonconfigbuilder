@@ -7,6 +7,7 @@
 #include <optional>
 #include <string>
 #include <variant>
+#include <string_view>
 #include "ip_mask.h"
 #include "abonent.h"
 
@@ -19,9 +20,9 @@ namespace abonent{
 class AbonentRemote : public Abonent
 {
 public:
-    AbonentRemote(const std::string& address,
+    AbonentRemote(std::string_view address,
                   const network::IP_Mask& mask, std::uint8_t number):
-        Abonent(address,mask),number_(number) {};
+        Abonent(std::string(address),mask),number_(number) {};
     /*!
   @brief Возвращает значение порядквого номера абонента
   @param Аргументов нет.

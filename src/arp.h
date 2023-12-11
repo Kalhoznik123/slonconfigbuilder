@@ -4,6 +4,7 @@
 \brief Заголовочный файл с описывающий ARP адрес.
 */
 #include <string>
+#include <string_view>
 #include "ARP.h"
 
 namespace network {
@@ -16,7 +17,7 @@ class ArpAddress {
 
 public:
 
-    ArpAddress(std::uint8_t number, const std::string& arp_address)
+    ArpAddress(std::uint8_t number, std::string_view arp_address)
         : number_(number), arp_address_(network::ARP(arp_address)) {}
     /*!
 @brief Возвращает значение ARP адресса.

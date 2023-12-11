@@ -5,11 +5,11 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include "ARP.h"
-#include "../src/ip_mask.h"
-#include "../src/abonent.h"
-#include "../src/interface_settings.h"
-#include "../src/abonent_remote.h"
-#include "../src/json_builder.h"
+#include "ip_mask.h"
+#include "abonent.h"
+#include "interface_settings.h"
+#include "abonent_remote.h"
+#include "json_builder.h"
 
 class AbonentTest : public ::testing::Test
 {

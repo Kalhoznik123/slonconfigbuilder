@@ -7,6 +7,7 @@
 #include <optional>
 #include <string>
 #include <variant>
+#include <string_view>
 #include "ip_mask.h"
 
 namespace abonent{
@@ -20,9 +21,9 @@ class Abonent  {
 public:
     Abonent() = default;
 
-    Abonent(const std::string& address,
+    Abonent(std::string_view address,
             const network::IP_Mask& mask )
-        : address_(address), mask_(mask){}
+        : address_(std::string(address)), mask_(mask){}
 
     /*!
   @brief Возвращает значение IP адресса.

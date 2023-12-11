@@ -11,17 +11,17 @@ namespace network {
 сверху обявлены форматы записи мак адресов
 
 */
-ARP::ARP(const std::string& mask) {
+ARP::ARP(std::string_view mask) {
 
   if (IsValid(mask)) {
-    address_ = Parse(mask);
+    address_ = Parse(std::string(mask));
 
   } else {
     throw std::invalid_argument("invalid ip mask");
   }
 }
 
-bool ARP::IsValid(const std::string& mask) const {
+bool ARP::IsValid(std::string_view mask) const {
 
   const std::regex pattern("^([0-9A-Fa-f]{2}[:-]){5}"
                            "([0-9A-Fa-f]{2})|([0-9a-"
@@ -30,15 +30,16 @@ bool ARP::IsValid(const std::string& mask) const {
 
   // Return true if the MAC address
   // matched the ReGex
-  return std::regex_match(mask, pattern);
+  return std::regex_match(std::string(mask), pattern);
 }
 
 const std::string& ARP::Address() const { return address_; }
 
-std::string ARP::Parse(const std::string& mask) const {
+std::string ARP::Parse(std::string mask) const {
 
   const std::regex re(DELIMITERS);
-  std::sregex_token_iterator first{std::begin(mask), std::end(mask), re, -1},
+
+  std::sregex_token_iterator first{mask.cbegin(), mask.cend(), re, -1},
       last; // the '-1' is what makes the regex split (-1 := what was not
             // matched)
   std::vector<std::string> tokens{first, last};

@@ -5,8 +5,8 @@
 */
 #include <functional>
 #include <iostream>
-#include <nlohmann/json.hpp>
 #include <vector>
+#include <nlohmann/json.hpp>
 #include "IBuilder.h"
 #include "config_builder.h"
 #include "domain.h"
@@ -37,6 +37,5 @@ private:
     static abonent::Abonent GetInternalAbonent(const json& obj);
     json document_;
     std::istream& in_;
-
 };
 }
