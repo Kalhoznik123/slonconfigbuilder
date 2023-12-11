@@ -14,17 +14,7 @@ file(GLOB TEST-SOURCES ${TEST-SOURCES-PATTERN})
 
 add_executable(config_gtest "")
 target_sources(config_gtest PRIVATE  test.cpp ${TEST-SOURCES})
-#add_executable(config_gtest test.cpp
-#    ${PROJECT_SOURCE_DIR}/src/json_builder.cpp
-#   ${PROJECT_SOURCE_DIR}/src/abonent.cpp
-#  ${PROJECT_SOURCE_DIR}/src/arp.cpp
-# ${PROJECT_SOURCE_DIR}/src/config_builder.cpp
-#    ${PROJECT_SOURCE_DIR}/src/interface_settings.cpp
-#   ${PROJECT_SOURCE_DIR}/src/domain.cpp
-#  ${PROJECT_SOURCE_DIR}/src/cin_builder.cpp
-# ${PROJECT_SOURCE_DIR}/src/ip_mask.cpp
-#    ${PROJECT_SOURCE_DIR}/src/abonent_remote.cpp
-#   )
+
 target_compile_options(config_gtest PRIVATE -std=c++17)
 target_include_directories(config_gtest PRIVATE ${PROJECT_SOURCE_DIR}/src ${PROJECT_SOURCE_DIR}/arp)
 
