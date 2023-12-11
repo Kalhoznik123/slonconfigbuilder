@@ -4,10 +4,10 @@
 #include <string>
 #include <type_traits>
 #include <boost/program_options.hpp>
-#include "IBuilder.h"
-#include "cin_builder.h"
-#include "config_builder.h"
-#include "json_builder.h"
+#include "src/IBuilder.h"
+#include "src/cin_builder.h"
+#include "src/config_builder.h"
+#include "src/json_builder.h"
 
 namespace prog_opt = boost::program_options;
 
