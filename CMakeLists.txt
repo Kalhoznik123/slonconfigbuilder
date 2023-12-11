@@ -1,51 +1,19 @@
-cmake_minimum_required(VERSION 3.16.0)
+cmake_minimum_required(VERSION 3.4...3.14)
 project(config_costructor VERSION 1.1.0)
 
 set(ENABLE_TESTS ON)
-
-
+set(THREADS_PREFER_PTHREAD_FLAG ON)
 
 find_package(nlohmann_json 3.2.0 REQUIRED)
 find_package(Boost 1.82 COMPONENTS program_options REQUIRED)
+find_package(Threads REQUIRED)
 
 if(ENABLE_TESTS)
-    find_package(GTest)
-
-    add_executable(test_gtest test/test.cpp
-        src/json_builder.cpp
-        src/abonent.cpp
-        src/arp.cpp
-        src/config_builder.cpp
-        src/interface_settings.cpp
-        src/domain.cpp
-        src/cin_builder.cpp
-        src/ip_mask.cpp
-        src/json_builder.h
-        src/abonent.h
-        src/arp.h
-        src/config_builder.h
-        src/interface_settings.h
-        src/domain.h
-        src/IBuilder.h
-        src/cin_builder.h
-        src/ip_mask.h
-        src/abonent_remote.cpp
-        src/abonent_remote.h
-        )
-
-
-    target_compile_options(test_gtest PRIVATE -std=c++17)
-
-    target_include_directories(test_gtest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/arp)
-
-    target_link_libraries(test_gtest PRIVATE arp gtest gtest_main)
-    target_link_libraries(test_gtest PRIVATE nlohmann_json::nlohmann_json)
-    target_link_libraries(test_gtest PRIVATE ${GTEST_BOTH_LIBRARISE})
-
+    add_subdirectory(test)
 endif()
 
 
-set(SOURCE_FILES  src/main.cpp
+set(SOURCE_FILES  main.cpp
     src/json_builder.cpp
     src/abonent.cpp
     src/arp.cpp
@@ -69,17 +37,19 @@ set (HEADER_FILES src/json_builder.h
     src/ip_mask.h
     src/abonent_remote.h)
 
-add_executable(config_costructor ${SOURCE_FILES}  ${HEADER_FILES}  )
+add_executable(config_costructor ${SOURCE_FILES}  ${HEADER_FILES} )
 target_compile_options(${PROJECT_NAME} PRIVATE -std=c++17)
 
 if(Boost_FOUND)
     target_link_libraries(${PROJECT_NAME} PRIVATE Boost::program_options)
 endif()
+
 if(nlohmann_json_FOUND)
     target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
 endif()
 
 add_subdirectory(arp)
+
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/arp)
 target_link_libraries(${PROJECT_NAME} PRIVATE arp)
 
