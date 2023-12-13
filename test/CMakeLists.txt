@@ -4,6 +4,7 @@ find_package(GTest)
 find_package(nlohmann_json 3.2.0 REQUIRED)
 find_package(Boost 1.82 COMPONENTS program_options REQUIRED)
 
+set(THREADS_PREFER_PTHREAD_FLAG ON)
 set(TEST-SOURCES-PATTERN "${PROJECT_SOURCE_DIR}/src/*.cpp")
 
 if (CMAKE_VERSION VERSION_GREATER 3.11)
