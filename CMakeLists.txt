@@ -22,6 +22,7 @@ set(SOURCE_FILES  main.cpp
     src/cin_builder.cpp
     src/ip_mask.cpp
     src/abonent_remote.cpp
+    src/yaml_builder.cpp
     )
 
 
@@ -34,7 +35,9 @@ set (HEADER_FILES src/json_builder.h
     src/IBuilder.h
     src/cin_builder.h
     src/ip_mask.h
-    src/abonent_remote.h)
+    src/abonent_remote.h
+    src/yaml_builder.h
+    )
 
 add_executable(config_costructor ${SOURCE_FILES}  ${HEADER_FILES} )
 target_compile_options(${PROJECT_NAME} PRIVATE -std=c++17)
