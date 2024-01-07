@@ -4,7 +4,9 @@
 #include <string>
 #include <type_traits>
 #include <boost/program_options.hpp>
+#include <boost/algorithm/string.hpp>
 #include "src/IBuilder.h"
+#include "src/yaml_builder.h"
 #include "src/cin_builder.h"
 #include "src/config_builder.h"
 #include "src/json_builder.h"
@@ -43,10 +45,18 @@ prog_opt::variables_map MakeAndFillVMap(const prog_opt::options_description& des
 }
 
 
-template<typename Builder, typename = std::enable_if<std::is_base_of_v<IBuilder,Builder >>>
+template<typename Builder, typename = std::enable_if<std::is_constructible_v<Builder, std::istream>>>
 settings::Settings MakeSettings(std::istream& in){
 
     std::unique_ptr<IBuilder> builder = std::make_unique<Builder>(in);
+    settings::Settings  settings = builder->MakeSettings();
+
+    return settings;
+}
+template<typename Builder, typename = std::enable_if<std::is_constructible_v<Builder, std::string>>>
+settings::Settings MakeSettings(std::string_view file_name){
+
+    std::unique_ptr<IBuilder> builder = std::make_unique<Builder>(std::string(file_name));
     settings::Settings  settings = builder->MakeSettings();
 
     return settings;
@@ -71,8 +81,14 @@ int main(int argc, char** argv) {
         exit(0);
     }
     if (const auto it = vm.find("input-file"); it != vm.end()) {
-        std::ifstream in_file(it->second.as<std::string>(), std::ios::in);
-        settings = MakeSettings<builder::FromJsonBuilder>(in_file);
+        const std::string in_file_name = it->second.as<std::string>();
+        if(boost::ends_with(in_file_name,"json")){
+            std::ifstream in_file(in_file_name, std::ios::in);
+            settings = MakeSettings<builder::FromJsonBuilder>(in_file);
+        }else{
+            settings = MakeSettings<builder::FromYamlBuilder>(in_file_name);
+        }
+
     } else if (const auto it = vm.find("interactive"); it != vm.end()) {
         settings = MakeSettings<builder::FromCinBuilder>(std::cin);;
     }else{
@@ -86,5 +102,5 @@ int main(int argc, char** argv) {
         std::cout << configuration << '\n';
 
     std::ofstream file(ConfigFileName(vm), std::ios::out);
-    file << config_builder.Dump() << std::endl;
+    file << configuration << std::endl;
 }

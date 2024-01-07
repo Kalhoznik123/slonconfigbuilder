@@ -10,9 +10,7 @@
 class IBuilder {
 
 public:
-  virtual ~IBuilder(){
-
-  };
+  virtual ~IBuilder(){ };
 
   virtual settings::Settings MakeSettings() = 0;
 };

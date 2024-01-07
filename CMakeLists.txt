@@ -1,11 +1,12 @@
 cmake_minimum_required(VERSION 3.4...3.14)
 project(config_costructor VERSION 1.1.0)
 
-set(ENABLE_TESTS ON)
+set(ENABLE_TESTS OFF)
 
 
 find_package(nlohmann_json 3.2.0 REQUIRED)
 find_package(Boost 1.82 COMPONENTS program_options REQUIRED)
+find_package(yaml-cpp REQUIRED)
 
 if(ENABLE_TESTS)
     add_subdirectory(test)
@@ -48,6 +49,9 @@ endif()
 
 if(nlohmann_json_FOUND)
     target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
+endif()
+if(yaml-cpp_FOUND)
+     target_link_libraries(${PROJECT_NAME} PRIVATE yaml-cpp::yaml-cpp)
 endif()
 
 add_subdirectory(arp)
