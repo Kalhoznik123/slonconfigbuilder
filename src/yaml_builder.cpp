@@ -55,7 +55,8 @@ settings::Settings FromYamlBuilder::MakeSettings()
 void FromYamlBuilder::Parse()
 {
     try{
-        document_ = YAML::LoadFile(filename_);
+      document_ = YAML::Load(in_);
+
     }  catch (std::exception& e) {
         using namespace std::string_literals;
 

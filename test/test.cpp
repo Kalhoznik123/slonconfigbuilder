@@ -10,6 +10,7 @@
 #include "interface_settings.h"
 #include "abonent_remote.h"
 #include "json_builder.h"
+#include "yaml_builder.h"
 
 class AbonentTest : public ::testing::Test
 {
@@ -285,6 +286,44 @@ TEST(FromJsonBuilderTest,ParseNoThrowTime ){
     //assert
     ASSERT_NO_THROW(bdr.MakeSettings());
 }
+
+TEST(FromYamlBuilderTest,ParseNoThrowTime){
+    //arrange
+    std::istringstream str(R"(
+protocol: 53
+time: 80
+devicenumber: 1
+inet:
+    speed: 100
+    mode: FD
+    type: INET
+lan:
+    speed: 100
+    mode: FD
+    type: LAN
+arp:
+  - number: 1
+    arp_address: 'aa:bb:cc:22:33:55'
+  - number: 2
+    arp_address: 'aa:cc:cc:ff:33:55'
+abonents:
+  - number: 1
+    address: '192.168.133.128'
+    mask: 24
+  - number: 2
+    address: '192.168.133.245'
+    mask: 25
+internal:
+    address : '192.168.132.128'
+    mask : '255.255.255.0'
+)");
+    builder::FromYamlBuilder bdr(str);
+    //act
+    //assert
+    ASSERT_NO_THROW(bdr.MakeSettings());
+}
+
+
 
 
 TEST_F(AbonentTest,arp_address){

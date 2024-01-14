@@ -15,7 +15,7 @@ namespace builder {
 class FromYamlBuilder : public IBuilder
 {
 public:
-    FromYamlBuilder(const std::string& filename): filename_(filename){};
+    explicit FromYamlBuilder(std::istream& in): in_(in){};
 
     settings::Settings MakeSettings() override;
 
@@ -28,8 +28,8 @@ private:
     std::vector<abonent::AbonentRemote> GetAbonents(const YAML::Node& obj);
     std::vector<network::ArpAddress> GetArpAddresses(const YAML::Node& obj);
 
-    const std::string& filename_;
     YAML::Node document_;
+    std::istream& in_;
 };
 
 }

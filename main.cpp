@@ -68,31 +68,45 @@ int main(int argc, char** argv) {
 
     // TODO: посмотреть какие методы классов можно сделать noexept
     // TODO: добавить работу с разными стандартами(компиляторов)
+    // TODO: изменить сигнатуру сеттингса на optionals т.к некоторых пунктов может и не быть
+    // TODO: изменить yaml_builer для работы с потоком
+    // TODO: изменить конфиг билдер под новые settings
 
     boost::program_options::options_description opt_desc = MakeOptionDescription();
 
     const auto vm = MakeAndFillVMap(opt_desc ,argc,argv);
-    std::unique_ptr<IBuilder> builder;
-
-    settings::Settings settings;
 
     if (const auto it = vm.find("help"); it != vm.end()) {
         std::cout << opt_desc << std::endl;
         exit(0);
     }
+
+    std::unique_ptr<IBuilder> builder;
+    settings::Settings settings;
+
     if (const auto it = vm.find("input-file"); it != vm.end()) {
         const std::string in_file_name = it->second.as<std::string>();
+
+        std::ifstream in_file(in_file_name, std::ios::in);
+
         if(boost::ends_with(in_file_name,"json")){
-            std::ifstream in_file(in_file_name, std::ios::in);
             settings = MakeSettings<builder::FromJsonBuilder>(in_file);
         }else{
-            settings = MakeSettings<builder::FromYamlBuilder>(in_file_name);
+            settings = MakeSettings<builder::FromYamlBuilder>(in_file);
         }
 
-    } else if (const auto it = vm.find("interactive"); it != vm.end()) {
+    }else if (const auto it = vm.find("interactive"); it != vm.end()) {
         settings = MakeSettings<builder::FromCinBuilder>(std::cin);;
     }else{
-        settings = MakeSettings<builder::FromJsonBuilder>(std::cin);
+        char marker;
+        std::cin >> marker;
+        if(marker == '{'){
+            std::cin.putback(marker);
+            settings = MakeSettings<builder::FromJsonBuilder>(std::cin);
+        }else{
+            std::cin.putback(marker);
+            settings = MakeSettings<builder::FromYamlBuilder>(std::cin);
+        }
     }
 
     const configurator::ConfigBuilder config_builder(settings);
