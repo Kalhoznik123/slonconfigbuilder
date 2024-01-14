@@ -34,21 +34,23 @@ int main(int argc, char** argv) {
     std::unique_ptr<IBuilder> builder;
     settings::Settings settings;
 
-    if (const auto it = vm.find("input-file"); it != vm.end()) {
+    settings = detail::ProsesingInputOptions(vm);
 
-        const std::string in_file_name = it->second.as<std::string>();
-        settings = detail::GetSettingsFromFile(in_file_name);
+//    if (const auto it = vm.find("input-file"); it != vm.end()) {
 
-    }else if (const auto it = vm.find("interactive"); it != vm.end()) {
-        settings = detail::MakeSettings<builder::FromCinBuilder>(std::cin);;
-    }else{
-        const char marker = detail::GetCharFromStream();
-        if(marker == '{'){
-            settings = detail::MakeSettings<builder::FromJsonBuilder>(std::cin);
-        }else{
-            settings = detail::MakeSettings<builder::FromYamlBuilder>(std::cin);
-        }
-    }
+//        const std::string in_file_name = it->second.as<std::string>();
+//        settings = detail::GetSettingsFromFile(in_file_name);
+
+//    }else if (const auto it = vm.find("interactive"); it != vm.end()) {
+//        settings = detail::MakeSettings<builder::FromCinBuilder>(std::cin);;
+//    }else{
+//        const char marker = detail::GetCharFromStream();
+//        if(marker == '{'){
+//            settings = detail::MakeSettings<builder::FromJsonBuilder>(std::cin);
+//        }else{
+//            settings = detail::MakeSettings<builder::FromYamlBuilder>(std::cin);
+//        }
+//    }
 
     const configurator::ConfigBuilder config_builder(settings);
     const std::string configuration = config_builder.Dump();

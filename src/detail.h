@@ -81,6 +81,27 @@ inline char GetCharFromStream(){
     return result;
 }
 
+settings::Settings ProsesingInputOptions(const prog_opt::variables_map& map){
+
+    settings::Settings result;
+
+    if (const auto it = map.find("input-file"); it != map.end()) {
+
+        const std::string in_file_name = it->second.as<std::string>();
+        result = GetSettingsFromFile(in_file_name);
+
+    }else if (const auto it = map.find("interactive"); it != map.end()) {
+        result = MakeSettings<builder::FromCinBuilder>(std::cin);;
+    }else{
+        const char marker = detail::GetCharFromStream();
+        if(marker == '{'){
+            result = MakeSettings<builder::FromJsonBuilder>(std::cin);
+        }else{
+            result = MakeSettings<builder::FromYamlBuilder>(std::cin);
+        }
+    }
+    return result;
+}
 
 }
 
