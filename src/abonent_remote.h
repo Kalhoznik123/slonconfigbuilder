@@ -28,7 +28,7 @@ public:
   @param Аргументов нет.
   @return Возвращает порядковый номер абонента.
   */
- std::uint8_t Number()const noexcept;
+ std::uint8_t Number() const noexcept;
 
 private:
     std::uint8_t number_{0};

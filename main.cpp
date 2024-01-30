@@ -10,7 +10,7 @@
 #include "src/cin_builder.h"
 #include "src/config_builder.h"
 #include "src/json_builder.h"
-#include"src/detail.h"
+#include "src/detail.h"
 namespace prog_opt = boost::program_options;
 
 
@@ -35,22 +35,6 @@ int main(int argc, char** argv) {
     settings::Settings settings;
 
     settings = detail::ProsesingInputOptions(vm);
-
-//    if (const auto it = vm.find("input-file"); it != vm.end()) {
-
-//        const std::string in_file_name = it->second.as<std::string>();
-//        settings = detail::GetSettingsFromFile(in_file_name);
-
-//    }else if (const auto it = vm.find("interactive"); it != vm.end()) {
-//        settings = detail::MakeSettings<builder::FromCinBuilder>(std::cin);;
-//    }else{
-//        const char marker = detail::GetCharFromStream();
-//        if(marker == '{'){
-//            settings = detail::MakeSettings<builder::FromJsonBuilder>(std::cin);
-//        }else{
-//            settings = detail::MakeSettings<builder::FromYamlBuilder>(std::cin);
-//        }
-//    }
 
     const configurator::ConfigBuilder config_builder(settings);
     const std::string configuration = config_builder.Dump();

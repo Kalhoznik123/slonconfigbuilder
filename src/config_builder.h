@@ -41,7 +41,7 @@ private:
       bool is_first = true;
       std::string res;
 
-      for (const auto& abonent : container) {
+      for (const auto& abonent : *container) {
 
           if (is_first) {
               res.append(MakeString(abonent));
@@ -54,15 +54,15 @@ private:
   }
 
 
-  static std::string MakeAbonentString(const abonent::Abonent& abonent);
-  static std::string MakeAprString(const network::ArpAddress& arp_address);
-  static std::string MakeInterfaceString(const InterfaceSettings& settings);
-  static std::string MakeAbonentRemoteString(const abonent::AbonentRemote& abonent);
-  static std::string MakeAbonentsString(const std::vector<abonent::AbonentRemote>& abonents) ;
+  static std::string MakeAbonentString(const std::optional<abonent::Abonent>& abonent);
+  static std::string MakeAbonentsString(const std::optional<std::vector<abonent::AbonentRemote>>& abonents) ;
+  std::string MakeArpAddressesString(const std::optional<std::vector<network::ArpAddress>>& arp_adresses) const;
+  static std::string MakeAprString(const std::optional<network::ArpAddress>& arp_address);
+  static std::string MakeInterfaceString(const std::optional<InterfaceSettings>& interface_settings);
+  static std::string MakeAbonentRemoteString(const std::optional<abonent::AbonentRemote>& abonent);
   std::string MakeDevicenumber() const;
   std::string MakeTimetoliveString() const;
   std::string MakeProtocolString() const;
-  std::string MakeArpAddressesString(const std::vector<network::ArpAddress>& arp_adresses) const;
 
 private:
   settings::Settings settings_;
