@@ -39,7 +39,11 @@ auto Join(const std::string& separator, const T& first)->decltype (first){
 
 template<typename T,typename... Tail>
 auto Join(const std::string& separator,const T& first, const Tail&... tail)->decltype (first + separator ){
-    return first + separator +Join(separator, tail...) ;
+    if (first.empty()){
+        return Join(separator, tail...);
+    }
+
+    return first + separator +Join(separator, tail...);
 }
 
 template<typename... Args>
