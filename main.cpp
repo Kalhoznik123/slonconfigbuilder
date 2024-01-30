@@ -19,8 +19,6 @@ int main(int argc, char** argv) {
 
 
     // TODO: добавить работу с разными стандартами(компиляторов)
-    // TODO: изменить сигнатуру сеттингса на optionals т.к некоторых пунктов может и не быть
-    // TODO: изменить конфиг билдер под новые settings
 
     boost::program_options::options_description opt_desc = detail::MakeOptionDescription();
 
