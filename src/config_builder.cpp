@@ -8,6 +8,7 @@
 namespace configurator {
 
 std::string ConfigBuilder::Dump() const {
+
     const std::string update_command = "UPDATE\n";
 
     auto res = detail::Join(std::string("\n"),
@@ -21,6 +22,7 @@ std::string ConfigBuilder::Dump() const {
                             MakeProtocolString(),
                             update_command
                             );
+
 
     return res;
 }
@@ -36,6 +38,7 @@ std::string ConfigBuilder::MakeDevicenumber() const {
 
     return  res;
 }
+
 std::string ConfigBuilder::MakeAbonentString(const std::optional<abonent::Abonent>& abonent) {
 
     std::string res;

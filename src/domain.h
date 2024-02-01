@@ -43,7 +43,7 @@ auto Join(const std::string& separator,const T& first, const Tail&... tail)->dec
         return Join(separator, tail...);
     }
 
-    return first + separator +Join(separator, tail...);
+    return first + separator + Join(separator, tail...);
 }
 
 template<typename... Args>

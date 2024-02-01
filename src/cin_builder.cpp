@@ -33,32 +33,60 @@ settings::Settings FromCinBuilder::MakeSettings() {
     return settings;
 }
 
-abonent::Abonent FromCinBuilder::MakeInternalAbonent() {
+std::optional<abonent::Abonent> FromCinBuilder::MakeInternalAbonent() {
+
     std::string ip_addres;
     int mask{0};
     in_ >> ip_addres >> mask;
+
+    if(ip_addres == "0" || mask == 0){
+        return std::nullopt;
+    }
+
     network::IP_Mask ip_mask(static_cast<std::uint8_t>(mask));
     abonent::Abonent abonent(ip_addres, ip_mask);
     return abonent;
 }
 
-InterfaceSettings FromCinBuilder::MakeLanSettings() {
+std::optional<InterfaceSettings> FromCinBuilder::MakeLanSettings() {
+
     int speed{0};
     std::string mode;
     in_ >> speed >> mode;
-    return {speed, mode, InterfaceType::LAN};
+
+    if(mode == "0" || speed == 0){
+        return std::nullopt;
+    }
+
+    InterfaceSettings settings = {speed, mode, InterfaceType::LAN};
+    std::optional<InterfaceSettings> result = std::move(settings);
+    return result;
 }
 
-InterfaceSettings FromCinBuilder::MakeInetSettings() {
+std::optional<InterfaceSettings> FromCinBuilder::MakeInetSettings() {
+
     int speed{0};
     std::string mode;
     in_ >> speed >> mode;
-    return {speed, mode, InterfaceType::INET};
+
+    if(mode == "0" || speed == 0){
+        return std::nullopt;
+    }
+
+    InterfaceSettings settings = {speed, mode, InterfaceType::INET};
+    std::optional<InterfaceSettings> result = std::move(settings);
+    return result;
 }
 
-std::vector<abonent::AbonentRemote> FromCinBuilder::MakeRemoteAbonents() {
+std::optional<std::vector<abonent::AbonentRemote>> FromCinBuilder::MakeRemoteAbonents() {
+
     size_t count{0};
     in_ >> count;
+
+    if(count == 0){
+        return std::nullopt;
+    }
+
     std::vector<abonent::AbonentRemote> abonents;
     abonents.reserve(count);
 
@@ -73,10 +101,15 @@ std::vector<abonent::AbonentRemote> FromCinBuilder::MakeRemoteAbonents() {
     return abonents;
 }
 
-std::vector<network::ArpAddress> FromCinBuilder::MakeArpAddresses() {
+std::optional<std::vector<network::ArpAddress>> FromCinBuilder::MakeArpAddresses() {
 
     size_t count{0};
     in_ >> count;
+
+    if(count == 0){
+        return std::nullopt;
+    }
+
     std::vector<network::ArpAddress> arp_addresses;
     arp_addresses.reserve(count);
 
@@ -90,21 +123,36 @@ std::vector<network::ArpAddress> FromCinBuilder::MakeArpAddresses() {
     return arp_addresses;
 }
 
-std::uint8_t FromCinBuilder::MakeTime() {
+std::optional<std::uint8_t> FromCinBuilder::MakeTime() {
     int time{0};
     in_ >> time;
+
+    if(time == 0){
+        return std::nullopt;
+    }
+
     return static_cast<std::uint8_t>(time);
 }
 
-int FromCinBuilder::MakeDevicenumber() {
+std::optional<int> FromCinBuilder::MakeDevicenumber() {
     int device_number{0};
     in_ >> device_number;
+
+    if(device_number == 0){
+        return std::nullopt;
+    }
+
     return device_number;
 }
 
-std::uint8_t FromCinBuilder::MakeProtocol() {
+std::optional<std::uint8_t> FromCinBuilder::MakeProtocol() {
     int protocol{0};
     in_ >> protocol;
+
+    if(protocol == 0){
+        return std::nullopt;
+    }
+
     return static_cast<std::uint8_t>(protocol);
 }
 }

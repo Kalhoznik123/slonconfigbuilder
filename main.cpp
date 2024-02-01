@@ -11,6 +11,7 @@
 #include "src/config_builder.h"
 #include "src/json_builder.h"
 #include "src/detail.h"
+
 namespace prog_opt = boost::program_options;
 
 
@@ -41,5 +42,5 @@ int main(int argc, char** argv) {
         std::cout << configuration << '\n';
 
     std::ofstream file(detail::ConfigFileName(vm), std::ios::out);
-    file << configuration << std::endl;
+    file << configuration;
 }

@@ -5,6 +5,7 @@
 */
 #include <iostream>
 #include <vector>
+#include <optional>
 #include "ARP.h"
 #include "IBuilder.h"
 #include "abonent.h"
@@ -26,49 +27,49 @@ private:
 @param Аргументов нет.
 @return Возвращает класс описывающий внутреннего абонента.
 */
-    abonent::Abonent MakeInternalAbonent();
+    std::optional<abonent::Abonent> MakeInternalAbonent();
     /*!
 @brief Возвращает значение описывающие внутренний интерфейс.
 @param Аргументов нет.
 @return Возвращает класс описывающий внутренний интерфейс.
 */
-    InterfaceSettings MakeLanSettings();
+    std::optional<InterfaceSettings> MakeLanSettings();
     /*!
 @brief Возвращает значение описывающие внешнего интерфейса.
 @param Аргументов нет.
 @return Возвращает класс описывающий внешний интерфейс.
 */
-    InterfaceSettings MakeInetSettings();
+    std::optional<InterfaceSettings> MakeInetSettings();
     /*!
 @brief Возвращает вектор с удаленными абонентами.
 @param Аргументов нет.
 @return Возвращает вектор AbonentRemote.
 */
-    std::vector<abonent::AbonentRemote> MakeRemoteAbonents();
+    std::optional<std::vector<abonent::AbonentRemote>> MakeRemoteAbonents();
     /*!
 @brief Возвращает вектор ARP адрессов.
 @param Аргументов нет.
 @return Возвращает вектор ArpAddress.
 */
-    std::vector<network::ArpAddress> MakeArpAddresses();
+    std::optional<std::vector<network::ArpAddress>> MakeArpAddresses();
     /*!
 @brief Возвращает значение времени.
 @param Аргументов нет.
 @return Возвращает значение времени в ввиде std::uint8_t.
 */
-    std::uint8_t MakeTime();
+    std::optional<std::uint8_t> MakeTime();
     /*!
 @brief Возвращает значенеи Devicenumber.
 @param Аргументов нет.
 @return Возвращает значенеи Devicenumber в виде int.
 */
-    int MakeDevicenumber();
+    std::optional<int> MakeDevicenumber();
     /*!
 @brief Возвращает значение protocol.
 @param Аргументов нет.
 @return Возвращает значение protocol в виде std::uint8_t.
 */
-    std::uint8_t MakeProtocol();
+    std::optional<std::uint8_t> MakeProtocol();
 
 public:
     /*!
