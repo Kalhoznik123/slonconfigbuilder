@@ -11,6 +11,7 @@
 #include "abonent_remote.h"
 #include "json_builder.h"
 #include "yaml_builder.h"
+#include "parsers.h"
 
 class AbonentTest : public ::testing::Test
 {
@@ -43,7 +44,7 @@ protected:
         delete  in_file;
     }
     std::ifstream *in_file;
-   builder::FromJsonBuilder *builder;
+    builder::FromJsonBuilder *builder;
 };
 
 TEST_F(FromJsonBuilderTestFixture,ParseNoThrow){
@@ -277,16 +278,38 @@ TEST(IPMaskTest,Greater){
 }
 
 TEST(IPMaskTest,Not_equal){
+
+}
+
+TEST(ParserInterfaceTest,Parse){
     //arrange
-    network::IP_Mask mask1(24);
-    network::IP_Mask mask2(25);
+
+    parsers::interface_parser::result interface;
+    const std::string value = "100FD";
 
     //act
+    bool res = parsers::interface_parser::parse(value,interface);
+    //assert
+
+    ASSERT_EQ(res,true);
+}
+
+TEST(ParserInterfaceTest,Result){
+    //arrange
+
+    parsers::interface_parser::result interface;
+    const std::string value = "100FD";
+
+    //act
+    parsers::interface_parser::parse(value,interface);
 
     //assert
 
-    ASSERT_NE(mask1,mask2);
+    ASSERT_EQ(interface.mode,std::string("FD"));
+    ASSERT_EQ(interface.speed,100);
 }
+
+
 
 
 int main(int argc, char* *argv){
