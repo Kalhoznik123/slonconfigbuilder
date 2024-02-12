@@ -104,4 +104,3 @@ settings::Settings ProsesingInputOptions(const prog_opt::variables_map& map){
 }
 
 }
-
