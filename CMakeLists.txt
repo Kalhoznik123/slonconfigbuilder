@@ -39,6 +39,7 @@ set (HEADER_FILES src/json_builder.h
     src/abonent_remote.h
     src/yaml_builder.h
     src/detail.h
+    src/parsers.h
     )
 
 add_executable(config_costructor ${SOURCE_FILES}  ${HEADER_FILES} )
