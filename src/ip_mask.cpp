@@ -45,7 +45,7 @@ IP_Mask::bit32_t IP_Mask::BitsFromNums(std::vector<uint8_t> nums){
     for(std::uint8_t num: nums){
 
         res |= bit32_t(num) << shift;
-        if(shift!= 0){
+        if(shift!=0){
             shift-=8;
         }
 
