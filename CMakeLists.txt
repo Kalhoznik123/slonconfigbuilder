@@ -24,6 +24,7 @@ set(SOURCE_FILES  main.cpp
     src/ip_mask.cpp
     src/abonent_remote.cpp
     src/yaml_builder.cpp
+    src/ip_address.cpp
     )
 
 
@@ -40,6 +41,7 @@ set (HEADER_FILES src/json_builder.h
     src/yaml_builder.h
     src/detail.h
     src/parsers.h
+    src/ip_address.h
     )
 
 add_executable(config_costructor ${SOURCE_FILES}  ${HEADER_FILES} )

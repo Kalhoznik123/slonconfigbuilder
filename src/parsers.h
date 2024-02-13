@@ -12,9 +12,20 @@
 
 namespace parsers {
 
+namespace internal_abonent_parser{
+
+//struct InternalAbonent_t{
+//    int speed;
+//    std::string mode;
+//};
+
+}
+
+
+
 namespace interface_parser {
 
-struct result{
+struct Interface_t{
     int speed;
     std::string mode;
 };
@@ -24,7 +35,7 @@ struct result{
 
 
 BOOST_FUSION_ADAPT_STRUCT(
-        parsers::interface_parser::result,
+        parsers::interface_parser::Interface_t,
         (int, speed)
         (std::string, mode)
         )
@@ -37,7 +48,7 @@ namespace parsers {
     using namespace boost::spirit;
 
     template <typename Iterator>
-    struct interface_parser : qi::grammar<Iterator, result(),ascii::space_type>
+    struct interface_parser : qi::grammar<Iterator, Interface_t(),ascii::space_type>
     {
         interface_parser() : interface_parser::base_type(start)
         {
@@ -53,12 +64,12 @@ namespace parsers {
 
         }
 
-        qi::rule<Iterator, result(),ascii::space_type> start;
+        qi::rule<Iterator, Interface_t(),ascii::space_type> start;
     };
 
 
 
-    inline bool parse(const std::string& parsed_string,  result& parse_res){
+    inline bool parse(const std::string& parsed_string,  Interface_t& parse_res){
 
         using iterator_type = std::string::const_iterator ;
         interface_parser<iterator_type> parser;

@@ -1,6 +1,7 @@
 #include "cin_builder.h"
 #include "arp.h"
 #include "abonent_remote.h"
+#include "parsers.h"
 #include <cstdint>
 #include <string>
 #include <cstdint>

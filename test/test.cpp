@@ -284,7 +284,7 @@ TEST(IPMaskTest,Not_equal){
 TEST(ParserInterfaceTest,Parse){
     //arrange
 
-    parsers::interface_parser::result interface;
+    parsers::interface_parser::Interface_t interface;
     const std::string value = "100FD";
 
     //act
@@ -297,7 +297,7 @@ TEST(ParserInterfaceTest,Parse){
 TEST(ParserInterfaceTest,Result){
     //arrange
 
-    parsers::interface_parser::result interface;
+    parsers::interface_parser::Interface_t interface;
     const std::string value = "100FD";
 
     //act
