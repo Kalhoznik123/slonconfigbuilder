@@ -2,11 +2,10 @@
 #include <iostream>
 #include <string>
 #include <functional>
-#include <variant>
 #include <boost/spirit/include/qi.hpp>
 #include <boost/fusion/include/adapt_struct.hpp>
 #include <boost/fusion/include/io.hpp>
-
+#include <boost/variant.hpp>
 
 
 
@@ -15,7 +14,7 @@ namespace parsers {
 
 namespace internal_abonent_parser{
 
-using mask_t = std::variant<int,std::string>;
+using mask_t = boost::variant<int,std::string>;
 
 struct InternalAbonent_t{
     std::string ip_address;
@@ -43,8 +42,8 @@ BOOST_FUSION_ADAPT_STRUCT(
 
 BOOST_FUSION_ADAPT_STRUCT(
         parsers::internal_abonent_parser::InternalAbonent_t,
-        (std::string, speed)
-        (parsers::internal_abonent_parser::mask_t, mode)
+        (std::string, ip_address)
+        (parsers::internal_abonent_parser::mask_t, mask)
         )
 
 
@@ -88,6 +87,39 @@ namespace parsers {
 
         return res;
     }
+
+    }
+
+
+    namespace internal_abonent_parser {
+
+    using namespace boost::spirit;
+    template <typename Iterator>
+    struct internal_abonent_parser : qi::grammar<Iterator,InternalAbonent_t(),ascii::space_type>{
+        internal_abonent_parser():internal_abonent_parser::base_type(start){
+
+            doted_string %= +qi::digit >> qi::char_('.') >>+qi::digit >> qi::char_('.')>> +qi::digit >>qi::char_('.')>>+qi::digit;
+
+            start %= doted_string >> *qi::lit(' ') >> (doted_string | qi::int_ );
+
+        }
+
+        qi::rule<Iterator,std::string()> doted_string;
+        qi::rule<Iterator, InternalAbonent_t(),ascii::space_type> start;
+    };
+
+
+    inline bool parse(const std::string& parsed_string,  InternalAbonent_t& parse_res){
+
+        using iterator_type = std::string::const_iterator ;
+        internal_abonent_parser<iterator_type> parser;
+        std::string::const_iterator iter = parsed_string.begin();
+        std::string::const_iterator end = parsed_string.end();
+        bool res = boost::spirit::qi::phrase_parse(iter,end,parser,boost::spirit::ascii::space,parse_res);
+
+        return res;
+    }
+
 
     }
 
