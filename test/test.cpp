@@ -309,6 +309,50 @@ TEST(ParserInterfaceTest,Result){
     ASSERT_EQ(interface.speed,100);
 }
 
+TEST(ParserInternalAbonentTest,IP_AdressResult){
+    //arrange
+
+    parsers::internal_abonent_parser::InternalAbonent_t interface;
+    const std::string value = "192.168.3.0 24";
+
+    //act
+    parsers::internal_abonent_parser::parse(value,interface);
+
+    //assert
+
+    ASSERT_EQ(interface.ip_address,std::string("192.168.3.0"));
+
+}
+
+TEST(ParserInternalAbonentTest,MaskIntType){
+    //arrange
+
+    parsers::internal_abonent_parser::InternalAbonent_t interface;
+    const std::string value = "192.168.3.0 24";
+
+    //act
+    parsers::internal_abonent_parser::parse(value,interface);
+
+    //assert
+
+    ASSERT_EQ(boost::get<int>(interface.mask),24);
+
+}
+
+TEST(ParserInternalAbonentTest,MaskStringType){
+    //arrange
+
+    parsers::internal_abonent_parser::InternalAbonent_t interface;
+    const std::string value = "192.168.3.0 255.255.255.0";
+
+    //act
+    parsers::internal_abonent_parser::parse(value,interface);
+
+    //assert
+
+    ASSERT_EQ(boost::get<std::string>(interface.mask),"255.255.255.0");
+
+}
 
 
 
