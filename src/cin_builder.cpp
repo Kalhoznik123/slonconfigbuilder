@@ -5,6 +5,41 @@
 #include <cstdint>
 #include <string>
 #include <cstdint>
+#include <boost/variant.hpp>
+#include <regex>
+
+namespace client {
+
+void RestoreStream(std::istream& in){
+    in.ignore();
+    in.clear();
+}
+
+
+bool IsIpAddressValid(const std::string& ip_addr ){
+
+    // Regex expression for validating IPv4
+    std::regex ipv4("(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])");
+
+    return regex_match(ip_addr, ipv4);
+}
+
+
+network::IP_Mask MakeMaskFromVariant(const boost::variant<std::string,int>& parsed_mask){
+    network::IP_Mask ip_mask;
+    if(const auto* res_i = boost::get<int>(&parsed_mask);res_i){
+        ip_mask.Mask(static_cast<std::uint8_t>(*res_i));
+    }else{
+        const auto* res_str = boost::get<std::string>(&parsed_mask);
+        ip_mask.Mask(*res_str);
+    }
+    return ip_mask;
+}
+
+
+}
+
+
 namespace builder{
 
 
@@ -36,32 +71,64 @@ settings::Settings FromCinBuilder::MakeSettings() {
 
 std::optional<abonent::Abonent> FromCinBuilder::MakeInternalAbonent() {
 
-    std::string ip_addres;
-    int mask{0};
-    in_ >> ip_addres >> mask;
+    std::string user_input;
 
-    if(ip_addres == "0" || mask == 0){
-        return std::nullopt;
+    while(getline(std::cin,user_input) ){
+
+        namespace intern_abon = parsers::internal_abonent_parser;
+
+        if(user_input.empty()){
+            client::RestoreStream(std::cin);
+            break;
+        }
+
+        intern_abon::InternalAbonent_t parser_result;
+
+        bool ok = intern_abon::parse(user_input,parser_result);
+        if(ok){
+
+            if(client::IsIpAddressValid(parser_result.ip_address)){
+                network::IP_Mask mask = client::MakeMaskFromVariant(parser_result.mask);
+                client::RestoreStream(std::cin);
+                return abonent::Abonent(parser_result.ip_address,mask);
+            }else
+                continue;
+        }else
+            client::RestoreStream(std::cin);
     }
 
-    network::IP_Mask ip_mask(static_cast<std::uint8_t>(mask));
-    abonent::Abonent abonent(ip_addres, ip_mask);
-    return abonent;
+
+    return std::nullopt;
 }
 
 std::optional<InterfaceSettings> FromCinBuilder::MakeLanSettings() {
 
-    int speed{0};
-    std::string mode;
-    in_ >> speed >> mode;
+    std::string user_input;
 
-    if(mode == "0" || speed == 0){
-        return std::nullopt;
+    while(getline(std::cin,user_input) ){
+        namespace interface = parsers::interface_parser;
+
+        if(user_input.empty()){
+            client::RestoreStream(std::cin);
+            break;
+        }
+        interface::Interface_t pars_result;
+
+        bool ok = interface::parse(user_input,pars_result);
+
+        if(ok){
+            //TODO::ДОБАВТЬ ПРОВЕРКУ ВАЛИДНОСТИ ВСКОРОСТИ И РЕЖИМА РАБОТЫ
+            client::RestoreStream(std::cin);
+
+            InterfaceSettings settings = {pars_result.speed, pars_result.mode, InterfaceType::LAN};
+            std::optional<InterfaceSettings> result = std::move(settings);
+            return result;
+        }else
+            client::RestoreStream(std::cin);
+
     }
 
-    InterfaceSettings settings = {speed, mode, InterfaceType::LAN};
-    std::optional<InterfaceSettings> result = std::move(settings);
-    return result;
+    return  std::nullopt;
 }
 
 std::optional<InterfaceSettings> FromCinBuilder::MakeInetSettings() {
