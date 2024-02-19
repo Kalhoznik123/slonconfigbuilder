@@ -12,7 +12,6 @@ if(ENABLE_TESTS)
     add_subdirectory(test)
 endif()
 
-
 set(SOURCE_FILES  main.cpp
     src/json_builder.cpp
     src/abonent.cpp
