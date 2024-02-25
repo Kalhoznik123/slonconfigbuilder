@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <functional>
+#include <cstdint>
 #include <boost/spirit/include/qi.hpp>
 #include <boost/fusion/include/adapt_struct.hpp>
 #include <boost/fusion/include/io.hpp>
@@ -12,9 +13,10 @@
 
 namespace parsers {
 
+using mask_t = boost::variant<int,std::string>;
+
 namespace internal_abonent_parser{
 
-using mask_t = boost::variant<int,std::string>;
 
 struct IAbonentParseRes{
     std::string ip_address;
@@ -35,7 +37,9 @@ struct InterfaceParseRes{
 namespace remote_abonent_parser{
 
 struct RAbonentParseRes{
-
+    int devicenumber;
+    std::string ip_address;
+    mask_t mask;
 };
 }
 }
@@ -50,10 +54,15 @@ BOOST_FUSION_ADAPT_STRUCT(
 BOOST_FUSION_ADAPT_STRUCT(
         parsers::internal_abonent_parser::IAbonentParseRes,
         (std::string, ip_address)
-        (parsers::internal_abonent_parser::mask_t, mask)
+        (parsers::mask_t, mask)
         )
 
-
+BOOST_FUSION_ADAPT_STRUCT(
+        parsers::remote_abonent_parser::RAbonentParseRes,
+        (int, devicenumber),
+        (std::string, ip_address),
+        (parsers::mask_t,mask)
+        )
 
 
 namespace parsers {
@@ -129,6 +138,38 @@ namespace parsers {
 
 
     }
+
+    namespace remote_abonent_parser {
+
+
+    using namespace boost::spirit;
+    template <typename Iterator>
+    struct remote_abonent_parser : qi::grammar<Iterator,RAbonentParseRes(),ascii::space_type>{
+        remote_abonent_parser(): remote_abonent_parser::base_type(start){
+            doted_string %= +qi::digit >> qi::char_('.') >>+qi::digit >> qi::char_('.')>> +qi::digit >>qi::char_('.')>>+qi::digit;
+
+            start %= qi::int_ >> doted_string >> *qi::lit(' ') >> (doted_string | qi::int_ );
+        }
+
+        qi::rule<Iterator,std::string()> doted_string;
+        qi::rule<Iterator,RAbonentParseRes(),ascii::space_type> start;
+    };
+
+    inline bool parse(const std::string& parsed_string,  RAbonentParseRes& parse_res){
+
+        using iterator_type = std::string::const_iterator ;
+        remote_abonent_parser<iterator_type> parser;
+        std::string::const_iterator iter = parsed_string.begin();
+        std::string::const_iterator end = parsed_string.end();
+        bool res = boost::spirit::qi::phrase_parse(iter,end,parser,boost::spirit::ascii::space,parse_res);
+
+        return res;
+    }
+
+
+
+    }
+
 
 }
 
