@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.4...3.14)
 project(config_costructor VERSION 1.1.0)
 
-set(ENABLE_TESTS off)
+set(ENABLE_TESTS on)
 
 
 find_package(nlohmann_json 3.2.0 REQUIRED)
