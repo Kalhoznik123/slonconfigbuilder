@@ -66,6 +66,19 @@ BOOST_FUSION_ADAPT_STRUCT(
 
 
 namespace parsers {
+    using namespace boost::spirit;
+
+    template <typename Parser,typename ParseResult>
+    bool Parse(const std::string& parsed_string,  ParseResult& parse_res){
+        Parser parser;
+        std::string::const_iterator iter = parsed_string.begin();
+        std::string::const_iterator end = parsed_string.end();
+        bool res = boost::spirit::qi::phrase_parse(iter,end,parser,boost::spirit::ascii::space,parse_res);
+
+        return res;
+    }
+
+
 
     namespace interface_parser {
 
@@ -90,20 +103,6 @@ namespace parsers {
 
         qi::rule<Iterator, InterfaceParseRes(),ascii::space_type> start;
     };
-
-
-
-    inline bool parse(const std::string& parsed_string,  InterfaceParseRes& parse_res){
-
-        using iterator_type = std::string::const_iterator;
-        interface_parser<iterator_type> parser;
-        std::string::const_iterator iter = parsed_string.begin();
-        std::string::const_iterator end = parsed_string.end();
-        bool res = boost::spirit::qi::phrase_parse(iter,end,parser,boost::spirit::ascii::space,parse_res);
-
-        return res;
-    }
-
     }
 
 
@@ -123,20 +122,6 @@ namespace parsers {
         qi::rule<Iterator,std::string()> doted_string;
         qi::rule<Iterator, IAbonentParseRes(),ascii::space_type> start;
     };
-
-
-    inline bool parse(const std::string& parsed_string,  IAbonentParseRes& parse_res){
-
-        using iterator_type = std::string::const_iterator ;
-        internal_abonent_parser<iterator_type> parser;
-        std::string::const_iterator iter = parsed_string.begin();
-        std::string::const_iterator end = parsed_string.end();
-        bool res = boost::spirit::qi::phrase_parse(iter,end,parser,boost::spirit::ascii::space,parse_res);
-
-        return res;
-    }
-
-
     }
 
     namespace remote_abonent_parser {
@@ -155,22 +140,5 @@ namespace parsers {
         qi::rule<Iterator,RAbonentParseRes(),ascii::space_type> start;
     };
 
-    inline bool parse(const std::string& parsed_string,  RAbonentParseRes& parse_res){
-
-        using iterator_type = std::string::const_iterator ;
-        remote_abonent_parser<iterator_type> parser;
-        std::string::const_iterator iter = parsed_string.begin();
-        std::string::const_iterator end = parsed_string.end();
-        bool res = boost::spirit::qi::phrase_parse(iter,end,parser,boost::spirit::ascii::space,parse_res);
-
-        return res;
     }
-
-
-
-    }
-
-
 }
-
-
