@@ -109,7 +109,7 @@ std::optional<abonent::Abonent> FromCinBuilder::MakeInternalAbonent() {
     while(getline(std::cin,user_input) ){
 
         namespace intern_abon = parsers::internal_abonent_parser;
-
+//TODO
         if(user_input.empty()){
             client::RestoreStream(std::cin);
             break;
@@ -147,25 +147,38 @@ std::optional<InterfaceSettings> FromCinBuilder::MakeInetSettings() {
 
 std::optional<std::vector<abonent::AbonentRemote>> FromCinBuilder::MakeRemoteAbonents() {
 
-    size_t count{0};
-    in_ >> count;
-
-    if(count == 0){
-        return std::nullopt;
-    }
+    std::uint8_t abon_count;
+    std::cin >> abon_count;
 
     std::vector<abonent::AbonentRemote> abonents;
-    abonents.reserve(count);
+    abonents.reserve(abon_count);
 
-    for (size_t i = 0; i < count; ++i) {
-        int number{0};
-        int mask{0};
-        std::string ip_address;
-        in_ >> number >> ip_address >> mask;
-        network::IP_Mask ip_mask(static_cast<std::uint8_t>(mask));
-        abonents.emplace_back(ip_address, ip_mask, number);
+    std::string user_input;
+
+    for(int i = 0; i < abon_count; ++i){
+        while(getline(std::cin,user_input)){
+
+            if(user_input.empty()){
+                client::RestoreStream(std::cin);
+                break;
+            }
+
+            using  RAbonentParserRes_t = parsers::remote_abonent_parser::RAbonentParseRes;
+            using RemoteAbonentParser = parsers::remote_abonent_parser::remote_abonent_parser<std::string::const_iterator> ;
+            RAbonentParserRes_t parse_res;
+
+            bool ok  = parsers::Parse<RemoteAbonentParser>(user_input,parse_res);
+            if(ok){
+                //TODO:: добавть валидацию ip адресса
+                abonents.emplace_back(parse_res.ip_address,client::MakeMaskFromVariant(parse_res.mask),parse_res.devicenumber);
+                client::RestoreStream(std::cin);
+                break;
+            }else{
+                client::RestoreStream(std::cin);
+            }
+        }
     }
-    return abonents;
+    return std::nullopt;
 }
 
 std::optional<std::vector<network::ArpAddress>> FromCinBuilder::MakeArpAddresses() {
