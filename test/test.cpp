@@ -285,7 +285,8 @@ TEST(ParserInterfaceTest,Parse){
     const std::string value = "100FD";
 
     //act
-    bool ok = parsers::interface_parser::parse(value,res);
+    bool ok = parsers::Parse<parsers::interface_parser::interface_parser<std::string::const_iterator>>(value,res);
+
     //assert
 
     ASSERT_EQ(ok,true);
@@ -298,7 +299,7 @@ TEST(ParserInterfaceTest,Result){
     const std::string value = "100FD";
 
     //act
-    parsers::interface_parser::parse(value,res);
+   parsers::Parse<parsers::interface_parser::interface_parser<std::string::const_iterator>>(value,res);
 
     //assert
 
@@ -313,7 +314,8 @@ TEST(ParserInternalAbonentTest,IP_AdressResult){
     const std::string value = "192.168.3.0 24";
 
     //act
-    parsers::internal_abonent_parser::parse(value,res);
+    parsers::Parse<parsers::internal_abonent_parser::internal_abonent_parser<std::string::const_iterator>>(value,res);
+
 
     //assert
 
@@ -328,7 +330,8 @@ TEST(ParserInternalAbonentTest,MaskIntType){
     const std::string value = "192.168.3.0 24";
 
     //act
-    parsers::internal_abonent_parser::parse(value,res);
+    parsers::Parse<parsers::internal_abonent_parser::internal_abonent_parser<std::string::const_iterator>>(value,res);
+    //p
 
     //assert
 
@@ -343,7 +346,9 @@ TEST(ParserInternalAbonentTest,MaskStringType){
     const std::string value = "192.168.3.0 255.255.255.0";
 
     //act
-    parsers::internal_abonent_parser::parse(value,res);
+
+    parsers::Parse<parsers::internal_abonent_parser::internal_abonent_parser<std::string::const_iterator>>(value,res);
+
 
     //assert
 
@@ -356,10 +361,12 @@ TEST(ParserRemoteAbonentTest,ParseResult){
     std::string value = "25      192.168.3.0 255.255.255.0";
 
     //act
-    parsers::remote_abonent_parser::parse(value,res);
+
+    parsers::Parse<parsers::remote_abonent_parser::remote_abonent_parser<std::string::const_iterator>>(value,res);
+    ;
 
     //assert
-  ASSERT_EQ(res.devicenumber, 25);
+    ASSERT_EQ(res.devicenumber, 25);
     ASSERT_EQ(res.ip_address, "192.168.3.0");
     ASSERT_EQ(boost::get<std::string>(res.mask),"255.255.255.0");
 
