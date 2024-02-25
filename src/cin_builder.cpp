@@ -35,15 +35,42 @@ network::IP_Mask MakeMaskFromVariant(const boost::variant<std::string,int>& pars
     }
     return ip_mask;
 }
-
-
 }
 
 
 namespace builder{
 
 
+std::optional<InterfaceSettings> CommonInterfaceSettings(InterfaceType type){
+    std::string user_input;
 
+    while(getline(std::cin,user_input) ){
+        namespace interface = parsers::interface_parser;
+
+        if(user_input.empty()){
+            client::RestoreStream(std::cin);
+            break;
+        }
+        interface::Interface_t pars_result;
+
+        bool ok = interface::parse(user_input,pars_result);
+
+        if(ok){
+            //TODO::ДОБАВТЬ ПРОВЕРКУ ВАЛИДНОСТИ ВСКОРОСТИ И РЕЖИМА РАБОТЫ
+            client::RestoreStream(std::cin);
+
+            InterfaceSettings settings = {pars_result.speed, pars_result.mode, type};
+            std::optional<InterfaceSettings> result = std::move(settings);
+            return result;
+        }else
+            client::RestoreStream(std::cin);
+
+    }
+
+    return  std::nullopt;
+
+
+}
 
 
 
@@ -109,47 +136,13 @@ std::optional<abonent::Abonent> FromCinBuilder::MakeInternalAbonent() {
 
 std::optional<InterfaceSettings> FromCinBuilder::MakeLanSettings() {
 
-    std::string user_input;
-
-    while(getline(std::cin,user_input) ){
-        namespace interface = parsers::interface_parser;
-
-        if(user_input.empty()){
-            client::RestoreStream(std::cin);
-            break;
-        }
-        interface::Interface_t pars_result;
-
-        bool ok = interface::parse(user_input,pars_result);
-
-        if(ok){
-            //TODO::ДОБАВТЬ ПРОВЕРКУ ВАЛИДНОСТИ ВСКОРОСТИ И РЕЖИМА РАБОТЫ
-            client::RestoreStream(std::cin);
-
-            InterfaceSettings settings = {pars_result.speed, pars_result.mode, InterfaceType::LAN};
-            std::optional<InterfaceSettings> result = std::move(settings);
-            return result;
-        }else
-            client::RestoreStream(std::cin);
-
-    }
-
-    return  std::nullopt;
+    return CommonInterfaceSettings(InterfaceType::LAN);
 }
 
 std::optional<InterfaceSettings> FromCinBuilder::MakeInetSettings() {
 
-    int speed{0};
-    std::string mode;
-    in_ >> speed >> mode;
 
-    if(mode == "0" || speed == 0){
-        return std::nullopt;
-    }
-
-    InterfaceSettings settings = {speed, mode, InterfaceType::INET};
-    std::optional<InterfaceSettings> result = std::move(settings);
-    return result;
+    return CommonInterfaceSettings(InterfaceType::INET);
 }
 
 std::optional<std::vector<abonent::AbonentRemote>> FromCinBuilder::MakeRemoteAbonents() {
