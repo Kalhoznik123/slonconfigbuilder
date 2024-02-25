@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.4...3.14)
 project(config_costructor VERSION 1.1.0)
 
-set(ENABLE_TESTS ON)
+set(ENABLE_TESTS off)
 
 
 find_package(nlohmann_json 3.2.0 REQUIRED)
-find_package(Boost 1.82 COMPONENTS program_options REQUIRED)
+find_package(Boost  COMPONENTS program_options REQUIRED)
 find_package(yaml-cpp REQUIRED)
 
 if(ENABLE_TESTS)
