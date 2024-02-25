@@ -277,84 +277,93 @@ TEST(IPMaskTest,Greater){
 
 }
 
-TEST(IPMaskTest,Not_equal){
-
-}
 
 TEST(ParserInterfaceTest,Parse){
     //arrange
 
-    parsers::interface_parser::Interface_t interface;
+    parsers::interface_parser::InterfaceParseRes res;
     const std::string value = "100FD";
 
     //act
-    bool res = parsers::interface_parser::parse(value,interface);
+    bool ok = parsers::interface_parser::parse(value,res);
     //assert
 
-    ASSERT_EQ(res,true);
+    ASSERT_EQ(ok,true);
 }
 
 TEST(ParserInterfaceTest,Result){
     //arrange
 
-    parsers::interface_parser::Interface_t interface;
+    parsers::interface_parser::InterfaceParseRes res;
     const std::string value = "100FD";
 
     //act
-    parsers::interface_parser::parse(value,interface);
+    parsers::interface_parser::parse(value,res);
 
     //assert
 
-    ASSERT_EQ(interface.mode,std::string("FD"));
-    ASSERT_EQ(interface.speed,100);
+    ASSERT_EQ(res.mode,std::string("FD"));
+    ASSERT_EQ(res.speed,100);
 }
 
 TEST(ParserInternalAbonentTest,IP_AdressResult){
     //arrange
 
-    parsers::internal_abonent_parser::InternalAbonent_t interface;
+    parsers::internal_abonent_parser::IAbonentParseRes res;
     const std::string value = "192.168.3.0 24";
 
     //act
-    parsers::internal_abonent_parser::parse(value,interface);
+    parsers::internal_abonent_parser::parse(value,res);
 
     //assert
 
-    ASSERT_EQ(interface.ip_address,std::string("192.168.3.0"));
+    ASSERT_EQ(res.ip_address,std::string("192.168.3.0"));
 
 }
 
 TEST(ParserInternalAbonentTest,MaskIntType){
     //arrange
 
-    parsers::internal_abonent_parser::InternalAbonent_t interface;
+    parsers::internal_abonent_parser::IAbonentParseRes res;
     const std::string value = "192.168.3.0 24";
 
     //act
-    parsers::internal_abonent_parser::parse(value,interface);
+    parsers::internal_abonent_parser::parse(value,res);
 
     //assert
 
-    ASSERT_EQ(boost::get<int>(interface.mask),24);
+    ASSERT_EQ(boost::get<int>(res.mask),24);
 
 }
 
 TEST(ParserInternalAbonentTest,MaskStringType){
     //arrange
 
-    parsers::internal_abonent_parser::InternalAbonent_t interface;
+    parsers::internal_abonent_parser::IAbonentParseRes res;
     const std::string value = "192.168.3.0 255.255.255.0";
 
     //act
-    parsers::internal_abonent_parser::parse(value,interface);
+    parsers::internal_abonent_parser::parse(value,res);
 
     //assert
 
-    ASSERT_EQ(boost::get<std::string>(interface.mask),"255.255.255.0");
+    ASSERT_EQ(boost::get<std::string>(res.mask),"255.255.255.0");
 
 }
 
+TEST(ParserRemoteAbonentTest,ParseResult){
+    parsers::remote_abonent_parser::RAbonentParseRes res;
+    std::string value = "25      192.168.3.0 255.255.255.0";
 
+    //act
+    parsers::remote_abonent_parser::parse(value,res);
+
+    //assert
+  ASSERT_EQ(res.devicenumber, 25);
+    ASSERT_EQ(res.ip_address, "192.168.3.0");
+    ASSERT_EQ(boost::get<std::string>(res.mask),"255.255.255.0");
+
+}
 
 int main(int argc, char* *argv){
 
