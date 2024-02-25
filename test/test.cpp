@@ -356,21 +356,59 @@ TEST(ParserInternalAbonentTest,MaskStringType){
 
 }
 
-TEST(ParserRemoteAbonentTest,ParseResult){
+TEST(ParserRemoteAbonentTest,ParseResult_Mask_string){
     parsers::remote_abonent_parser::RAbonentParseRes res;
     std::string value = "25      192.168.3.0 255.255.255.0";
 
     //act
 
-    parsers::Parse<parsers::remote_abonent_parser::remote_abonent_parser<std::string::const_iterator>>(value,res);
-    ;
+    bool ok = parsers::Parse<parsers::remote_abonent_parser::remote_abonent_parser<std::string::const_iterator>>(value,res);
+
 
     //assert
+    ASSERT_EQ(ok, true);
     ASSERT_EQ(res.devicenumber, 25);
     ASSERT_EQ(res.ip_address, "192.168.3.0");
     ASSERT_EQ(boost::get<std::string>(res.mask),"255.255.255.0");
 
 }
+
+TEST(ParserRemoteAbonentTest,ParseResult_Mask_int){
+    parsers::remote_abonent_parser::RAbonentParseRes res;
+    std::string value = "25 192.168.3.0 24";
+
+    //act
+
+    bool ok = parsers::Parse<parsers::remote_abonent_parser::remote_abonent_parser<std::string::const_iterator>>(value,res);
+
+
+    //assert
+    ASSERT_EQ(ok, true);
+    ASSERT_EQ(res.devicenumber, 25);
+    ASSERT_EQ(res.ip_address, "192.168.3.0");
+    ASSERT_EQ(boost::get<int>(res.mask), 24);
+
+}
+
+TEST(ParserRemoteAbonentTest,ParseResult){
+    parsers::remote_abonent_parser::RAbonentParseRes res;
+    std::string value = "25  24";
+
+    //act
+
+    bool ok = parsers::Parse<parsers::remote_abonent_parser::remote_abonent_parser<std::string::const_iterator>>(value,res);
+
+
+    //assert
+    ASSERT_EQ(ok, false);
+//    ASSERT_EQ(res.devicenumber, 25);
+//    ASSERT_EQ(res.ip_address, "192.168.3.0");
+//    ASSERT_EQ(boost::get<int>(res.mask), 24);
+
+}
+
+
+
 
 int main(int argc, char* *argv){
 
