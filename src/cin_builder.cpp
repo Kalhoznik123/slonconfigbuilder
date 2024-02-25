@@ -53,7 +53,7 @@ std::optional<InterfaceSettings> CommonInterfaceSettings(InterfaceType type){
         }
         interface::InterfaceParseRes pars_result;
 
-        bool ok = interface::parse(user_input,pars_result);
+        bool ok = parsers::Parse<parsers::interface_parser::interface_parser<std::string::const_iterator>>(user_input,pars_result);
 
         if(ok){
             //TODO::ДОБАВТЬ ПРОВЕРКУ ВАЛИДНОСТИ ВСКОРОСТИ И РЕЖИМА РАБОТЫ
@@ -117,7 +117,7 @@ std::optional<abonent::Abonent> FromCinBuilder::MakeInternalAbonent() {
 
         intern_abon::IAbonentParseRes parser_result;
 
-        bool ok = intern_abon::parse(user_input,parser_result);
+        bool ok = parsers::Parse<parsers::internal_abonent_parser::internal_abonent_parser<std::string::const_iterator>>(user_input,parser_result);
         if(ok){
 
             if(client::IsIpAddressValid(parser_result.ip_address)){
