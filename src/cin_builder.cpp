@@ -51,7 +51,7 @@ std::optional<InterfaceSettings> CommonInterfaceSettings(InterfaceType type){
             client::RestoreStream(std::cin);
             break;
         }
-        interface::Interface_t pars_result;
+        interface::InterfaceParseRes pars_result;
 
         bool ok = interface::parse(user_input,pars_result);
 
@@ -115,7 +115,7 @@ std::optional<abonent::Abonent> FromCinBuilder::MakeInternalAbonent() {
             break;
         }
 
-        intern_abon::InternalAbonent_t parser_result;
+        intern_abon::IAbonentParseRes parser_result;
 
         bool ok = intern_abon::parse(user_input,parser_result);
         if(ok){
