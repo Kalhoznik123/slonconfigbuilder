@@ -79,7 +79,7 @@ namespace parsers {
 
     inline bool parse(const std::string& parsed_string,  Interface_t& parse_res){
 
-        using iterator_type = std::string::const_iterator ;
+        using iterator_type = std::string::const_iterator;
         interface_parser<iterator_type> parser;
         std::string::const_iterator iter = parsed_string.begin();
         std::string::const_iterator end = parsed_string.end();

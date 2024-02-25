@@ -43,6 +43,12 @@ network::IP_Mask MakeMaskFromVariant(const boost::variant<std::string,int>& pars
 namespace builder{
 
 
+
+
+
+
+
+
 settings::Settings FromCinBuilder::MakeSettings() {
 
     using namespace std::string_literals;
