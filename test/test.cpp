@@ -292,19 +292,45 @@ TEST(ParserInterfaceTest,Parse){
     ASSERT_EQ(ok,true);
 }
 
-TEST(ParserInterfaceTest,Result){
+TEST(ParserInterfaceTest,ParseWhithSpaces){
     //arrange
+    using parser = parsers::interface_parser::interface_parser<std::string::const_iterator>;
+
 
     parsers::interface_parser::InterfaceParseRes res;
-    const std::string value = "100FD";
+    const std::string value = "100     FD";
 
     //act
-   parsers::Parse<parsers::interface_parser::interface_parser<std::string::const_iterator>>(value,res);
 
+
+    bool ok = parsers::Parse<parser>(value,res);
+
+    //assert
+
+    ASSERT_EQ(ok,true);
+}
+
+
+TEST(ParserInterfaceTest,Result){
+    //arrange
+    using parser = parsers::interface_parser::interface_parser<std::string::const_iterator>;
+
+    parsers::interface_parser::InterfaceParseRes res;
+    parsers::interface_parser::InterfaceParseRes res2;
+    const std::string value_FD = "100FD";
+    const std::string value_HD = "50HD";
+    //act
+    parsers::Parse<parser>(value_FD,res);
+    parsers::Parse<parser>(value_HD,res2);
     //assert
 
     ASSERT_EQ(res.mode,std::string("FD"));
     ASSERT_EQ(res.speed,100);
+
+    ASSERT_EQ(res2.mode,std::string("HD"));
+    ASSERT_EQ(res2.speed,50);
+
+
 }
 
 TEST(ParserInternalAbonentTest,IP_AdressResult){
@@ -401,9 +427,9 @@ TEST(ParserRemoteAbonentTest,ParseResult){
 
     //assert
     ASSERT_EQ(ok, false);
-//    ASSERT_EQ(res.devicenumber, 25);
-//    ASSERT_EQ(res.ip_address, "192.168.3.0");
-//    ASSERT_EQ(boost::get<int>(res.mask), 24);
+    //    ASSERT_EQ(res.devicenumber, 25);
+    //    ASSERT_EQ(res.ip_address, "192.168.3.0");
+    //    ASSERT_EQ(boost::get<int>(res.mask), 24);
 
 }
 
