@@ -87,20 +87,12 @@ namespace parsers {
     template <typename Iterator>
     struct interface_parser : qi::grammar<Iterator, InterfaceParseRes(),ascii::space_type>
     {
-        interface_parser() : interface_parser::base_type(start)
-        {
+        interface_parser() : interface_parser::base_type(start){
             using qi::int_;
-            using qi::lit;
-            using qi::double_;
-            using qi::lexeme;
-            using ascii::char_;
 
-
-            start %= int_ >> *qi::alpha;
-
-
+            start %= unsigned_parser >> repeat(2)[qi::char_("DFH")];
         }
-
+        qi::uint_parser<std::uint8_t,10,1,3> unsigned_parser;
         qi::rule<Iterator, InterfaceParseRes(),ascii::space_type> start;
     };
     }
@@ -116,7 +108,6 @@ namespace parsers {
             doted_string %= +qi::digit >> qi::char_('.') >>+qi::digit >> qi::char_('.')>> +qi::digit >>qi::char_('.')>>+qi::digit;
 
             start %= doted_string >> *qi::lit(' ') >> (doted_string | qi::int_ );
-
         }
 
         qi::rule<Iterator,std::string()> doted_string;
