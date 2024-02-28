@@ -68,8 +68,6 @@ std::optional<InterfaceSettings> CommonInterfaceSettings(InterfaceType type){
     }
 
     return  std::nullopt;
-
-
 }
 
 
@@ -117,7 +115,9 @@ std::optional<abonent::Abonent> FromCinBuilder::MakeInternalAbonent() {
 
         intern_abon::IAbonentParseRes parser_result;
 
-        bool ok = parsers::Parse<parsers::internal_abonent_parser::internal_abonent_parser<std::string::const_iterator>>(user_input,parser_result);
+       using internal_parser = parsers::internal_abonent_parser::internal_abonent_parser<std::string::const_iterator>;
+        bool ok = parsers::Parse<internal_parser>(user_input,parser_result);
+
         if(ok){
 
             if(client::IsIpAddressValid(parser_result.ip_address)){
@@ -135,13 +135,10 @@ std::optional<abonent::Abonent> FromCinBuilder::MakeInternalAbonent() {
 }
 
 std::optional<InterfaceSettings> FromCinBuilder::MakeLanSettings() {
-
     return CommonInterfaceSettings(InterfaceType::LAN);
 }
 
 std::optional<InterfaceSettings> FromCinBuilder::MakeInetSettings() {
-
-
     return CommonInterfaceSettings(InterfaceType::INET);
 }
 
@@ -163,7 +160,7 @@ std::optional<std::vector<abonent::AbonentRemote>> FromCinBuilder::MakeRemoteAbo
                 break;
             }
 
-            using  RAbonentParserRes_t = parsers::remote_abonent_parser::RAbonentParseRes;
+            using RAbonentParserRes_t = parsers::remote_abonent_parser::RAbonentParseRes;
             using RemoteAbonentParser = parsers::remote_abonent_parser::remote_abonent_parser<std::string::const_iterator> ;
             RAbonentParserRes_t parse_res;
 
