@@ -105,7 +105,10 @@ namespace parsers {
     struct internal_abonent_parser : qi::grammar<Iterator,IAbonentParseRes(),ascii::space_type>{
         internal_abonent_parser():internal_abonent_parser::base_type(start){
 
-            doted_string %= +qi::digit >> qi::char_('.') >>+qi::digit >> qi::char_('.')>> +qi::digit >>qi::char_('.')>>+qi::digit;
+            doted_string %= qi::repeat(1,3)[qi::digit] >>
+                            qi::char_('.') >>qi::repeat(1,3)[qi::digit] >>
+                            qi::char_('.')>> qi::repeat(1,3)[qi::digit] >>
+                            qi::char_('.')>>qi::repeat(1,3)[qi::digit];
 
             start %= doted_string >> *qi::lit(' ') >> (doted_string | qi::int_ );
         }
