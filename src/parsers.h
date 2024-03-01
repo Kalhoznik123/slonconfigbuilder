@@ -125,7 +125,10 @@ namespace parsers {
     template <typename Iterator>
     struct remote_abonent_parser : qi::grammar<Iterator,RAbonentParseRes(),ascii::space_type>{
         remote_abonent_parser(): remote_abonent_parser::base_type(start){
-            doted_string %= +qi::digit >> qi::char_('.') >>+qi::digit >> qi::char_('.')>> +qi::digit >>qi::char_('.')>>+qi::digit;
+            doted_string %= qi::repeat(1,3)[qi::digit] >>
+                            qi::char_('.') >>qi::repeat(1,3)[qi::digit] >>
+                            qi::char_('.')>> qi::repeat(1,3)[qi::digit] >>
+                            qi::char_('.')>>qi::repeat(1,3)[qi::digit];
 
             start %= qi::int_ >> doted_string >> *qi::lit(' ') >> (doted_string | qi::int_ );
         }
