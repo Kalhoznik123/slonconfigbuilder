@@ -41,6 +41,14 @@ network::IP_Mask MakeMaskFromVariant(const boost::variant<std::string,int>& pars
 namespace builder{
 
 
+bool SpeedValidation(std::uint8_t  speed){
+    return (speed >= 0) && (speed <= 100);
+}
+
+bool ModeValidation(const std::string& mode){
+    return  (mode == "FD") || (mode == "HD");
+}
+
 std::optional<InterfaceSettings> CommonInterfaceSettings(InterfaceType type){
     std::string user_input;
 
@@ -56,12 +64,16 @@ std::optional<InterfaceSettings> CommonInterfaceSettings(InterfaceType type){
         bool ok = parsers::Parse<parsers::interface_parser::interface_parser<std::string::const_iterator>>(user_input,pars_result);
 
         if(ok){
-            //TODO::ДОБАВТЬ ПРОВЕРКУ ВАЛИДНОСТИ ВСКОРОСТИ И РЕЖИМА РАБОТЫ
-            client::RestoreStream(std::cin);
+            if(SpeedValidation(pars_result.speed) && ModeValidation(pars_result.mode)){
 
-            InterfaceSettings settings = {pars_result.speed, pars_result.mode, type};
-            std::optional<InterfaceSettings> result = std::move(settings);
-            return result;
+                client::RestoreStream(std::cin);
+
+                InterfaceSettings settings = {pars_result.speed, pars_result.mode, type};
+                std::optional<InterfaceSettings> result = std::move(settings);
+                return result;
+            }else
+                continue;
+
         }else
             client::RestoreStream(std::cin);
 
@@ -107,7 +119,6 @@ std::optional<abonent::Abonent> FromCinBuilder::MakeInternalAbonent() {
     while(getline(std::cin,user_input) ){
 
         namespace intern_abon = parsers::internal_abonent_parser;
-//TODO
         if(user_input.empty()){
             client::RestoreStream(std::cin);
             break;
@@ -115,7 +126,7 @@ std::optional<abonent::Abonent> FromCinBuilder::MakeInternalAbonent() {
 
         intern_abon::IAbonentParseRes parser_result;
 
-       using internal_parser = parsers::internal_abonent_parser::internal_abonent_parser<std::string::const_iterator>;
+        using internal_parser = parsers::internal_abonent_parser::internal_abonent_parser<std::string::const_iterator>;
         bool ok = parsers::Parse<internal_parser>(user_input,parser_result);
 
         if(ok){
