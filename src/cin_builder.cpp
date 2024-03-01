@@ -72,6 +72,7 @@ std::optional<InterfaceSettings> CommonInterfaceSettings(InterfaceType type){
                 std::optional<InterfaceSettings> result = std::move(settings);
                 return result;
             }else
+                client::RestoreStream(std::cin);
                 continue;
 
         }else
@@ -136,6 +137,7 @@ std::optional<abonent::Abonent> FromCinBuilder::MakeInternalAbonent() {
                 client::RestoreStream(std::cin);
                 return abonent::Abonent(parser_result.ip_address,mask);
             }else
+                client::RestoreStream(std::cin);
                 continue;
         }else
             client::RestoreStream(std::cin);
@@ -178,9 +180,12 @@ std::optional<std::vector<abonent::AbonentRemote>> FromCinBuilder::MakeRemoteAbo
             bool ok  = parsers::Parse<RemoteAbonentParser>(user_input,parse_res);
             if(ok){
                 //TODO:: добавть валидацию ip адресса
-                abonents.emplace_back(parse_res.ip_address,client::MakeMaskFromVariant(parse_res.mask),parse_res.devicenumber);
-                client::RestoreStream(std::cin);
-                break;
+                if(client::IsIpAddressValid(parse_res.ip_address)){
+                    abonents.emplace_back(parse_res.ip_address,client::MakeMaskFromVariant(parse_res.mask),
+                                          parse_res.devicenumber);
+                    client::RestoreStream(std::cin);
+                    break;
+                }
             }else{
                 client::RestoreStream(std::cin);
             }
