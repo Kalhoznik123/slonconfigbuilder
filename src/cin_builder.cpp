@@ -50,6 +50,8 @@ bool ModeValidation(const std::string& mode){
 }
 
 std::optional<InterfaceSettings> CommonInterfaceSettings(InterfaceType type){
+
+    using interface_parser = parsers::interface_parser::interface_parser<std::string::const_iterator>;
     std::string user_input;
 
     while(getline(std::cin,user_input) ){
@@ -61,7 +63,7 @@ std::optional<InterfaceSettings> CommonInterfaceSettings(InterfaceType type){
         }
         interface::InterfaceParseRes pars_result;
 
-        bool ok = parsers::Parse<parsers::interface_parser::interface_parser<std::string::const_iterator>>(user_input,pars_result);
+        bool ok = parsers::Parse<interface_parser>(user_input,pars_result);
 
         if(ok){
             if(SpeedValidation(pars_result.speed) && ModeValidation(pars_result.mode)){
@@ -115,6 +117,8 @@ settings::Settings FromCinBuilder::MakeSettings() {
 
 std::optional<abonent::Abonent> FromCinBuilder::MakeInternalAbonent() {
 
+    using internal_parser = parsers::internal_abonent_parser::internal_abonent_parser<std::string::const_iterator>;
+
     std::string user_input;
 
     while(getline(std::cin,user_input) ){
@@ -127,7 +131,6 @@ std::optional<abonent::Abonent> FromCinBuilder::MakeInternalAbonent() {
 
         intern_abon::IAbonentParseRes parser_result;
 
-        using internal_parser = parsers::internal_abonent_parser::internal_abonent_parser<std::string::const_iterator>;
         bool ok = parsers::Parse<internal_parser>(user_input,parser_result);
 
         if(ok){
@@ -195,6 +198,10 @@ std::optional<std::vector<abonent::AbonentRemote>> FromCinBuilder::MakeRemoteAbo
 }
 
 std::optional<std::vector<network::ArpAddress>> FromCinBuilder::MakeArpAddresses() {
+
+    //ввод адреса будет только сплошным текстом
+
+
 
     size_t count{0};
     in_ >> count;
