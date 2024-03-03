@@ -41,8 +41,25 @@ struct RAbonentParseRes{
     std::string ip_address;
     mask_t mask;
 };
+
+
+
+}
+namespace ARP_address_parser{
+
+struct ARPAddressParseRes{
+    std::uint8_t number;
+    std::string ARP_address;
+
+};
 }
 }
+
+BOOST_FUSION_ADAPT_STRUCT(
+        parsers::ARP_address_parser::ARPAddressParseRes,
+        (std::uint8_t, number),
+        (std::string, ARP_address)
+        )
 
 
 BOOST_FUSION_ADAPT_STRUCT(
@@ -92,6 +109,7 @@ namespace parsers {
 
             start %= unsigned_parser >> repeat(2)[qi::char_("DFH")];
         }
+        public:
         qi::uint_parser<std::uint8_t,10,1,3> unsigned_parser;
         qi::rule<Iterator, InterfaceParseRes(),ascii::space_type> start;
     };
@@ -105,14 +123,14 @@ namespace parsers {
     struct internal_abonent_parser : qi::grammar<Iterator,IAbonentParseRes(),ascii::space_type>{
         internal_abonent_parser():internal_abonent_parser::base_type(start){
 
-            doted_string %= qi::repeat(1,3)[qi::digit] >>
+            doted_string %= qi::repeat(1,3)[qi::digit]>>
                             qi::char_('.') >>qi::repeat(1,3)[qi::digit] >>
                             qi::char_('.')>> qi::repeat(1,3)[qi::digit] >>
                             qi::char_('.')>>qi::repeat(1,3)[qi::digit];
 
             start %= doted_string >> *qi::lit(' ') >> (doted_string | qi::int_ );
         }
-
+        public:
         qi::rule<Iterator,std::string()> doted_string;
         qi::rule<Iterator, IAbonentParseRes(),ascii::space_type> start;
     };
@@ -120,11 +138,11 @@ namespace parsers {
 
     namespace remote_abonent_parser {
 
-
     using namespace boost::spirit;
     template <typename Iterator>
     struct remote_abonent_parser : qi::grammar<Iterator,RAbonentParseRes(),ascii::space_type>{
         remote_abonent_parser(): remote_abonent_parser::base_type(start){
+
             doted_string %= qi::repeat(1,3)[qi::digit] >>
                             qi::char_('.') >>qi::repeat(1,3)[qi::digit] >>
                             qi::char_('.')>> qi::repeat(1,3)[qi::digit] >>
@@ -132,9 +150,23 @@ namespace parsers {
 
             start %= qi::int_ >> doted_string >> *qi::lit(' ') >> (doted_string | qi::int_ );
         }
-
+        public:
         qi::rule<Iterator,std::string()> doted_string;
         qi::rule<Iterator,RAbonentParseRes(),ascii::space_type> start;
+    };
+
+    }
+
+    namespace ARP_address_parser{
+    using namespace boost::spirit;
+    template <typename Iterator>
+    struct ARP_address_parser : qi::grammar<Iterator,ARPAddressParseRes(),ascii::space_type>{
+        ARP_address_parser(): ARP_address_parser::base_type(start){
+            start %= unsigned_parser >> qi::repeat(12,12)[qi::char_("a-fA-F0-9")];
+        }
+        public:
+        qi::uint_parser<std::uint8_t,10,1,2> unsigned_parser;
+        qi::rule<Iterator,ARPAddressParseRes(),ascii::space_type> start;
     };
 
     }
