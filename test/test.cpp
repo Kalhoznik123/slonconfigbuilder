@@ -414,6 +414,7 @@ TEST(ParserInternalAbonentTest,MaskStringType){
 }
 
 TEST(ParserRemoteAbonentTest,ParseResult_Mask_string){
+    //arrange
     parsers::remote_abonent_parser::RAbonentParseRes res;
     std::string value = "25      192.168.3.0 255.255.255.0";
 
@@ -423,7 +424,7 @@ TEST(ParserRemoteAbonentTest,ParseResult_Mask_string){
 
 
     //assert
-    ASSERT_EQ(ok, true);
+    ASSERT_TRUE(ok);
     ASSERT_EQ(res.devicenumber, 25);
     ASSERT_EQ(res.ip_address, "192.168.3.0");
     ASSERT_EQ(boost::get<std::string>(res.mask),"255.255.255.0");
@@ -431,6 +432,7 @@ TEST(ParserRemoteAbonentTest,ParseResult_Mask_string){
 }
 
 TEST(ParserRemoteAbonentTest,ParseResult_Mask_int){
+    //arrange
     parsers::remote_abonent_parser::RAbonentParseRes res;
     std::string value = "25 192.168.3.0 24";
 
@@ -440,7 +442,7 @@ TEST(ParserRemoteAbonentTest,ParseResult_Mask_int){
 
 
     //assert
-    ASSERT_EQ(ok, true);
+    ASSERT_TRUE(ok);
     ASSERT_EQ(res.devicenumber, 25);
     ASSERT_EQ(res.ip_address, "192.168.3.0");
     ASSERT_EQ(boost::get<int>(res.mask), 24);
@@ -448,6 +450,7 @@ TEST(ParserRemoteAbonentTest,ParseResult_Mask_int){
 }
 
 TEST(ParserRemoteAbonentTest,ParseResult){
+    //arrange
     parsers::remote_abonent_parser::RAbonentParseRes res;
     std::string value = "25  24";
 
@@ -457,14 +460,50 @@ TEST(ParserRemoteAbonentTest,ParseResult){
 
 
     //assert
-    ASSERT_EQ(ok, false);
-    //    ASSERT_EQ(res.devicenumber, 25);
-    //    ASSERT_EQ(res.ip_address, "192.168.3.0");
-    //    ASSERT_EQ(boost::get<int>(res.mask), 24);
+    ASSERT_FALSE(ok);
+}
+
+TEST(ParserARPAddressTest,ParseResult){
+    //arrange
+    parsers::ARP_address_parser::ARPAddressParseRes res;
+    std::string value = "4 aabbcc444455";
+
+    parsers::ARP_address_parser::ARPAddressParseRes res2;
+    std::string value2 = "99 44bbcc444455";
+
+
+    //act
+    parsers::Parse<parsers::ARP_address_parser::ARP_address_parser<std::string::const_iterator>>(value,res);
+    parsers::Parse<parsers::ARP_address_parser::ARP_address_parser<std::string::const_iterator>>(value2,res2);
+    //assert
+    ASSERT_EQ(res.number, 4);
+    ASSERT_EQ(res.ARP_address, "aabbcc444455");
+
+    ASSERT_EQ(res2.number, 99);
+    ASSERT_EQ(res2.ARP_address, "44bbcc444455");
 
 }
 
+TEST(ParserARPAddressTest,ParseFail){
 
+    //arrange
+    parsers::ARP_address_parser::ARPAddressParseRes res;
+    std::string value = "4 aabycc444455";
+
+    parsers::ARP_address_parser::ARPAddressParseRes res3;
+    std::string value3 = "4 --aabbcc444455";
+
+    //act
+
+    bool ok = parsers::Parse<parsers::ARP_address_parser::ARP_address_parser<std::string::const_iterator>>(value,res);
+    bool ok3 = parsers::Parse<parsers::ARP_address_parser::ARP_address_parser<std::string::const_iterator>>(value3,res3);
+
+    //assert
+    ASSERT_FALSE(ok);
+    //ASSERT_FALSE(ok2);
+
+    ASSERT_FALSE(ok3);
+}
 
 
 int main(int argc, char* *argv){
