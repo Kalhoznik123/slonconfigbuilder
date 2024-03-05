@@ -109,7 +109,7 @@ namespace parsers {
 
             start %= unsigned_parser >> repeat(2)[qi::char_("DFH")];
         }
-        public:
+        private:
         qi::uint_parser<std::uint8_t,10,1,3> unsigned_parser;
         qi::rule<Iterator, InterfaceParseRes(),ascii::space_type> start;
     };
@@ -150,7 +150,7 @@ namespace parsers {
 
             start %= qi::int_ >> doted_string >> *qi::lit(' ') >> (doted_string | qi::int_ );
         }
-        public:
+        private:
         qi::rule<Iterator,std::string()> doted_string;
         qi::rule<Iterator,RAbonentParseRes(),ascii::space_type> start;
     };
@@ -164,7 +164,7 @@ namespace parsers {
         ARP_address_parser(): ARP_address_parser::base_type(start){
             start %= unsigned_parser >> qi::repeat(12,12)[qi::char_("a-fA-F0-9")];
         }
-        public:
+        private:
         qi::uint_parser<std::uint8_t,10,1,2> unsigned_parser;
         qi::rule<Iterator,ARPAddressParseRes(),ascii::space_type> start;
     };
