@@ -84,11 +84,7 @@ std::optional<InterfaceSettings> CommonInterfaceSettings(InterfaceType type){
 
     return  std::nullopt;
 }
-
-
-
-
-
+t
 settings::Settings FromCinBuilder::MakeSettings() {
 
     using namespace std::string_literals;
@@ -237,7 +233,6 @@ std::optional<std::uint8_t> FromCinBuilder::MakeTime() {
     if(time == 0){
         return std::nullopt;
     }
-
     return static_cast<std::uint8_t>(time);
 }
 
@@ -248,7 +243,6 @@ std::optional<int> FromCinBuilder::MakeDevicenumber() {
     if(device_number == 0){
         return std::nullopt;
     }
-
     return device_number;
 }
 
