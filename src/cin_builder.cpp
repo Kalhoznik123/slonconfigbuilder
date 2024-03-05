@@ -84,7 +84,7 @@ std::optional<InterfaceSettings> CommonInterfaceSettings(InterfaceType type){
 
     return  std::nullopt;
 }
-t
+
 settings::Settings FromCinBuilder::MakeSettings() {
 
     using namespace std::string_literals;
