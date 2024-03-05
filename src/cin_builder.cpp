@@ -75,7 +75,7 @@ std::optional<InterfaceSettings> CommonInterfaceSettings(InterfaceType type){
                 return result;
             }else
                 client::RestoreStream(std::cin);
-                continue;
+            continue;
 
         }else
             client::RestoreStream(std::cin);
@@ -141,7 +141,7 @@ std::optional<abonent::Abonent> FromCinBuilder::MakeInternalAbonent() {
                 return abonent::Abonent(parser_result.ip_address,mask);
             }else
                 client::RestoreStream(std::cin);
-                continue;
+            continue;
         }else
             client::RestoreStream(std::cin);
     }
@@ -177,12 +177,11 @@ std::optional<std::vector<abonent::AbonentRemote>> FromCinBuilder::MakeRemoteAbo
             }
 
             using RAbonentParserRes_t = parsers::remote_abonent_parser::RAbonentParseRes;
-            using RemoteAbonentParser = parsers::remote_abonent_parser::remote_abonent_parser<std::string::const_iterator> ;
+            using RemoteAbonentParser_t = parsers::remote_abonent_parser::remote_abonent_parser<std::string::const_iterator> ;
             RAbonentParserRes_t parse_res;
 
-            bool ok  = parsers::Parse<RemoteAbonentParser>(user_input,parse_res);
+            bool ok  = parsers::Parse<RemoteAbonentParser_t>(user_input,parse_res);
             if(ok){
-                //TODO:: добавть валидацию ip адресса
                 if(client::IsIpAddressValid(parse_res.ip_address)){
                     abonents.emplace_back(parse_res.ip_address,client::MakeMaskFromVariant(parse_res.mask),
                                           parse_res.devicenumber);
@@ -200,27 +199,35 @@ std::optional<std::vector<abonent::AbonentRemote>> FromCinBuilder::MakeRemoteAbo
 std::optional<std::vector<network::ArpAddress>> FromCinBuilder::MakeArpAddresses() {
 
     //ввод адреса будет только сплошным текстом
-
-
-
     size_t count{0};
     in_ >> count;
 
-    if(count == 0){
-        return std::nullopt;
-    }
-
     std::vector<network::ArpAddress> arp_addresses;
     arp_addresses.reserve(count);
+    std::string user_input;
 
-    for (size_t i = 0; i < count; ++i) {
-        int number{0};
-        std::string arp_address;
-        in_ >> number >> arp_address;
-        arp_addresses.emplace_back(number, arp_address);
+    for (int i = 0; i < count; ++i){
+        while(std::getline(std::cin,user_input)){
+
+            if(user_input.empty()){
+                client::RestoreStream(std::cin);
+                break;
+            }
+            using ARPAddressPaseRes_t = parsers::ARP_address_parser::ARPAddressParseRes;
+            using ARPAddressParser_t = parsers::ARP_address_parser::ARP_address_parser<std::string::const_iterator>;
+
+            ARPAddressPaseRes_t parse_res;
+
+            bool ok  = parsers::Parse<ARPAddressParser_t>(user_input,parse_res);
+            if(ok){
+                arp_addresses.emplace_back(parse_res.number,parse_res.ARP_address);
+                client::RestoreStream(std::cin);
+            }else{
+                client::RestoreStream(std::cin);
+            }
+        }
     }
-
-    return arp_addresses;
+    return std::nullopt;
 }
 
 std::optional<std::uint8_t> FromCinBuilder::MakeTime() {
