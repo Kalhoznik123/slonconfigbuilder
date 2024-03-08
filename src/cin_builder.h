@@ -63,7 +63,7 @@ private:
 @param Аргументов нет.
 @return Возвращает значенеи Devicenumber в виде int.
 */
-    std::optional<int> MakeDevicenumber();
+    std::optional<std::uint8_t> MakeDevicenumber();
     /*!
 @brief Возвращает значение protocol.
 @param Аргументов нет.
