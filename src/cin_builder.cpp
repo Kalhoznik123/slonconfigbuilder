@@ -5,8 +5,9 @@
 #include <cstdint>
 #include <string>
 #include <cstdint>
-#include <boost/variant.hpp>
 #include <regex>
+#include <boost/variant.hpp>
+#include <boost/lexical_cast.hpp>
 
 namespace client {
 
@@ -35,6 +36,30 @@ network::IP_Mask MakeMaskFromVariant(const boost::variant<std::string,int>& pars
     }
     return ip_mask;
 }
+
+
+template<typename Comparator>
+std::optional<std::uint8_t> GetUIntFromStr(Comparator cmp){
+    std::string user_input;
+
+
+    while(std::getline(std::cin,user_input)){
+        if(user_input.empty()){
+            client::RestoreStream(std::cin);
+            break;
+        }
+        std::uint8_t res{0};
+        const bool ok = boost::conversion::try_lexical_convert(user_input,res);
+        if(ok){
+            if(cmp(res)){
+                client::RestoreStream(std::cin);
+                return res;
+            }
+        }
+    }
+
+    return std::nullopt;
+}
 }
 
 
@@ -54,7 +79,7 @@ std::optional<InterfaceSettings> CommonInterfaceSettings(InterfaceType type){
     using interface_parser = parsers::interface_parser::interface_parser<std::string::const_iterator>;
     std::string user_input;
 
-    while(getline(std::cin,user_input) ){
+    while(std::getline(std::cin,user_input) ){
         namespace interface = parsers::interface_parser;
 
         if(user_input.empty()){
@@ -73,12 +98,12 @@ std::optional<InterfaceSettings> CommonInterfaceSettings(InterfaceType type){
                 InterfaceSettings settings = {pars_result.speed, pars_result.mode, type};
                 std::optional<InterfaceSettings> result = std::move(settings);
                 return result;
-            }else
-                client::RestoreStream(std::cin);
+            }
+            client::RestoreStream(std::cin);
             continue;
 
-        }else
-            client::RestoreStream(std::cin);
+        }
+        client::RestoreStream(std::cin);
 
     }
 
@@ -117,7 +142,7 @@ std::optional<abonent::Abonent> FromCinBuilder::MakeInternalAbonent() {
 
     std::string user_input;
 
-    while(getline(std::cin,user_input) ){
+    while(std::getline(std::cin,user_input) ){
 
         namespace intern_abon = parsers::internal_abonent_parser;
         if(user_input.empty()){
@@ -135,11 +160,11 @@ std::optional<abonent::Abonent> FromCinBuilder::MakeInternalAbonent() {
                 network::IP_Mask mask = client::MakeMaskFromVariant(parser_result.mask);
                 client::RestoreStream(std::cin);
                 return abonent::Abonent(parser_result.ip_address,mask);
-            }else
-                client::RestoreStream(std::cin);
-            continue;
-        }else
+            }
             client::RestoreStream(std::cin);
+            continue;
+        }
+        client::RestoreStream(std::cin);
     }
 
 
@@ -165,7 +190,7 @@ std::optional<std::vector<abonent::AbonentRemote>> FromCinBuilder::MakeRemoteAbo
     std::string user_input;
 
     for(int i = 0; i < abon_count; ++i){
-        while(getline(std::cin,user_input)){
+        while(std::getline(std::cin,user_input)){
 
             if(user_input.empty()){
                 client::RestoreStream(std::cin);
@@ -226,34 +251,22 @@ std::optional<std::vector<network::ArpAddress>> FromCinBuilder::MakeArpAddresses
     return std::nullopt;
 }
 
-std::optional<std::uint8_t> FromCinBuilder::MakeTime() {
-    int time{0};
-    in_ >> time;
-
-    if(time == 0){
-        return std::nullopt;
-    }
-    return static_cast<std::uint8_t>(time);
+std::optional<std::uint8_t> FromCinBuilder::MakeTime() {    
+    return client::GetUIntFromStr([](std::uint8_t val){
+        return val <= 80;
+    });
 }
 
-std::optional<int> FromCinBuilder::MakeDevicenumber() {
-    int device_number{0};
-    in_ >> device_number;
+std::optional<std::uint8_t> FromCinBuilder::MakeDevicenumber() {
+    return client::GetUIntFromStr([](std::uint8_t val){
+        return val <= 99;
+    });
 
-    if(device_number == 0){
-        return std::nullopt;
-    }
-    return device_number;
 }
 
 std::optional<std::uint8_t> FromCinBuilder::MakeProtocol() {
-    int protocol{0};
-    in_ >> protocol;
-
-    if(protocol == 0){
-        return std::nullopt;
-    }
-
-    return static_cast<std::uint8_t>(protocol);
+    return client::GetUIntFromStr([](std::uint8_t val){
+        return val <= 99;
+    });
 }
 }
