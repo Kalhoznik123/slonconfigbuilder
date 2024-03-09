@@ -13,8 +13,7 @@ namespace client {
 
 void RestoreStream(std::istream& in){
 
-    in.clear();
-    //  in.ignore();
+    in.clear();   
 }
 
 
@@ -22,7 +21,6 @@ bool IsIpAddressValid(const std::string& ip_addr ){
 
     // Regex expression for validating IPv4
     std::regex ipv4("(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])");
-
     return regex_match(ip_addr, ipv4);
 }
 
@@ -42,7 +40,7 @@ network::IP_Mask MakeMaskFromVariant(const boost::variant<std::string,int>& pars
 template<typename Comparator>
 std::optional<std::uint8_t> GetUIntFromStr(Comparator cmp){
     std::string user_input;
-
+    client::RestoreStream(std::cin);
 
     while(std::getline(std::cin,user_input)){
         if(user_input.empty()){
@@ -58,7 +56,6 @@ std::optional<std::uint8_t> GetUIntFromStr(Comparator cmp){
             }
         }
     }
-
     return std::nullopt;
 }
 
@@ -82,7 +79,6 @@ void AddRemoteAbonentFromStr(std::vector<abonent::AbonentRemote> abonents, std::
                 abonents.emplace_back(parse_res.ip_address,client::MakeMaskFromVariant(parse_res.mask),
                                       parse_res.devicenumber);
                 client::RestoreStream(std::cin);
-
                 return;
             }
         }else{
@@ -92,7 +88,27 @@ void AddRemoteAbonentFromStr(std::vector<abonent::AbonentRemote> abonents, std::
 
 }
 
+void AddARPAddressFromStr(std::vector<network::ArpAddress> arp_addresses, std::string& str){
+    while(std::getline(std::cin,str)){
 
+        if(str.empty()){
+            client::RestoreStream(std::cin);
+            return;
+        }
+        using ARPAddressPaseRes_t = parsers::ARP_address_parser::ARPAddressParseRes;
+        using ARPAddressParser_t = parsers::ARP_address_parser::ARP_address_parser<std::string::const_iterator>;
+
+        ARPAddressPaseRes_t parse_res;
+
+        bool ok  = parsers::Parse<ARPAddressParser_t>(str,parse_res);
+        if(ok){
+            arp_addresses.emplace_back(parse_res.number,parse_res.ARP_address);
+            client::RestoreStream(std::cin);
+            return;
+        }
+        client::RestoreStream(std::cin);
+    }
+}
 }
 
 
@@ -125,29 +141,22 @@ std::optional<InterfaceSettings> CommonInterfaceSettings(InterfaceType type){
 
         if(ok){
             if(SpeedValidation(pars_result.speed) && ModeValidation(pars_result.mode)){
-
                 client::RestoreStream(std::cin);
-
                 InterfaceSettings settings = {pars_result.speed, pars_result.mode, type};
                 std::optional<InterfaceSettings> result = std::move(settings);
                 return result;
             }
             client::RestoreStream(std::cin);
             continue;
-
         }
         client::RestoreStream(std::cin);
-
     }
-
     return  std::nullopt;
 }
 
 settings::Settings FromCinBuilder::MakeSettings() {
 
     using namespace std::string_literals;
-    // TODO: сделать mode как отдельный класс с проверкой на правильность
-
 
     settings::Settings settings;
     std::cout << "Enter internal abonent(ip address/mask): ";
@@ -177,19 +186,16 @@ std::optional<abonent::Abonent> FromCinBuilder::MakeInternalAbonent() {
     std::string user_input;
 
     while(std::getline(std::cin,user_input) ){
-
         namespace intern_abon = parsers::internal_abonent_parser;
         if(user_input.empty()){
             client::RestoreStream(std::cin);
             break;
         }
-
         intern_abon::IAbonentParseRes parser_result;
 
         bool ok = parsers::Parse<internal_parser>(user_input,parser_result);
 
         if(ok){
-
             if(client::IsIpAddressValid(parser_result.ip_address)){
                 network::IP_Mask mask = client::MakeMaskFromVariant(parser_result.mask);
                 client::RestoreStream(std::cin);
@@ -200,8 +206,6 @@ std::optional<abonent::Abonent> FromCinBuilder::MakeInternalAbonent() {
         }
         client::RestoreStream(std::cin);
     }
-
-
     return std::nullopt;
 }
 
@@ -223,8 +227,6 @@ std::optional<std::vector<abonent::AbonentRemote>> FromCinBuilder::MakeRemoteAbo
     std::cin.get();
     std::string user_input; 
     for(size_t i = 0; i < abon_count; ++i){
-        //сделать туту фуе=нуцию
-
         client::AddRemoteAbonentFromStr(abonents,user_input);
     }
     return   abon_count || abonents.empty() ? std::nullopt : std::optional(abonents);
@@ -242,27 +244,9 @@ std::optional<std::vector<network::ArpAddress>> FromCinBuilder::MakeArpAddresses
     std::string user_input;
 
     for (int i = 0; i < count; ++i){
-        while(std::getline(std::cin,user_input)){
-
-            if(user_input.empty()){
-                client::RestoreStream(std::cin);
-                break;
-            }
-            using ARPAddressPaseRes_t = parsers::ARP_address_parser::ARPAddressParseRes;
-            using ARPAddressParser_t = parsers::ARP_address_parser::ARP_address_parser<std::string::const_iterator>;
-
-            ARPAddressPaseRes_t parse_res;
-
-            bool ok  = parsers::Parse<ARPAddressParser_t>(user_input,parse_res);
-            if(ok){
-                arp_addresses.emplace_back(parse_res.number,parse_res.ARP_address);
-                client::RestoreStream(std::cin);
-            }else{
-                client::RestoreStream(std::cin);
-            }
-        }
+        client::AddARPAddressFromStr(arp_addresses,user_input);
     }
-    return std::nullopt;
+    return count || arp_addresses.empty() ? std::nullopt : std::optional(arp_addresses);
 }
 
 std::optional<std::uint8_t> FromCinBuilder::MakeTime() {    
