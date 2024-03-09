@@ -227,7 +227,7 @@ std::optional<std::vector<abonent::AbonentRemote>> FromCinBuilder::MakeRemoteAbo
 
         client::AddRemoteAbonentFromStr(abonents,user_input);
     }
-    return   abon_count ? std::nullopt : std::optional(abonents);
+    return   abon_count || abonents.empty() ? std::nullopt : std::optional(abonents);
 }
 
 std::optional<std::vector<network::ArpAddress>> FromCinBuilder::MakeArpAddresses() {
@@ -235,9 +235,10 @@ std::optional<std::vector<network::ArpAddress>> FromCinBuilder::MakeArpAddresses
     //ввод адреса будет только сплошным текстом
     size_t count{0};
     in_ >> count;
-
+    client::RestoreStream(std::cin);
     std::vector<network::ArpAddress> arp_addresses;
-    arp_addresses.reserve(count);
+    std::cin.get();
+    arp_addresses.reserve(count);    
     std::string user_input;
 
     for (int i = 0; i < count; ++i){
