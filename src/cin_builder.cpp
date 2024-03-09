@@ -12,8 +12,9 @@
 namespace client {
 
 void RestoreStream(std::istream& in){
-    in.ignore();
+
     in.clear();
+    //  in.ignore();
 }
 
 
@@ -60,6 +61,38 @@ std::optional<std::uint8_t> GetUIntFromStr(Comparator cmp){
 
     return std::nullopt;
 }
+
+
+void AddRemoteAbonentFromStr(std::vector<abonent::AbonentRemote> abonents, std::string& str){
+
+    while(std::getline(std::cin,str)){
+
+        if(str.empty()){
+            client::RestoreStream(std::cin);
+            return;
+        }
+
+        using RAbonentParserRes_t = parsers::remote_abonent_parser::RAbonentParseRes;
+        using RemoteAbonentParser_t = parsers::remote_abonent_parser::remote_abonent_parser<std::string::const_iterator> ;
+        RAbonentParserRes_t parse_res;
+
+        bool ok  = parsers::Parse<RemoteAbonentParser_t>(str,parse_res);
+        if(ok){
+            if(client::IsIpAddressValid(parse_res.ip_address)){
+                abonents.emplace_back(parse_res.ip_address,client::MakeMaskFromVariant(parse_res.mask),
+                                      parse_res.devicenumber);
+                client::RestoreStream(std::cin);
+
+                return;
+            }
+        }else{
+            client::RestoreStream(std::cin);
+        }
+    }
+
+}
+
+
 }
 
 
@@ -114,8 +147,9 @@ settings::Settings FromCinBuilder::MakeSettings() {
 
     using namespace std::string_literals;
     // TODO: сделать mode как отдельный класс с проверкой на правильность
-    settings::Settings settings;
 
+
+    settings::Settings settings;
     std::cout << "Enter internal abonent(ip address/mask): ";
     settings.internal_abonent_ = MakeInternalAbonent();
     std::cout << "Enter lan settings(speed/mode(HD or FD)): ";
@@ -181,40 +215,19 @@ std::optional<InterfaceSettings> FromCinBuilder::MakeInetSettings() {
 
 std::optional<std::vector<abonent::AbonentRemote>> FromCinBuilder::MakeRemoteAbonents() {
 
-    std::uint8_t abon_count;
+    int abon_count{0};
     std::cin >> abon_count;
-
+    client::RestoreStream(std::cin);
     std::vector<abonent::AbonentRemote> abonents;
     abonents.reserve(abon_count);
+    std::cin.get();
+    std::string user_input; 
+    for(size_t i = 0; i < abon_count; ++i){
+        //сделать туту фуе=нуцию
 
-    std::string user_input;
-
-    for(int i = 0; i < abon_count; ++i){
-        while(std::getline(std::cin,user_input)){
-
-            if(user_input.empty()){
-                client::RestoreStream(std::cin);
-                break;
-            }
-
-            using RAbonentParserRes_t = parsers::remote_abonent_parser::RAbonentParseRes;
-            using RemoteAbonentParser_t = parsers::remote_abonent_parser::remote_abonent_parser<std::string::const_iterator> ;
-            RAbonentParserRes_t parse_res;
-
-            bool ok  = parsers::Parse<RemoteAbonentParser_t>(user_input,parse_res);
-            if(ok){
-                if(client::IsIpAddressValid(parse_res.ip_address)){
-                    abonents.emplace_back(parse_res.ip_address,client::MakeMaskFromVariant(parse_res.mask),
-                                          parse_res.devicenumber);
-                    client::RestoreStream(std::cin);
-                    break;
-                }
-            }else{
-                client::RestoreStream(std::cin);
-            }
-        }
+        client::AddRemoteAbonentFromStr(abonents,user_input);
     }
-    return std::nullopt;
+    return   abon_count ? std::nullopt : std::optional(abonents);
 }
 
 std::optional<std::vector<network::ArpAddress>> FromCinBuilder::MakeArpAddresses() {
