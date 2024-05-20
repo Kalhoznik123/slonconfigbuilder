@@ -10,6 +10,12 @@
 
 namespace prog_opt = boost::program_options;
 
+inline std::ostream& operator<< (std::ostream& out, const std::vector<std::string>& container){
+    for(auto& val: container){
+        out << val << std::endl;
+    }
+    return out;
+}
 
 namespace detail {
 
@@ -102,5 +108,6 @@ settings::Settings ProsesingInputOptions(const prog_opt::variables_map& map){
     }
     return result;
 }
+
 
 }

@@ -1,3 +1,4 @@
+
 #include <boost/algorithm/string.hpp>
 #include <sstream>
 #include <string>
@@ -25,6 +26,27 @@ std::string ConfigBuilder::Dump() const {
 
 
     return res;
+}
+
+std::vector<std::string> ConfigBuilder::MakeDescriptions() const{
+
+    if(!settings_.abonents_.has_value())
+        return {};
+
+    if(abonents_descriptions_.has_value()){
+        return *abonents_descriptions_;
+    }
+
+    std::vector<std::string> result;
+    result.reserve(settings_.abonents_->size());
+
+    for(auto& abonent: *settings_.abonents_){
+        if(abonent.Description().has_value())
+            result.push_back(*abonent.Description());
+    }
+    abonents_descriptions_ = result;
+
+    return result;
 }
 
 std::string ConfigBuilder::MakeDevicenumber() const {

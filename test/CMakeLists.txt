@@ -1,4 +1,3 @@
-
 find_package(Threads REQUIRED)
 find_package(GTest)
 find_package(nlohmann_json 3.2.0 REQUIRED)
@@ -39,5 +38,3 @@ if(yaml-cpp_FOUND)
 endif()
 
 target_link_libraries(config_gtest PRIVATE arp )
-
-

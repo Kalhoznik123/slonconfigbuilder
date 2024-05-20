@@ -12,7 +12,6 @@ void FromJsonBuilder::Parse() {
         document_ = json::parse(in_);
     }  catch (std::exception& e) {
         using namespace std::string_literals;
-
         std::cout <<e.what() << '-' << boost::to_upper_copy("bad json parse\n"s);
     }
 }
@@ -71,9 +70,14 @@ std::vector<abonent::AbonentRemote> FromJsonBuilder::GetAbonents(const json& obj
         } else {
             mask.Mask(static_cast<std::uint8_t>(value["mask"].get<int>()));
         }
-
-        abonents.emplace_back(value["address"].get<std::string>(),
-                mask, value["number"].get<int>());
+    // проверяем есть ли дискрипшон
+        if(const auto it = value.find("description"); it != value.end()){
+            abonents.emplace_back(value["address"].get<std::string>(),
+                    mask, value["number"].get<int>(),it->get<std::string>());
+        } else{
+            abonents.emplace_back(value["address"].get<std::string>(),
+                    mask, value["number"].get<int>());
+        }
     }
 
     return abonents;

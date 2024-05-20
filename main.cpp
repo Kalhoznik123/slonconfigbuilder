@@ -43,4 +43,10 @@ int main(int argc, char** argv) {
 
     std::ofstream file(detail::ConfigFileName(vm), std::ios::out);
     file << configuration;
+
+
+
+    auto abonent_descriptions = config_builder.MakeDescriptions();
+    if(!abonent_descriptions.empty())
+        std::cout << abonent_descriptions;
 }

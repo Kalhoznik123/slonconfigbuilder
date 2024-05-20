@@ -26,6 +26,7 @@ public:
 @return Возвращает полную строку с конфигурацией.
 */
   std::string Dump() const;
+  std::vector<std::string> MakeDescriptions() const;
 
 private:
   /*!
@@ -66,6 +67,7 @@ private:
 
 private:
   settings::Settings settings_;
+  mutable  std::optional<std::vector<std::string>> abonents_descriptions_;
 };
 
 } // namespace configurator
