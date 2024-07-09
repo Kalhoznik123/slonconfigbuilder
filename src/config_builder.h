@@ -3,11 +3,11 @@
 \file
 \brief Заголовочный файл с описывающий класс ConfigBuilder для создания конфигурацции.
 */
-#include <optional>
 #include <vector>
-#include "abonent.h"
+#include <optional>
 #include "arp.h"
 #include "domain.h"
+#include "abonent.h"
 
 namespace configurator {
 /*!
@@ -17,9 +17,7 @@ class ConfigBuilder {
 public:
   ConfigBuilder() = default;
   ConfigBuilder(const settings::Settings& settings)
-      : settings_(settings){
-
-        };
+      : settings_(settings){};
   /*!
 @brief Возвращает конфигурацию.
 @param Аргументов нет.
@@ -57,10 +55,10 @@ private:
 
   static std::string MakeAbonentString(const std::optional<abonent::Abonent>& abonent);
   static std::string MakeAbonentsString(const std::optional<std::vector<abonent::AbonentRemote>>& abonents) ;
-  std::string MakeArpAddressesString(const std::optional<std::vector<network::ArpAddress>>& arp_adresses) const;
   static std::string MakeAprString(const std::optional<network::ArpAddress>& arp_address);
   static std::string MakeInterfaceString(const std::optional<InterfaceSettings>& interface_settings);
   static std::string MakeAbonentRemoteString(const std::optional<abonent::AbonentRemote>& abonent);
+  std::string MakeArpAddressesString(const std::optional<std::vector<network::ArpAddress>>& arp_adresses) const ;
   std::string MakeDevicenumber() const;
   std::string MakeTimetoliveString() const;
   std::string MakeProtocolString() const;
