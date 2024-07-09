@@ -34,7 +34,7 @@ public:
     std::string ToString() const;
 
 private:
-    int number_;
+    int number_{0};
     network::ARP arp_address_;
 };
 }
