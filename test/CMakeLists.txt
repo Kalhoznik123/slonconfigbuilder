@@ -2,6 +2,7 @@ find_package (Threads REQUIRED)
 find_package (GTest)
 find_package (Boost COMPONENTS program_options REQUIRED)
 find_package (yaml-cpp REQUIRED)
+enable_testing ()
 
 set (THREADS_PREFER_PTHREAD_FLAG ON)
 set (TEST-SOURCES-PATTERN "${PROJECT_SOURCE_DIR}/src/*.cpp")
@@ -11,7 +12,6 @@ if (CMAKE_VERSION VERSION_GREATER 3.11)
 endif ()
 
 file (GLOB TEST-SOURCES ${TEST-SOURCES-PATTERN})
-
 add_executable (config_gtest "")
 target_sources (config_gtest PRIVATE test.cpp ${TEST-SOURCES})
 
@@ -33,3 +33,6 @@ if (yaml-cpp_FOUND)
 endif ()
 
 target_link_libraries (config_gtest PRIVATE arp)
+
+include (GoogleTest)
+gtest_discover_tests (config_gtest)

@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 3.4...3.14)
 project (config_costructor VERSION 1.1.0)
 
-set (ENABLE_TESTS on)
+set (ENABLE_TESTS ON)
 set (Boost_USE_STATIC_LIBS ON)
 find_package (Boost COMPONENTS program_options REQUIRED)
 find_package (yaml-cpp REQUIRED)
