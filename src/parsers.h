@@ -1,8 +1,8 @@
 #pragma once
-#include <iostream>
 #include <string>
-#include <functional>
 #include <cstdint>
+#include <iostream>
+#include <functional>
 #include <boost/spirit/include/qi.hpp>
 #include <boost/fusion/include/adapt_struct.hpp>
 #include <boost/fusion/include/io.hpp>
@@ -28,8 +28,8 @@ struct IAbonentParseRes{
 namespace interface_parser {
 
 struct InterfaceParseRes{
-    int speed;
-    std::string mode;
+  int speed{};
+  std::string mode;
 };
 
 }
@@ -37,9 +37,9 @@ struct InterfaceParseRes{
 namespace remote_abonent_parser{
 
 struct RAbonentParseRes{
-    int devicenumber;
-    std::string ip_address;
-    mask_t mask;
+  int devicenumber{};
+  std::string ip_address;
+  mask_t mask;
 };
 
 
@@ -48,8 +48,8 @@ struct RAbonentParseRes{
 namespace ARP_address_parser{
 
 struct ARPAddressParseRes{
-    std::uint8_t number;
-    std::string ARP_address;
+  std::uint8_t number{};
+  std::string ARP_address;
 
 };
 }

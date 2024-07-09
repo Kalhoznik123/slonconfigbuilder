@@ -1,7 +1,7 @@
-#include "yaml_builder.h"
-#include <boost/algorithm/string.hpp>
-#include <boost/lexical_cast.hpp>
 #include <optional>
+#include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string.hpp>
+#include "yaml_builder.h"
 
 #undef YAML_CPP_NOEXCEPT
 std::optional<int> TryConvert(const std::string value){

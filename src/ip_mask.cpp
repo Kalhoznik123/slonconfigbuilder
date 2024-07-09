@@ -1,8 +1,8 @@
-#include <string_view>
-#include <algorithm>
-#include <iostream>
-#include <exception>
 #include <sstream>
+#include <iostream>
+#include <algorithm>
+#include <exception>
+#include <string_view>
 #include "ip_mask.h"
 
 
@@ -40,13 +40,13 @@ IP_Mask::bit32_t IP_Mask::BitsFromMask(std::string_view mask){
 IP_Mask::bit32_t IP_Mask::BitsFromNums(std::vector<uint8_t> nums){
     bit32_t res;
 
-    std::uint8_t shift = 24;
+    std::uint8_t shift = MAX_MASK_LENGTH;
 
     for(std::uint8_t num: nums){
 
         res |= bit32_t(num) << shift;
         if(shift!=0){
-            shift-=8;
+            shift-=OCTET_LENGTH;
         }
 
     }
@@ -70,9 +70,8 @@ IP_Mask::IP_Mask(uint8_t var){
     ValidationCheck(var);
 }
 
-IP_Mask::IP_Mask(std::string_view var){
-    ValidationCheck(var);
-    string_form_ = var;
+IP_Mask::IP_Mask(std::string_view var) : string_form_(var) {
+  ValidationCheck(var);
 }
 
 void IP_Mask::Mask(uint8_t value){
