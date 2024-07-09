@@ -46,7 +46,8 @@ int main(int argc, char** argv) {
     std::ofstream file(detail::ConfigFileName(vm), std::ios::out);
     file << configuration;
 
-    if(const auto it = vm.find("description"); it != vm.end()){
+
+    if(vm.count("description")){        
         auto abonent_descriptions = config_builder.MakeDescriptions();
         std::cout << abonent_descriptions;
         std::cout << "------\n";
