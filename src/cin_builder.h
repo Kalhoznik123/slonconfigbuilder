@@ -3,8 +3,8 @@
 \file
 \brief Заголовочный файл с описывающий класс для чтения данных из стандартного потока.
 */
-#include <iostream>
 #include <vector>
+#include <iostream>
 #include <optional>
 #include "ARP.h"
 #include "IBuilder.h"
