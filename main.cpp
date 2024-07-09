@@ -1,20 +1,22 @@
+#include <string>
+#include <memory>
 #include <fstream>
 #include <iostream>
-#include <memory>
-#include <string>
 #include <type_traits>
 #include <boost/program_options.hpp>
 #include <boost/algorithm/string.hpp>
-#include "src/IBuilder.h"
-#include "src/yaml_builder.h"
-#include "src/cin_builder.h"
-#include "src/config_builder.h"
-#include "src/json_builder.h"
 #include "src/detail.h"
+#include "src/IBuilder.h"
+#include "src/cin_builder.h"
+#include "src/yaml_builder.h"
+#include "src/json_builder.h"
+#include "src/config_builder.h"
 
 namespace prog_opt = boost::program_options;
 
 
+//TODO: добавить тесты для конфиг билдера
+//TODO добвить количество выведенных адресатов
 
 int main(int argc, char** argv) {
 
@@ -33,7 +35,7 @@ int main(int argc, char** argv) {
     std::unique_ptr<IBuilder> builder;
     settings::Settings settings;
 
-    settings = detail::ProsesingInputOptions(vm);
+    settings = detail::ProcesingInputOptions(vm);
 
     const configurator::ConfigBuilder config_builder(settings);
     const std::string configuration = config_builder.Dump();
@@ -44,9 +46,10 @@ int main(int argc, char** argv) {
     std::ofstream file(detail::ConfigFileName(vm), std::ios::out);
     file << configuration;
 
-
-
-    auto abonent_descriptions = config_builder.MakeDescriptions();
-    if(!abonent_descriptions.empty())
+    if(const auto it = vm.find("description"); it != vm.end()){
+        auto abonent_descriptions = config_builder.MakeDescriptions();
         std::cout << abonent_descriptions;
+        std::cout << "------\n";
+        std::cout << "Всего: "<< abonent_descriptions.size() << " description абонентов\n";
+    }
 }
