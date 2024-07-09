@@ -31,7 +31,7 @@ std::vector<std::string> ConfigBuilder::MakeDescriptions() const{
     if(!settings_.abonents_.has_value())
         return {};
 
-    if(abonents_descriptions_.has_value()){
+    if(abonents_descriptions_.has_value()){    //для кеширования
         return *abonents_descriptions_;
     }
 
