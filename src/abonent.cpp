@@ -1,10 +1,11 @@
-#include <sstream>
 #include <string>
+#include <sstream>
 #include "abonent.h"
 
 
 namespace abonent{
-const std::string& Abonent::Address() const noexcept { return address_; }
+
+std::string Abonent::Ip_addres() const noexcept { return addres_.Address(); }
 
 const network::IP_Mask& Abonent::Mask() const noexcept { return mask_; }
 

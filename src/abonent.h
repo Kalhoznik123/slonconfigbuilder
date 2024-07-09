@@ -4,45 +4,55 @@
 \file
 \brief Заголовочный файл с описывающий внутреннего абонента.
 */
+#include "ip_address.h"
+#include "ip_mask.h"
 #include <optional>
 #include <string>
-#include <variant>
 #include <string_view>
-#include "ip_mask.h"
+#include <variant>
 
-namespace abonent{
+namespace abonent {
 /*!
     @brief Класс, описывающий внитреннего абонета.
 
     Класс описывает внутреннего абонента который вводим командой internal.
 */
-class Abonent  {
+class Abonent {
 
 public:
-    Abonent() = default;
+  Abonent(std::string_view address, network::IP_Mask mask)
+      : addres_(std::string(address)), mask_(std::move(mask)) {}
 
-    Abonent(std::string_view address,
-            const network::IP_Mask& mask )
-        : address_(std::string(address)), mask_(mask){}
-
-    /*!
-  @brief Возвращает значение IP адресса.
-  @param Аргументов нет.
-  @return Возвращает строку с IP адрессом.
-  */
-    const std::string& Address() const noexcept;
-    /*!
-  @brief Возвращает значение маски подсети
-  @param Аргументов нет.
-  @return Возвращает класс описыващий маску подсети
-  */
-    const network::IP_Mask& Mask() const noexcept;
-
+  Abonent(const Abonent &other) : addres_(other.addres_), mask_(other.mask_) {}
+  Abonent(Abonent &&other) noexcept
+      : addres_(std::move(other.addres_)), mask_(std::move(other.mask_)) {}
+  Abonent &operator=(const Abonent &rhs) {
+    addres_ = rhs.addres_;
+    mask_ = rhs.mask_;
+    return *this;
+  }
+  Abonent &operator=(Abonent &&rhs) noexcept {
+    addres_ = std::move(rhs.addres_);
+    mask_ = std::move(rhs.mask_);
+    return *this;
+  }
+  virtual ~Abonent()= default;
+  /*!
+@brief Возвращает значение IP адресса.
+@param Аргументов нет.
+@return Возвращает строку с IP адрессом.
+*/
+  std::string Ip_addres() const noexcept;
+  /*!
+@brief Возвращает значение маски подсети
+@param Аргументов нет.
+@return Возвращает класс описыващий маску подсети
+*/
+  const network::IP_Mask &Mask() const noexcept;
 
 private:
-    std::string address_;
-    network::IP_Mask mask_;
+  IP_addres addres_;
+  network::IP_Mask mask_;
 };
 
-
-}
+} // namespace abonent
