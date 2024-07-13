@@ -5,7 +5,7 @@ find_package (yaml-cpp REQUIRED)
 enable_testing ()
 
 set (THREADS_PREFER_PTHREAD_FLAG ON)
-set (TEST-SOURCES-PATTERN "${PROJECT_SOURCE_DIR}/src/*.cpp")
+set (TEST-SOURCES-PATTERN "${PROJECT_SOURCE_DIR}/src/*.cpp" "${PROJECT_SOURCE_DIR}/test/*.cpp")
 
 if (CMAKE_VERSION VERSION_GREATER 3.11)
     list (INSERT TEST-SOURCES-PATTERN 0 CONFIGURE_DEPENDS)
@@ -13,7 +13,7 @@ endif ()
 
 file (GLOB TEST-SOURCES ${TEST-SOURCES-PATTERN})
 add_executable (config_gtest "")
-target_sources (config_gtest PRIVATE test.cpp ${TEST-SOURCES})
+target_sources (config_gtest PRIVATE  ${TEST-SOURCES})
 
 target_compile_options (config_gtest PRIVATE -std=c++17)
 target_include_directories (config_gtest PRIVATE ${PROJECT_SOURCE_DIR}/src ${PROJECT_SOURCE_DIR}/arp)
