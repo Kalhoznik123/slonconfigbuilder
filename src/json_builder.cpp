@@ -138,6 +138,8 @@ FromJsonBuilder::GetAbonentDescription(const json &obj) {
       return std::nullopt;
     else if (desript->is_string())
       return desript->get<std::string>();
+    else
+      throw std::logic_error("Description must be string or null");
   }
   return std::nullopt;
 }
